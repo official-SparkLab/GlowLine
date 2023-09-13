@@ -160,6 +160,9 @@ function SideBar() {
               <li>
                 <a href="supplierLedger">Supplier Ledger</a>
               </li>
+              <li>
+              <a href="generalLedger">General Ledger</a>
+            </li>
             </ul>
           </li>
           <li>
