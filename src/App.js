@@ -33,6 +33,14 @@ import SupplierList from './Ledgers/SupplierList';
 import SupplierLedger from './Ledgers/SupplierLedger';
 import SaleInvoice from './Invoices/SaleInvoice';
 import Quotation from './Invoices/Quotation';
+import { QuatationTable } from './Quatation/QuatationTable';
+import CustomerHistory from './History/CustomerHistory';
+import OrderHistory from './History/OrderHistory';
+import SupplierHistory from './History/SupplierHistory';
+import PurchaseHistory from './History/PurchaseHistory';
+import { GoodUsage } from './Product/GoodUsage';
+import PurchaseInvoice from './Invoices/PurchaseInvoice';
+
 
 function App() {
   return (
@@ -47,6 +55,7 @@ function App() {
 
           <Route path="/productTable" element={<ProductList />} />
           <Route path='rawUsage' element={<RawUsage />} />
+          <Route path='goodsUsage' element={<GoodUsage />} />
           <Route path="/supplierTable" element={<SupplierTable />} />
           <Route path="/customerTable" element={<CustomerTable />} />
           <Route path="/purchaseTable" element={<PurchaseTable />} />
@@ -67,8 +76,17 @@ function App() {
           <Route path='supplierLedgerReport' element = {<SupplierLedger/>}/>
 
           <Route path='saleInvoice' element = {<SaleInvoice/>}/>
+          <Route path='purchaseInvoice' element = {<PurchaseInvoice/>}/>
+
           
+          <Route path='quatationTable' element = {<QuatationTable/>}/>
           <Route path='quatationInvoice' element = {<Quotation/>}/>
+
+         <Route path='customerHistory' element = {<CustomerHistory/>}/>
+         <Route path='saleHistory' element = {<OrderHistory/>}/>
+
+         <Route path='supplierHistory' element = {<SupplierHistory/>}/>
+         <Route path='purchaseHistory' element = {<PurchaseHistory/>}/>
 
           <Route path="/cashBookView/:id" element={<CashBookView />} />
           <Route path="/customerView/:id" element={<CustomerView />} />

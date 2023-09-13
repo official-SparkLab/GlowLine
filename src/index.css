@@ -77,5 +77,16 @@ code {
  .scrollBar-widht::-webkit-scrollbar {
    width: 0px;
  }
+ .back-button {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  cursor: pointer;
+  font-size: 16px;
+}
 
+.back-button:hover {
+  border-bottom: 1px solid;
+  transform: scale(1.);
+  color: blue;
+  opacity: 0.8;
+}
  

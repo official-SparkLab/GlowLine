@@ -9,6 +9,8 @@ function SaleInvoice() {
   const queryParams = new URLSearchParams(location.search);
   const invoice_no = queryParams.get("invoice_no");
   const cust_id = queryParams.get("cust_id");
+  const dateParam = queryParams.get("date");
+
   const [companyAddress, setCompanyAddress] = useState("");
   const [companyEmail, setCompanyEmail] = useState("");
   const [comapnyContact, setComapnyContact] = useState("");
@@ -35,34 +37,18 @@ function SaleInvoice() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [companyRes, bankRes, invoiceRes, invoiceProd,custRes] =
-          await Promise.all([
-            axios.get(`${GlobalService.path}/fetchCompany`),
-            axios.get(`${GlobalService.path}/fetchBankDetails`),
-            axios.get(`${GlobalService.path}/fetchSale/${invoice_no}`),
-            axios.get(`${GlobalService.path}/fetchSaleProduct/${invoice_no}`),
-            axios.get(`${GlobalService.path}/fetchCustomer/${cust_id}`),
+        const [invoiceRes, invoiceProd, custRes] = await Promise.all([
+          axios.get(`${GlobalService.path}/fetchSale/${dateParam}/${invoice_no}`),
+          axios.get(`${GlobalService.path}/fetchSProduct/${dateParam}/${invoice_no}`),
+          axios.get(`${GlobalService.path}/fetchCustomer/${cust_id}`),
+        ]);
 
-          ]);
-
-          // Compnay Details
-        setCompanyAddress(companyRes.data.data[0].address);
-        setCompanyEmail(companyRes.data.data[0].email);
-        setComapnyContact(companyRes.data.data[0].contact);
-        setCompanyGstin(companyRes.data.data[0].gst);
-
-        // Bank Details
-        setAccountNo(bankRes.data.data[0].account_no);
-        setBranch(bankRes.data.data[0].branch);
-        setIFSC(bankRes.data.data[0].ifsc);
-        setBankName(bankRes.data.data[0].bank_name);
-      
         // Customer Details
         setCustAddress(custRes.data.data[0].address);
         setCustomerName(custRes.data.data[0].cust_name);
         setCustGstIn(custRes.data.data[0].gstin);
 
-          // Invoice Details
+        // Invoice Details
         setDate(invoiceRes.data.data.date);
         setDestination(invoiceRes.data.data.destination);
         setDispatchNo(invoiceRes.data.data.dispatch_no);
@@ -82,7 +68,47 @@ function SaleInvoice() {
     fetchData();
   }, []);
 
-  const totalinWords = toWords(total).toLowerCase().replace(/(^|\s)\S/g, (match) => match.toUpperCase());
+  // Fetching Company Details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${GlobalService.path}/fetchCompany`);
+        // Compnay Details
+        setCompanyAddress(response.data.data[0].address);
+        setCompanyEmail(response.data.data[0].email);
+        setComapnyContact(response.data.data[0].contact);
+        setCompanyGstin(response.data.data[0].gst);
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Fetching Bank Details
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${GlobalService.path}/fetchBankDetails`
+        );
+        // Bank Details
+        setAccountNo(response.data.data[0].account_no);
+        setBranch(response.data.data[0].branch);
+        setIFSC(response.data.data[0].ifsc);
+        setBankName(response.data.data[0].bank_name);
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const totalinWords = toWords(total)
+    .toLowerCase()
+    .replace(/(^|\s)\S/g, (match) => match.toUpperCase());
 
   return (
     <div>
@@ -216,7 +242,7 @@ function SaleInvoice() {
                 tableData.map((row, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{row.invoice_no}</td>{" "}
+                    <td>{row.prod_name}</td>{" "}
                     {/* Assuming invoice_no is a property of the row object */}
                     <td>{row.hsn}</td>
                     <td>{row.weight}</td>
@@ -339,8 +365,7 @@ function SaleInvoice() {
             </tfoot>
           </table>
           <span style={{ fontWeight: "bold" }}>
-            Total Amount in word: {totalinWords} Rupees 
-            Only
+            Total Amount in word: {totalinWords} Rupees Only
           </span>
           <br />
           <br />
