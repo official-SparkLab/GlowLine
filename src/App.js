@@ -40,6 +40,8 @@ import SupplierHistory from './History/SupplierHistory';
 import PurchaseHistory from './History/PurchaseHistory';
 import { GoodUsage } from './Product/GoodUsage';
 import PurchaseInvoice from './Invoices/PurchaseInvoice';
+import GeneralLedgerForm from './Ledgers/GeneralLedgerForm';
+import GeneralLedger from './Ledgers/GeneralLedger';
 
 
 function App() {
@@ -74,6 +76,12 @@ function App() {
 
           <Route path='supplierLedger' element = {<SupplierList/>}/>
           <Route path='supplierLedgerReport' element = {<SupplierLedger/>}/>
+
+
+          <Route path='generalLedger' element = {<GeneralLedgerForm/>}/>
+          <Route path='generalLedgerReport' element = {<GeneralLedger/>}/>
+
+
 
           <Route path='saleInvoice' element = {<SaleInvoice/>}/>
           <Route path='purchaseInvoice' element = {<PurchaseInvoice/>}/>
