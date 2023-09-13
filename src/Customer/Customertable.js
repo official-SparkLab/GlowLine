@@ -164,9 +164,9 @@ export const CustomerTable = () => {
                                                 <td>{row.email}</td>
                                                 <td>{row.country}</td>
                                                 <td>
-                                                    <Link className="me-3" to={`/customerView/${row.cust_id}`}>
+                                                    <a className="me-3" href={`/customerHistory?cust_id=${row.cust_id}`}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </Link>
+                                                    </a>
                                                     <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Link>

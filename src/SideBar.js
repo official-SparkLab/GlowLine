@@ -111,12 +111,27 @@ function SideBar() {
           <li>
           <a href="javascript:void(0)">
             <i className="menu-icon icon-format_list_bulleted" />
+            <span>Quatation</span>
+            <i className="accordion-icon fa fa-angle-left" />
+          </a>
+          <ul className="sub-menu">
+            <li>
+              <a href="quatationTable">Quatation Entry</a>
+            </li>
+          </ul>
+        </li>
+          <li>
+          <a href="javascript:void(0)">
+            <i className="menu-icon icon-format_list_bulleted" />
             <span>Material Usage</span>
             <i className="accordion-icon fa fa-angle-left" />
           </a>
           <ul className="sub-menu">
             <li>
               <a href="rawUsage">Add Raw Usage</a>
+            </li>
+            <li>
+              <a href="goodsUsage">Goods Production</a>
             </li>
           </ul>
         </li>
@@ -228,6 +243,12 @@ function SideBar() {
                   Quatation Invoice
                 </a>
               </li>
+
+              <li>
+              <a href="purchaseInvoice">
+                Purchase Invoice
+              </a>
+            </li>
               
             </ul>
           </li>

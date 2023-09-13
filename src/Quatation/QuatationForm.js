@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
 
-export const SaleEntryForm = () => {
+export const QuatationForm = () => {
   const today = new Date().toISOString().split("T")[0];
 
-  const [invoiceNumber, setInvoiceNumber] = useState();
+  const [voucherNo, setvoucherNo] = useState();
   const [date, setDate] = useState(today);
   const [prodName, setProdName] = useState();
   const [prodId, setProdId] = useState(1);
@@ -17,8 +16,7 @@ export const SaleEntryForm = () => {
   const [totalWeight, setTotalWeight] = useState(0);
   const [rate, setRate] = useState();
   const [total, setTotal] = useState();
-  const [supplyPlace, setSupplyPlace] = useState();
-  const [dispatchNo, setDispatchNo] = useState();
+  const [order_no, setOrderNo] = useState();
   const [destination, setDestination] = useState();
   const [transportAmount, setTransportAmount] = useState();
   const [otherAmount, setOtherAmount] = useState();
@@ -28,23 +26,16 @@ export const SaleEntryForm = () => {
   const [CGSTValue, setCGSTValue] = useState();
   const [IGSTValue, setIGSTValue] = useState();
   const [SGSTValue, setSGSTValue] = useState();
-  const [gstBillingTotal, setgstBillingTotal] = useState();
-  const [tableData, setTableData] = useState();
-  const [customerName, setCustomerName] = useState();
-  const [contact, setContact] = useState();
-  const [GSTIN, setGSTIN] = useState();
-  const [address, setAddress] = useState();
+ 
+
   const [productData, setProductData] = useState();
   const [selectedProductData, setSelectedProductData] = useState();
   const [itemsToShow, setItemToShow] = useState();
   const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
-  const [custId, setCustId] = useState();
+ 
 
-  const handleAutocompleteChange = (event, newValue) => {
-    setCustomerName(newValue);
-    console.log(customerName);
-  };
+
 
   const handleProductAutocompleteChange = (event, newValue) => {
     setProdName(newValue);
@@ -52,27 +43,12 @@ export const SaleEntryForm = () => {
 
   useEffect(() => {
     const getCustomerDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/fetchCustomer`);
-      setTableData(res.data.data);
-      console.log(res.data.data);
 
       const productRes = await axios.get(
         `${GlobalService.path}/fetchProductsForSale`
       );
       console.log(productRes);
       setProductData(productRes.data.data);
-
-      if (customerName != undefined || customerName != null) {
-        const filtered = tableData?.filter(
-          (row) => row.cust_name === customerName
-        );
-        if (filtered != undefined) {
-          setCustId(filtered[0]?.cust_id);
-          setContact(filtered[0]?.mobile);
-          setGSTIN(filtered[0]?.gstin);
-          setAddress(filtered[0]?.address);
-        }
-      }
 
       if (prodName != undefined || prodName != null) {
         const filteredData = productData?.filter(
@@ -86,7 +62,7 @@ export const SaleEntryForm = () => {
     };
 
     getCustomerDetails();
-  }, [customerName, prodName]);
+  }, [prodName]);
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
@@ -110,17 +86,15 @@ export const SaleEntryForm = () => {
     setSubTotal(totalAll);
   }, [itemsToShow]);
 
-  let custname = tableData?.map((data) => {
-    return data.cust_name;
-  });
+
 
   let productname = productData?.map((data) => {
     return data.prod_name;
   });
   let productDetails = {
-    sales_prod_id: prodId,
-    invoice_no: invoiceNumber,
-    s_date: date,
+    q_prod_id: prodId,
+    voucher_no: voucherNo,
+    q_date: date,
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     hsn: selectedProductData?.hsn,
@@ -133,11 +107,11 @@ export const SaleEntryForm = () => {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-    console.log(productDetails);
+   
 
     try {
       const res = await axios.post(
-        `${GlobalService.path}/addSaleProduct`,
+        `${GlobalService.path}/addQuataionProduct`,
         productDetails
       );
       alert("Product added successfully");
@@ -146,7 +120,7 @@ export const SaleEntryForm = () => {
       setProdId(prodId + 1);
 
       const getProdTableData = await axios.get(
-        `${GlobalService.path}/fetchSaleProduct/${invoiceNumber}`
+        `${GlobalService.path}/fetchQuatationProduct/${voucherNo}`
       );
       setItemToShow(getProdTableData.data.data);
       console.log(getProdTableData.data.data);
@@ -156,15 +130,9 @@ export const SaleEntryForm = () => {
   };
 
   let saleProductDetails = {
-    invoice_no: invoiceNumber,
+    voucher_no: voucherNo,
     date,
-    cust_id: custId,
-    cust_name: customerName,
-    mobile: contact,
-    gstin: GSTIN,
-    address,
-    place_of_supply: supplyPlace,
-    dispatch_no: dispatchNo,
+    order_no: order_no,
     destination: destination,
     trans_amt: transportAmount,
     hamali: otherAmount,
@@ -183,7 +151,7 @@ export const SaleEntryForm = () => {
     console.log(saleProductDetails);
     try {
       const res = await axios.post(
-        `${GlobalService.path}/addSale`,
+        `${GlobalService.path}/addQuatation`,
         saleProductDetails
       );
 
@@ -197,13 +165,13 @@ export const SaleEntryForm = () => {
   const deleteItem = async (id) => {
     try {
       const response = await axios.delete(
-        `${GlobalService.path}/deleteSaleProduct/${id}`
+        `${GlobalService.path}/deleteQuatationProduct/${id}`
       );
       console.log(response);
       if (response.status == 200) {
         alert(response.data.message);
         const deletedProduct = itemsToShow.find(
-          (product) => product.sp_id === id
+          (product) => product.qp_id === id
         );
         console.log(deletedProduct);
         // Calculate the new subtotal by subtracting the deleted product's total from the current subtotal
@@ -211,7 +179,7 @@ export const SaleEntryForm = () => {
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.sp_id !== id)
+          itemsToShow.filter((product) => product.qp_id !== id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -262,29 +230,29 @@ export const SaleEntryForm = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h2 className="modal-title" id="myModalLabel">
-                  Purchase Details
+                  Quatation Details
                 </h2>
               </div>
               <hr />
               <div className="modal-header">
                 <h4 className="modal-title" id="myModalLabel">
-                  Invoice Details{" "}
+                  Quatation Details{" "}
                 </h4>
               </div>
               <div className="modal-body">
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Invoice Number</label>
+                      <label>Voucher Number</label>
                       <input
                         type="text"
                         name="sup_address"
                         id="sup_address"
                         className="form-control"
-                        placeholder="Enter Invoice Number"
+                        placeholder="Enter Voucher Number"
                         required=""
-                        value={invoiceNumber}
-                        onChange={(e) => setInvoiceNumber(e.target.value)}
+                        value={voucherNo}
+                        onChange={(e) => setvoucherNo(e.target.value)}
                       />
                     </div>
                   </div>
@@ -299,74 +267,6 @@ export const SaleEntryForm = () => {
                         required=""
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Customer Details */}
-              <hr />
-              <div className="modal-header">
-                <h4 className="modal-title" id="myModalLabel">
-                  Customer Details
-                </h4>
-              </div>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={custname}
-                      value={customerName} // Set the value prop to control the selected value
-                      onChange={handleAutocompleteChange}
-                      renderInput={(params) => (
-                        <TextField {...params} label="Customer Name" />
-                      )}
-                    />
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>Contact</label>
-                      <input
-                        type="text"
-                        id="date"
-                        name="date"
-                        placeholder="Enter Contact"
-                        className="form-control"
-                        maxLength={10}
-                        value={contact}
-                        onChange={(e) => setContact(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>GSTIN</label>
-                      <input
-                        type="text"
-                        name="sup_address"
-                        id="sup_address"
-                        className="form-control"
-                        placeholder="Enter GSTIN"
-                        required=""
-                        value={GSTIN}
-                        onChange={(e) => setGSTIN(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>Address</label>
-                      <input
-                        type="text"
-                        name="sup_address"
-                        id="sup_address"
-                        className="form-control"
-                        placeholder="Enter Address"
-                        required=""
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
                       />
                     </div>
                   </div>
@@ -540,7 +440,7 @@ export const SaleEntryForm = () => {
                             <td>
                               <a
                                 className="confirm-text"
-                                onClick={() => deleteItem(row.sp_id)}
+                                onClick={() => deleteItem(row.qp_id)}
                               >
                                 <img
                                   src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
@@ -572,34 +472,18 @@ export const SaleEntryForm = () => {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Place of Supply</label>
+                      <label>Buyers Referal No./Order No.</label>
                       <input
                         type="text"
                         id="prod_name"
                         name="prod_name"
                         className="form-control"
-                        placeholder="Enter Place of Supply"
-                        value={supplyPlace}
-                        onChange={(e) => setSupplyPlace(e.target.value)}
+                        placeholder="Enter Order No"
+                        value={order_no}
+                        onChange={(e) => setOrderNo(e.target.value)}
                       />
                     </div>
                   </div>
-                  <div className="col-sm-6">
-                    <div className="form-group">
-                      <label>Dispatch No</label>
-                      <input
-                        type="text"
-                        id="prod_name"
-                        name="prod_name"
-                        className="form-control"
-                        placeholder="Enter Dispatch No"
-                        value={dispatchNo}
-                        onChange={(e) => setDispatchNo(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Destination</label>
@@ -614,6 +498,8 @@ export const SaleEntryForm = () => {
                       />
                     </div>
                   </div>
+                </div>
+                <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
                       <label>Transport Amount</label>

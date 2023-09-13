@@ -161,9 +161,9 @@ export const SupplierTable = () => {
                                                 <td>{row.gstin}</td>
                                                 <td style={{width:"30%"}}>{row.address}</td>
                                                 <td>
-                                                    <Link className="me-3" to={`/supplierView/${row.sup_id}`}>
+                                                    <a className="me-3" href={`/supplierHistory?sup_id=${row.sup_id}`}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </Link>
+                                                    </a>
                                                     <Link className="me-3" style={{marginLeft:"10px"}}  onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Link>

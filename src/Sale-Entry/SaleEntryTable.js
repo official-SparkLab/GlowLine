@@ -149,23 +149,24 @@ export const SaleEntryTable = () => {
                           <td>{row.total}</td>
 
                           <td>
-                            <Link
-                              className="me-3"
-                              to={`/customerView/${row.cust_id}`}
-                            >
-                              <img
-                                src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                alt="img"
-                              />
-                            </Link>
+                          <a
+                          className="me-3"
+                          href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}`}
+                          style={{cursor:"pointer"}}
+                        >
+                          <img
+                            src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
+                            alt="img"
+                          />
+                        </a>
                             <a
                               type="submit"
                               id="btndelete"
                               className="btn-danger btn-sm"
                               title="Delete"
                               aria-hidden="true"
-                              style={{marginLeft:"10px"}}
-                              onClick={()=>window.location.href = `/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}`}
+                              style={{marginLeft:"10px",cursor:"pointer"}}
+                              onClick={()=>window.location.href = `/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                             >
                               <i className="fa fa-print" />
                             </a>

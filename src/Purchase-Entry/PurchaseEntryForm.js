@@ -119,7 +119,7 @@ export const PurchaseEntryForm = () => {
     pur_prod_id: prodId,
     invoice_no: invoiceNumber,
     p_date: date,
-    rp_id: selectedProductData?.p_id,
+    p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     weight,
     qty: quantity,

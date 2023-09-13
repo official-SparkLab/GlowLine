@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Modal from "../Modal/Modal";
 import SideBar from "../SideBar";
 import Header from "../header";
-import { PurchaseEntryForm } from "./PurchaseEntryForm";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import ExportToExcel from "../ExportToExcel";
+import { QuatationForm } from "./QuatationForm";
 
-
-
-export const PurchaseTable = () => {
+export const QuatationTable = () => {
   const [open, setOpen] = useState(false);
   const [modalOpenPurpose, setModalOpenPurpose] = useState();
   const openModal = (modalPurpose) => {
@@ -26,10 +24,10 @@ export const PurchaseTable = () => {
   const [tableData, setTableData] = useState([]);
   useEffect(() => {
     const getCustomerDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/fetchPurchase`);
-      console.log(res);
+      const res = await axios.get(`${GlobalService.path}/fetchQuatation`);
+     
       setTableData(res.data.data.reverse());
-      console.log(tableData);
+    
     };
     getCustomerDetails();
   }, []);
@@ -85,7 +83,6 @@ export const PurchaseTable = () => {
       ];
     }
   };
-
   return (
     <>
       <div className="page-container">
@@ -100,43 +97,41 @@ export const PurchaseTable = () => {
           {/* Page Inner */}
 
           <div className="panel panel-white">
-          <div className='row'>
-                        <div className='col-md-4'>
-                            <button
-                                type="button"
-                                className="btn btn-success m-b-sm"
-                                onClick={() => openModal('add')}
-                            >
-                                Add Purchase Details
-                            </button>
-                        </div>
-                        <div className='col-md-7'>
-                            <input
-                                type="text"
-                                className="form-control col-md-6"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={(e) => handleSearchChange(e)}
-                            />
-                        </div>
-                        <div className='col-md-1  text-end'>
-                            <ExportToExcel data={filteredItems} />
-                        </div>
-                    </div>
-            
+            <div className="row">
+              <div className="col-md-4">
+                <button
+                  type="button"
+                  className="btn btn-success m-b-sm"
+                  onClick={() => openModal("add")}
+                >
+                  Add Quatation Details
+                </button>
+              </div>
+              <div className="col-md-7">
+                <input
+                  type="text"
+                  className="form-control col-md-6"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearchChange(e)}
+                />
+              </div>
+              <div className="col-md-1  text-end">
+                <ExportToExcel data={filteredItems} />
+              </div>
+            </div>
             <div className="page-title">
-              <h3 className="breadcrumb-header">Purchase List</h3>
+              <h3 className="breadcrumb-header">Quatation List</h3>
             </div>
             <div id="main-wrapper">
               <div className="table-container">
-              
                 <table className="display table">
-                  <thead className="sticky-header" >
+                  <thead className="sticky-header">
                     <tr>
                       <th>Sr. No.</th>
-                      <th>Invoice No</th>
+                      <th>Voucher No</th>
                       <th>Date</th>
-                      <th>Supplier Name </th>
+                      <th>Destination</th>
                       <th>Total Amount </th>
                       <th>Action</th>
                     </tr>
@@ -147,34 +142,24 @@ export const PurchaseTable = () => {
                       itemsToShow.map((row, index) => (
                         <tr>
                           <td>{index + 1}</td>
-                          <td>{row.invoice_no}</td>
+                          <td>{row.voucher_no}</td>
                           <td>{row.date}</td>
-                          <td>{row.sup_name}</td>
+                          <td>{row.destination}</td>
 
                           <td>{row.total}</td>
 
                           <td>
-                          <a
-                          className="me-3"
-                          href={`/purchaseHistory?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}`}
-                          style={{cursor:"pointer"}}
-                        >
-                          <img
-                            src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                            alt="img"
-                          />
-                        </a>
-                        <a
-                        type="submit"
-                        id="btndelete"
-                        className="btn-danger btn-sm"
-                        title="Invoice"
-                        aria-hidden="true"
-                        style={{marginLeft:"10px",cursor:"pointer"}}
-                        onClick={()=>window.location.href = `/purchaseInvoice?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
-                      >
-                        <i className="fa fa-print" />
-                      </a>
+                            <a
+                              type="submit"
+                              id="btnprint"
+                              className="btn-danger btn-sm"
+                              title="Invoice"
+                              aria-hidden="true"
+                              style={{marginLeft:"10px",cursor:"pointer"}}
+                              onClick={()=>window.location.href = `/quatationInvoice?voucher_no=${row.voucher_no}`}
+                            >
+                              <i className="fa fa-print" />
+                            </a>
                           </td>
                         </tr>
                       ))
@@ -186,13 +171,13 @@ export const PurchaseTable = () => {
                   </tbody>
                 </table>
               </div>
-              <Pagination   
-              activePage={currentPage}
-              itemsCountPerPage={itemsPerPage}
-              totalItemsCount={allItems?.length}
-              pageRangeDisplayed={totalPageRange} // Number of visible page links
-              onChange={handlePageChange}
-          />
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={itemsPerPage}
+                totalItemsCount={allItems?.length}
+                pageRangeDisplayed={totalPageRange} // Number of visible page links
+                onChange={handlePageChange}
+              />
             </div>
           </div>
         </div>
@@ -201,7 +186,7 @@ export const PurchaseTable = () => {
       <Modal
         open={open}
         onClose={handleClose}
-        component={PurchaseEntryForm}
+        component={QuatationForm}
         modalPurpose={modalOpenPurpose}
       ></Modal>
     </>
