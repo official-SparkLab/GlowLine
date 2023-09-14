@@ -21,6 +21,8 @@ function SaleInvoice() {
   const [branch, setBranch] = useState();
 
   const [date, setDate] = useState();
+  const[DriverName,setDriverName] = useState("");
+  const[VehicleNo,setVehicleNo] = useState("");
   const [dispatchNo, setDispatchNo] = useState("");
   const [destination, setDestination] = useState("");
   const [customer_name, setCustomerName] = useState("");
@@ -57,6 +59,8 @@ function SaleInvoice() {
         setCgst(invoiceRes.data.data.cgst_amt);
         setSgst(invoiceRes.data.data.sgat_amt);
         setIgst(invoiceRes.data.data.igst_amt);
+        setDriverName(invoiceRes.data.data.driver_name);
+        setVehicleNo(invoiceRes.data.data.vehicle_no);
 
         // Invoice Product Details
         setTableData(invoiceProd.data.data);
@@ -198,14 +202,14 @@ function SaleInvoice() {
                         <tr>
                           <td style={{ width: "50%" }}>
                             <label>Vehical No</label> <br />
-                            {/*?php echo $ino?*/}
+                            {VehicleNo}
                           </td>
                           <td style={{ width: "50%" }}>0</td>
                         </tr>
                         <tr>
                           <td style={{ width: "50%" }}>
                             <label>Driver Name :</label> <br />
-                            {/*?php echo $ino?*/}
+                            {DriverName}
                           </td>
                           <td style={{ width: "50%" }}>
                             {/*?php echo $ino?*/}
@@ -299,7 +303,7 @@ function SaleInvoice() {
                     {accountNo}
                   </div>
                 </td>
-                <td colSpan={2}>CGST 9%</td>
+                <td colSpan={2}>CGST 18%</td>
                 <td>{cgst}</td>
               </tr>
               <tr>
@@ -319,7 +323,7 @@ function SaleInvoice() {
                     {bankName}
                   </div>
                 </td>
-                <td colSpan={2}>SGST 9%</td>
+                <td colSpan={2}>SGST 18%</td>
                 <td>{sgst}</td>
               </tr>
               <tr>
@@ -339,7 +343,7 @@ function SaleInvoice() {
                     {branch}
                   </div>
                 </td>
-                <td colSpan={2}>IGST 9%</td>
+                <td colSpan={2}>IGST 18%</td>
                 <td>{igst}</td>
               </tr>
               <tr>

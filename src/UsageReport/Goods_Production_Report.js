@@ -1,40 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import Modal from "../Modal/Modal"
+import React, { useEffect, useState } from "react"
 import SideBar from "../SideBar"
 import Header from "../header"
+import { GlobalService } from "../service/GlobalService"
+import axios from "axios"
+import ExportToExcel from "../ExportToExcel"
+import Pagination from "react-js-pagination"
+import { Link } from "react-router-dom"
 
-import { GlobalService } from "../service/GlobalService";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Pagination from "react-js-pagination";
-import ExportToExcel from "../ExportToExcel";
-import { Sale_Payble_Form } from "./Sale_Payble_Form";
-
-
-
-export const Sale_Payable_Table = () => {
-    const [open, setOpen] = useState(false)
-    const [modalOpenPurpose, setModalOpenPurpose] = useState()
-    const [row, setRow] = useState()
+export const Goods_Production_Report = () => {
+ 
     const [tableData, setTableData] = useState()
-    const openModal = (modalPurpose, row) => {
-        setRow(row)
-        setModalOpenPurpose(modalPurpose)
-        setOpen(true)
-    }
-    const handleClose = () => {
-        setOpen(false)
-    }
+
 
     useEffect(() => {
-        const getExpenseDetails = async (e) => {
-            const res = await axios.get(`${GlobalService.path}/fethSalePayable`)
+        const getProductDetails = async (e) => {
+            const res = await axios.get(`${GlobalService.path}/fetchGoodsUsage`)
             console.log(res);
-            setTableData(res.data.data.reverse())
+            setTableData(res.data.data)
             console.log(tableData);
         }
-        getExpenseDetails()
+        getProductDetails()
     }, [])
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -76,18 +61,11 @@ export const Sale_Payable_Table = () => {
         }
     };
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value)
-        setCurrentPage(1)
-    }
-
-
-    
     const deleteItem = async (id) => {
         try {
-            const response = await axios.delete(`${GlobalService.path}/deleteSalePayable/${id}`);
+            const response = await axios.put(`${GlobalService.path}/deleteGoodsUsage/${id}`);
             if (response.status == 200) {
-                alert("Record Deleted successfully")
+                alert("Record deleted successfully")
                 window.location.reload()
             } else alert('Failed to Delete')
 
@@ -97,9 +75,13 @@ export const Sale_Payable_Table = () => {
             console.error('Error deleting item:', error);
         }
     }
-    
-    return (<>
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value)
+        setCurrentPage(1)
+    }
+
+    return (
         <div className="page-container">
             {/* Page Sidebar */}
             <SideBar />
@@ -115,13 +97,13 @@ export const Sale_Payable_Table = () => {
 
                     <div className='row'>
                         <div className='col-md-4'>
-                            <button
-                                type="button"
-                                className="btn btn-success m-b-sm"
-                                onClick={() => openModal('add')}
-                            >
-                                Add Sale Payable
-                            </button>
+                        <a
+                        type="button"
+                        className="btn btn-success m-b-sm"
+                        href="goodsUsage"
+                    >
+                        Add Good Production
+                    </a>
                         </div>
                         <div className='col-md-7'>
                             <input
@@ -136,21 +118,26 @@ export const Sale_Payable_Table = () => {
                             <ExportToExcel data={filteredItems} />
                         </div>
                     </div>
-                    <div className="page-title">
-                        <h3 className="breadcrumb-header">Payable List</h3>
+                    <div className="page-title row">
+                        <div className="col-md-10">
+                            <h3 className="breadcrumb-header">Goods Production List</h3>
+                        </div>
+                        <div className="col-md-2 text-end">
+
+                        </div>
+
                     </div>
                     <div id="main-wrapper">
                         <div className="table-container">
                             <table className="table display">
                                 <thead className="sticky-header">
                                     <tr>
-                                      
                                         <th>Sr. No.</th>
-                                        <th>Customer Name</th>
-                                        <th>Date</th>
-                                        <th>Pending Amount</th>
-                                        <th>Paid Amount </th>
-                                        <th>Available Balance</th>
+                                        <th>Product Name</th>
+                                        <th>HSN</th>
+                                        <th>Quantity</th>
+                                        <th>Total Weight</th>
+                                        <th>Type</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -159,16 +146,16 @@ export const Sale_Payable_Table = () => {
                                     {itemsToShow && itemsToShow?.length > 0 ?
                                         (itemsToShow.map((row, index) => (
                                             <tr>
-                                              
-                                                <td>{index + 1}</td>
-                                                <td>{row.cust_name}</td>
-                                                <td>{row.date}</td>
-                                                <td>{row.pending_amt}</td>
-                                                <td>{row.paid_amount}</td>
-                                                <td>{row.available_bal}</td>
-                                                <td>
 
-                                                    <a className="confirm-text"  style={{marginLeft:"10px"}} onClick={() => deleteItem(row.sale_pay_id)} >
+                                                <td>{index + 1}</td>
+                                                <td style={{width:"20%"}}>{row.prod_name}</td>
+                                                <td>{row.hsn}</td>
+                                                <td>{row.qty}</td>
+                                                <td>{row.total_weight}</td>
+                                                <td>{row.type}</td>
+                                                <td>
+                                                
+                                                    <a className="confirm-text" style={{marginLeft:"10px",cursor:"pointer"}}  onClick={() => deleteItem(row.g_id)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
                                                     </a>
                                                 </td>
@@ -189,9 +176,5 @@ export const Sale_Payable_Table = () => {
                 </div>
             </div>
         </div>
-
-
-        <Modal open={open} onClose={handleClose} component={Sale_Payble_Form} modalPurpose={modalOpenPurpose} rowDetails={row}></Modal>
-
-    </>)
+)
 }

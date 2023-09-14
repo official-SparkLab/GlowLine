@@ -165,12 +165,6 @@ export const Purchase_Payble_Table = () => {
                                                 <td>{row.paid_amount}</td>
                                                 <td>{row.available_bal}</td>
                                                 <td>
-                                                    <Link className="me-3" to={`/expenseView/${row.exp_id}`}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </Link>
-                                                    <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
-                                                    </Link>
                                                     <a className="confirm-text"  style={{marginLeft:"10px"}} onClick={() => deleteItem(row.pur_pay_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
                                                     </a>

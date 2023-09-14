@@ -50,11 +50,12 @@ function GeneralLedger() {
           <table className="tables">
             <thead>
               <tr>
-                <th>Sr.NO</th>
-                <th>Date</th>
-                <th>Particular</th>
-                <th>Credit Amount</th>
-                <th>Debit Amount</th>
+              <th>Date</th>
+              <th>Particulars</th>
+              <th>Vch Type</th>
+              <th>Vch No.</th>
+              <th>Debit</th>
+              <th>Credit</th>
               </tr>
             </thead>
             <tbody>
@@ -63,11 +64,13 @@ function GeneralLedger() {
                 (credit = parseFloat(credit) + parseFloat(row.sub_total)),
                 (
                 <tr key={index}>
-                <td>{index+1}</td>
                 <td>{row.date}</td>
-                <td>{row.cust_name} : {row.invoice_no}</td>
-                <td>{row.sub_total}</td>
-                <td>{row.total}</td>
+                <td>{row.cust_name}</td>
+                <td>{row.cust_name}</td>
+                <td>{row.invoice_no}</td>
+                <td>{parseFloat(row.total)}</td>
+                <td>{parseFloat(row.sub_total)}</td>
+                
                 </tr>
               )))}
 
@@ -84,8 +87,9 @@ function GeneralLedger() {
                 <th />
                 <th />
                 <th />
-                 <td>&#8377;{Math.round(credit)}</td>
+                
                 <td>&#8377;{Math.round(debit)}</td>
+                <td>&#8377;{Math.round(credit)}</td>
               </tr>
             </tfoot>
           </table>

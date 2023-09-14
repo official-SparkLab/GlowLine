@@ -144,7 +144,7 @@ export const SaleEntryTable = () => {
                           <td>{index + 1}</td>
                           <td>{row.invoice_no}</td>
                           <td>{row.date}</td>
-                          <td>{row.cust_name}</td>
+                          <td style={{width:"20%"}}>{row.cust_name}</td>
 
                           <td>{row.total}</td>
 

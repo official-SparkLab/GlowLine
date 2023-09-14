@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import SideBar from "../SideBar";
 import Header from "../header";
 
-export const RawUsage = () => {
+export const Material_Damage = () => {
   const today = new Date().toISOString().split("T")[0];
 
   const [prod_id, setProdId] = useState();
@@ -14,9 +14,7 @@ export const RawUsage = () => {
   const [date, setDate] = useState(today);
 
   const [HDNCode, setHDNCode] = useState();
-  const [weight, setWeight] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  let [totalWeight, setTotalWeight] = useState(0);
   const[type,setType] = useState("");
 
   const [productData, setProductData] = useState();
@@ -29,7 +27,7 @@ export const RawUsage = () => {
   useEffect(() => {
     const getProductDetails = async (e) => {
       const productRes = await axios.get(
-        `${GlobalService.path}/fetchProductsForUsage`
+        `${GlobalService.path}/fetchProducts`
       );
       console.log(productRes);
       setProductData(productRes.data.data);
@@ -48,19 +46,7 @@ export const RawUsage = () => {
     getProductDetails();
   }, [prodName]);
 
-  const handleQuantityChange = (e) => {
-    const newQuantity = e.target.value;
-    const newTotalWeight = newQuantity * weight; // Calculate the new total weight
-    setQuantity(newQuantity);
-    setTotalWeight(newTotalWeight);
-  };
-
-  const handleWeightChange = (e) => {
-    const newWeight = e.target.value;
-    const newTotalWeight = quantity * newWeight; // Calculate the new total weight
-    setWeight(newWeight);
-    setTotalWeight(newTotalWeight);
-  };
+ 
 
   let productname = productData?.map((data) => {
     return data.prod_name;
@@ -71,8 +57,6 @@ export const RawUsage = () => {
     date,
     hsn: selectedProductData?.hsn,
     qty: quantity,
-    weight,
-    total_weight: totalWeight,
     type,
   };
 
@@ -82,14 +66,12 @@ export const RawUsage = () => {
 
     try {
       const res = await axios.post(
-        `${GlobalService.path}/addRawUsage`,
+        `${GlobalService.path}/addDamage`,
         productDetails
       );
       alert("Product added successfully");
       setProdId();
       setQuantity(0);
-      setWeight(0);
-      setTotalWeight(0);
       setType("");
     } catch (error) {
       alert("Failed to add product");
@@ -98,7 +80,6 @@ export const RawUsage = () => {
   };
 
   return (
-    <>
       <div className="page-container">
         {/* Page Sidebar */}
         <SideBar />
@@ -119,11 +100,11 @@ export const RawUsage = () => {
                     <div className="row">
                     <div className="col col-sm-6">
                       <h2 className="modal-title" id="myModalLabel">
-                        Raw Usage Details
+                        Material Damage Details
                       </h2>
                     </div>
                     <div className="col col-sm-6 text-right">
-                      <a className="btn btn-primary" href="rawUsageList">
+                      <a className="btn btn-primary" href="damageList">
                         View List
                       </a>
                     </div>
@@ -185,49 +166,19 @@ export const RawUsage = () => {
                           </div>
                         </div>
                         <div className="col-sm-6">
-                          <div className="form-group">
-                            <label>Weight</label>
-                            <input
-                              type="number"
-                              id="date"
-                              name="date"
-                              placeholder="Enter Weight"
-                              className="form-control"
-                              value={weight}
-                              onChange={handleWeightChange}
-                            />
-                          </div>
+                        <div className="form-group">
+                          <label>Qty/Unit</label>
+                          <input
+                            type="number"
+                            id="date"
+                            name="date"
+                            placeholder="Enter Qty"
+                            className="form-control"
+                            value={quantity}
+                            onChange={(e)=>setQuantity(e.target.value)}
+                          />
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <div className="form-group">
-                            <label>Qty</label>
-                            <input
-                              type="number"
-                              id="date"
-                              name="date"
-                              placeholder="Enter Qty"
-                              className="form-control"
-                              value={quantity}
-                              onChange={handleQuantityChange}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-sm-6">
-                          <div className="form-group">
-                            <label>Total Weight</label>
-                            <input
-                              type="number"
-                              id="date"
-                              name="date"
-                              placeholder="Enter Total Weight"
-                              className="form-control"
-                              value={totalWeight}
-                              onChange={(e) => setTotalWeight(e.target.value)}
-                            />
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div className="modal-footer">
@@ -247,6 +198,6 @@ export const RawUsage = () => {
           </div>
         </div>
       </div>
-    </>
+    
   );
 };
