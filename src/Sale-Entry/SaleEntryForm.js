@@ -22,6 +22,8 @@ export const SaleEntryForm = () => {
   const [destination, setDestination] = useState();
   const [transportAmount, setTransportAmount] = useState();
   const [otherAmount, setOtherAmount] = useState();
+  const[Driver_Name,setDriverName] = useState("");
+  const[Vehicle_No,setVehicleNo] = useState();
   const [CGST, setCGST] = useState();
   const [IGST, setIGST] = useState();
   const [SGST, setSGST] = useState();
@@ -146,7 +148,7 @@ export const SaleEntryForm = () => {
       setProdId(prodId + 1);
 
       const getProdTableData = await axios.get(
-        `${GlobalService.path}/fetchSaleProduct/${invoiceNumber}`
+        `${GlobalService.path}/fetchSaleProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
       console.log(getProdTableData.data.data);
@@ -168,6 +170,8 @@ export const SaleEntryForm = () => {
     destination: destination,
     trans_amt: transportAmount,
     hamali: otherAmount,
+    driver_name:Driver_Name,
+    vehicle_no:Vehicle_No,
     cgst: CGST,
     cgst_amt: CGSTValue,
     sgat: SGST,
@@ -278,8 +282,8 @@ export const SaleEntryForm = () => {
                       <label>Invoice Number</label>
                       <input
                         type="text"
-                        name="sup_address"
-                        id="sup_address"
+                        name="Invoice"
+                        id="Invoice"
                         className="form-control"
                         placeholder="Enter Invoice Number"
                         required=""
@@ -293,8 +297,8 @@ export const SaleEntryForm = () => {
                       <label>Date</label>
                       <input
                         type="date"
-                        name="sup_address"
-                        id="sup_address"
+                        name="Date"
+                        id="Date"
                         className="form-control"
                         required=""
                         value={date}
@@ -330,8 +334,8 @@ export const SaleEntryForm = () => {
                       <label>Contact</label>
                       <input
                         type="text"
-                        id="date"
-                        name="date"
+                        id="Contact"
+                        name="Contact"
                         placeholder="Enter Contact"
                         className="form-control"
                         maxLength={10}
@@ -345,8 +349,8 @@ export const SaleEntryForm = () => {
                       <label>GSTIN</label>
                       <input
                         type="text"
-                        name="sup_address"
-                        id="sup_address"
+                        name="GSTIN"
+                        id="GSTIN"
                         className="form-control"
                         placeholder="Enter GSTIN"
                         required=""
@@ -360,8 +364,8 @@ export const SaleEntryForm = () => {
                       <label>Address</label>
                       <input
                         type="text"
-                        name="sup_address"
-                        id="sup_address"
+                        name="Address"
+                        id="Address"
                         className="form-control"
                         placeholder="Enter Address"
                         required=""
@@ -385,8 +389,8 @@ export const SaleEntryForm = () => {
                       <label> Product Id</label>
                       <input
                         type="number"
-                        name="sup_address"
-                        id="sup_address"
+                        name="Product"
+                        id="Product"
                         className="form-control"
                         placeholder="Enter Id"
                         required=""
@@ -417,8 +421,8 @@ export const SaleEntryForm = () => {
                       <label>HSN Code</label>
                       <input
                         type="text"
-                        name="sup_address"
-                        id="sup_address"
+                        name="HSN"
+                        id="HSN"
                         className="form-control"
                         placeholder="Enter HSN code"
                         required=""
@@ -432,8 +436,8 @@ export const SaleEntryForm = () => {
                       <label>Weight</label>
                       <input
                         type="number"
-                        id="date"
-                        name="date"
+                        id="Weight"
+                        name="Weight"
                         placeholder="Enter Weight"
                         className="form-control"
                         value={weight}
@@ -448,8 +452,8 @@ export const SaleEntryForm = () => {
                       <label>Qty</label>
                       <input
                         type="number"
-                        id="date"
-                        name="date"
+                        id="Qty"
+                        name="Qty"
                         placeholder="Enter Qty"
                         className="form-control"
                         value={quantity}
@@ -462,8 +466,8 @@ export const SaleEntryForm = () => {
                       <label>Total Weight</label>
                       <input
                         type="text"
-                        id="date"
-                        name="date"
+                        id="Total Weight"
+                        name="Total Weight"
                         placeholder="Enter Total Weight"
                         className="form-control"
                         value={totalWeight}
@@ -477,8 +481,8 @@ export const SaleEntryForm = () => {
                       <label>Rate</label>
                       <input
                         type="text"
-                        id="date"
-                        name="date"
+                        id="Rate"
+                        name="Rate"
                         placeholder="Enter Rate"
                         className="form-control"
                         value={rate}
@@ -491,8 +495,8 @@ export const SaleEntryForm = () => {
                       <label>Total</label>
                       <input
                         type="text"
-                        id="date"
-                        name="date"
+                        id="Total"
+                        name="Total"
                         placeholder="Enter Total"
                         className="form-control"
                         value={total}
@@ -575,8 +579,8 @@ export const SaleEntryForm = () => {
                       <label>Place of Supply</label>
                       <input
                         type="text"
-                        id="prod_name"
-                        name="prod_name"
+                        id="Place of Supply"
+                        name="Place of Supply"
                         className="form-control"
                         placeholder="Enter Place of Supply"
                         value={supplyPlace}
@@ -589,8 +593,8 @@ export const SaleEntryForm = () => {
                       <label>Dispatch No</label>
                       <input
                         type="text"
-                        id="prod_name"
-                        name="prod_name"
+                        id="Dispatch"
+                        name="Dispatch"
                         className="form-control"
                         placeholder="Enter Dispatch No"
                         value={dispatchNo}
@@ -605,8 +609,8 @@ export const SaleEntryForm = () => {
                       <label>Destination</label>
                       <input
                         type="text"
-                        id="batch"
-                        name="batch"
+                        id="Destination"
+                        name="Destination"
                         className=" form-control"
                         placeholder="Enter Desination"
                         value={destination}
@@ -616,11 +620,39 @@ export const SaleEntryForm = () => {
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
+                      <label>Driver Name</label>
+                      <input
+                        type="text"
+                        id="driverName"
+                        name="driverName"
+                        placeholder="Enter Driver Name"
+                        className=" form-control"
+                        value={Driver_Name}
+                        onChange={(e) => setDriverName(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="form-group">
+                      <label>Vehicle No.</label>
+                      <input
+                        type="text"
+                        id="vehicleNo"
+                        name="vehicleNo"
+                        placeholder="Enter Vehicle Number"
+                        className=" form-control"
+                        value={Vehicle_No}
+                        onChange={(e) => setVehicleNo(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <div className="form-group">
                       <label>Transport Amount</label>
                       <input
                         type="number"
-                        id="rate"
-                        name="rate"
+                        id="Transport"
+                        name="Transport"
                         placeholder="Enter Transport Amount"
                         className=" form-control"
                         value={transportAmount}
@@ -633,8 +665,8 @@ export const SaleEntryForm = () => {
                       <label>Other Amount</label>
                       <input
                         type="number"
-                        id="rate"
-                        name="rate"
+                        id="Other"
+                        name="Other"
                         placeholder="Enter Other Amount"
                         className=" form-control"
                         value={otherAmount}
@@ -647,8 +679,8 @@ export const SaleEntryForm = () => {
                     <label>Sub Total</label>
                     <input
                       type="text"
-                      id="rate"
-                      name="rate"
+                      id="Sub"
+                      name="Sub"
                       placeholder="0"
                       className=" form-control"
                       value={subTotal}

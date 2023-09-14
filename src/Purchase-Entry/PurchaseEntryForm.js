@@ -146,7 +146,7 @@ export const PurchaseEntryForm = () => {
       setProdId(prodId + 1);
 
       const getProdTableData = await axios.get(
-        `${GlobalService.path}/fetchPurchaseProduct/${invoiceNumber}`
+        `${GlobalService.path}/fetchPurchaseProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
       console.log(getProdTableData.data.data);

@@ -16,6 +16,9 @@ function CustomerLedger() {
   const [contactNo, setContactNo] = useState("");
   const [data, setData] = useState([]);
 
+  let credit = 0;
+  let debit = 0;
+
   // Fetch Customer Details
   useEffect(() => {
     const getCustomerDetails = async () => {
@@ -59,10 +62,6 @@ function CustomerLedger() {
     getLedgerDetails();
   }, []);
 
-
-  let previousGrandTotal = 0;
-  let availableBal = 0;
-
   return (
     <div>
       <div>
@@ -103,38 +102,30 @@ function CustomerLedger() {
           <br />
           <table className="tables">
             <thead>
-              <tr>
-                <th>Sr. No</th>
+              <tr> 
                 <th>Date</th>
-                <th>Description</th>
-                <th>Credit</th>
+                <th>Particulars</th>
+                <th>Vch Type</th>
+                <th>Vch No.</th>
                 <th>Debit</th>
-                <th>Balance</th>
+                <th>Credit</th>
               </tr>
             </thead>
             <tbody>
               {Array.isArray(tableData) && tableData.length > 0 &&
-                tableData.map((row, index) => {
-                    // Calculate the new available balance
-                    if (row.total > 0)
-                    availableBal =
-                     ( Number(availableBal) - Number(row.total));
-                  else
-                    availableBal = Number(availableBal) + Number(row.sub_total);
-
-                  // Determine the sign for available balance display
-                  const availableBalSign = availableBal >= 0 ? "+" : "-";
-                  return(
+                tableData.map((row, index) =>  (
+                  (debit = parseFloat(debit) + parseFloat(row.total)),
+                  (credit = parseFloat(credit) + parseFloat(row.sub_total)),
+                  (
                   <tr key={index}>
-                    <td>{index + 1}</td>
                     <td>{row.date}</td>
+                    <td>Sales Outside</td>
+                    <td>{row.cust_name}</td>
                     <td>{row.invoice_no}</td>
-                    <td>{row.sub_total? row.sub_total : 0}</td>
-                    <td>{row.total ? row.total : 0}</td>
-                    <td>{availableBalSign}
-                    {Math.abs(availableBal)}</td>
+                    <td>{row.total?parseFloat(row.total):0}</td>
+                    <td>{row.sub_total?parseFloat(row.sub_total):0}</td>
                   </tr>
-                  )})}
+                  )))}
               <tr style={{height:"100%"}}>
                 <td></td>
                 <td></td>
@@ -144,17 +135,17 @@ function CustomerLedger() {
                 <td></td>
               </tr>
             </tbody>
-
             <tfoot style={{ bottom: 0 }}>
-              <tr>
-                <th>Sr. No</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Balance</th>
-              </tr>
-            </tfoot>
+            <tr>
+              <th />
+              <th />
+              <th />
+              <th/>
+              
+              <td>&#8377;{Math.round(debit)}</td>
+              <td>&#8377;{Math.round(credit)}</td>
+            </tr>
+          </tfoot>
           </table>
         </div>
       </div>

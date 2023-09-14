@@ -133,6 +133,9 @@ function SideBar() {
             <li>
               <a href="goodsUsage">Goods Production</a>
             </li>
+            <li>
+              <a href="materialDamage">Material Damage</a>
+            </li>
           </ul>
         </li>
           <li>
@@ -258,16 +261,19 @@ function SideBar() {
           <li>
             <a href="javascript:void(0)">
               <i className="menu-icon fa fa-industry" />
-              <span>Stock Report</span>
+              <span>Usage Report</span>
               <i className="accordion-icon fa fa-angle-left" />
             </a>
             <ul className="sub-menu">
               <li>
-                <a href="Goods_Stock_Master.php">Good Stock</a>
+                <a href="rawUsageList">Raw Usage</a>
               </li>
               <li>
-                <a href="Raw_Stock_Master.php">Raw Stock</a>
+                <a href="goodsUsageList">Good Production</a>
               </li>
+              <li>
+              <a href="damageList">Damage Products</a>
+            </li>
             </ul>
           </li>
           <hr style={{ width: "80%" }} />

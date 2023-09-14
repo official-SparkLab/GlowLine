@@ -17,6 +17,7 @@ export const GoodUsage = () => {
   const [weight, setWeight] = useState(0);
   const [quantity, setQuantity] = useState(0);
   let [totalWeight, setTotalWeight] = useState(0);
+  const [type, setType] = useState("");
 
   const [productData, setProductData] = useState();
   const [selectedProductData, setSelectedProductData] = useState();
@@ -41,6 +42,7 @@ export const GoodUsage = () => {
         console.log("prod_name=", filteredData);
         setHDNCode(filteredData[0]?.hsn);
         setProdId(filteredData[0]?.p_id);
+        setType(filteredData[0]?.type);
       }
     };
 
@@ -72,6 +74,7 @@ export const GoodUsage = () => {
     qty: quantity,
     weight,
     total_weight: totalWeight,
+    type,
   };
 
   const addProductDetails = async (e) => {
@@ -88,6 +91,7 @@ export const GoodUsage = () => {
       setQuantity(0);
       setWeight(0);
       setTotalWeight(0);
+      setType("");
     } catch (error) {
       alert("Failed to add product");
       console.log(error);
@@ -113,9 +117,18 @@ export const GoodUsage = () => {
                 <div className="modal-dialog" style={{ width: "100%" }}>
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h2 className="modal-title" id="myModalLabel">
-                        Goods Usage Details
-                      </h2>
+                      <div className="row">
+                        <div className="col col-sm-6">
+                          <h2 className="modal-title" id="myModalLabel">
+                            Goods Usage Details
+                          </h2>
+                        </div>
+                        <div className="col col-sm-6 text-right">
+                          <a className="btn btn-primary" href="goodsUsageList">
+                            View List
+                          </a>
+                        </div>
+                      </div>
                     </div>
                     <hr style={{ height: 5, color: "blacks" }} />
                     <div className="modal-header">

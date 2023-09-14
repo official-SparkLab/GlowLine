@@ -294,7 +294,7 @@ function PurchaseInvoice() {
             {accountNo}
           </div>
         </td>
-        <td colSpan={2}>CGST 9%</td>
+        <td colSpan={2}>CGST 18%</td>
         <td>{cgst}</td>
       </tr>
       <tr>
@@ -314,7 +314,7 @@ function PurchaseInvoice() {
             {bankName}
           </div>
         </td>
-        <td colSpan={2}>SGST 9%</td>
+        <td colSpan={2}>SGST 18%</td>
         <td>{sgst}</td>
       </tr>
       <tr>
@@ -334,7 +334,7 @@ function PurchaseInvoice() {
             {branch}
           </div>
         </td>
-        <td colSpan={2}>IGST 9%</td>
+        <td colSpan={2}>IGST 18%</td>
         <td>{igst}</td>
       </tr>
       <tr>

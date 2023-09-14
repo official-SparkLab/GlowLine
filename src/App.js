@@ -42,6 +42,10 @@ import { GoodUsage } from './Product/GoodUsage';
 import PurchaseInvoice from './Invoices/PurchaseInvoice';
 import GeneralLedgerForm from './Ledgers/GeneralLedgerForm';
 import GeneralLedger from './Ledgers/GeneralLedger';
+import { Material_Damage } from './Product/Material_Damage';
+import { Raw_Usage_List } from './UsageReport/Raw_Usage_Report';
+import { Goods_Production_Report } from './UsageReport/Goods_Production_Report';
+import { Damage_material_List } from './UsageReport/Damage_Material_List';
 
 
 function App() {
@@ -58,6 +62,8 @@ function App() {
           <Route path="/productTable" element={<ProductList />} />
           <Route path='rawUsage' element={<RawUsage />} />
           <Route path='goodsUsage' element={<GoodUsage />} />
+          <Route path='materialDamage' element={<Material_Damage/>} />
+
           <Route path="/supplierTable" element={<SupplierTable />} />
           <Route path="/customerTable" element={<CustomerTable />} />
           <Route path="/purchaseTable" element={<PurchaseTable />} />
@@ -105,6 +111,12 @@ function App() {
 
           <Route path="/empPaymentDetailsView/:id" element={<EmployeePaymentView />} />
           <Route path="/productView/:id" element={<ProductView />} />
+
+          <Route path='rawUsageList' element = {<Raw_Usage_List/>}/>
+
+          <Route path='goodsUsageList' element = {<Goods_Production_Report/>}/>
+
+          <Route path='damageList' element = {<Damage_material_List/>}/>
 
 
 
