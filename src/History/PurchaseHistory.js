@@ -214,7 +214,7 @@ function PurchaseHistory() {
                                 Product Name
                               </th>
                               <th style={{ fontWeight: "350" }}>HSN</th>
-                              <th style={{ fontWeight: "350" }}>Quantity</th>
+                              <th style={{ fontWeight: "350" }}>Total Weight</th>
                               <th style={{ fontWeight: "350" }}>Unit/Bag's</th>
                               <th style={{ fontWeight: "350" }}>Rate</th>
                               <th style={{ fontWeight: "350" }}>Amount</th>
@@ -228,7 +228,7 @@ function PurchaseHistory() {
                                   <td style={{width:"20%"}}>{row.prod_name}</td>
                                   {/* Assuming invoice_no is a property of the row object */}
                                   <td>{row.hsn}</td>
-                                  <td>{row.weight}</td>
+                                  <td>{row.total_weight}</td>
                                   <td>{row.qty}</td>
                                   <td>{row.rate}</td>
                                   <td>{row.total}</td>

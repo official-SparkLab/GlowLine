@@ -95,7 +95,7 @@ export const QuatationForm = () => {
     q_prod_id: prodId,
     voucher_no: voucherNo,
     q_date: date,
-    p_id: selectedProductData?.p_id,
+    gp_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     hsn: selectedProductData?.hsn,
     weight,

@@ -65,7 +65,7 @@ function GeneralLedger() {
                 (
                 <tr key={index}>
                 <td>{row.date}</td>
-                <td>{row.cust_name}</td>
+                <td>{row.sales_pay_id}</td>
                 <td>{row.cust_name}</td>
                 <td>{row.invoice_no}</td>
                 <td>{parseFloat(row.total)}</td>

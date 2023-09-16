@@ -121,7 +121,7 @@ export const PurchaseEntryForm = () => {
     p_date: date,
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
-    weight,
+    total_weight:totalWeight,
     qty: quantity,
     rate,
     total,
@@ -475,6 +475,7 @@ export const PurchaseEntryForm = () => {
                         placeholder="Enter Total Weight"
                         className="form-control"
                         value={totalWeight}
+                        onChange={(e)=>setTotalWeight(e.target.value)}
                       />
                     </div>
                   </div>

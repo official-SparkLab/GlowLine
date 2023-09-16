@@ -21,51 +21,78 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 function CustomerHistory() {
+  const currentYear = new Date().getFullYear();
+  const financialYearDate = new Date(currentYear, 3, 2)
+    .toISOString()
+    .split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
-    
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const cust_id = queryParams.get("cust_id");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const cust_id = queryParams.get("cust_id");
 
-    const [customerName, setCustomerName] = useState()
-    const [contact, setContact] = useState()
-    const [email, setEmail] = useState()
-    const [address, setAddress] = useState()
-    const [bankName, setBankName] = useState()
-    const [ifsc, setIFSC] = useState()
-    const[brnach,setBranch] = useState()
-    const [accountNo, setAccountNo] = useState()
-    const [gstin, setgstin] = useState()
+  const [customerName, setCustomerName] = useState();
+  const [contact, setContact] = useState();
+  const [email, setEmail] = useState();
+  const [address, setAddress] = useState();
+  const [bankName, setBankName] = useState();
+  const [ifsc, setIFSC] = useState();
+  const [brnach, setBranch] = useState();
+  const [accountNo, setAccountNo] = useState();
+  const [gstin, setgstin] = useState();
+  const [fromDate, setFromDate] = useState(financialYearDate);
+  const [toDate, setToDate] = useState(today);
 
-    const [tableData, setTableData] = useState([]);
-    useEffect(() => {
-      const getCustomerDetails = async (e) => {
-        const res = await axios.get(`${GlobalService.path}/fetchSaleById/${cust_id}`);
-        console.log(res);
-        setTableData(res.data.data);
-        console.log(tableData);
-      };
-      getCustomerDetails();
-    }, []);
+  const [tableData, setTableData] = useState([]);
 
+  const [totalPurchaseqty, setTotalPurchaseqty] = useState(0);
+  // Counting Total Weight of purchase quantity
+  const handleSubmit = async (e) => {
+    const res = await axios.get(
+      `${GlobalService.path}/fetchPurchaseWeight/${cust_id}/${fromDate}/${toDate}`
+    );
 
-    useEffect(() => {
-        const getCustomerDetails = async (e) => {
-            const res = await axios.get(`${GlobalService.path}/fetchCustomer/${cust_id}`)
-            console.log(res);
-            setCustomerName(res.data.data[0].cust_name);
-            setContact(res.data.data[0].mobile);
-            setgstin(res.data.data[0].gstin);
-            setAddress(res.data.data[0].address);
-            setBankName(res.data.data[0].bank_name);
-            setAccountNo(res.data.data[0].acc_no);
-            setIFSC(res.data.data[0].ifsc);
-            setBranch(res.data.data[0].branch);
-            console.log(tableData);
-        }
-        getCustomerDetails()
-    }, [])
+    setTotalPurchaseqty(res.data.data[0].total);
+  };
 
+  // Handle click button for total purchaseweight
+  const handleClick = () => {
+    handleSubmit();
+  };
+
+  // Getting all Sale Details By customer id
+  useEffect(() => {
+    const getCustomerDetails = async (e) => {
+      const res = await axios.get(
+        `${GlobalService.path}/fetchSaleById/${cust_id}`
+      );
+      console.log(res);
+      setTableData(res.data.data);
+      console.log(tableData);
+    };
+    getCustomerDetails();
+    handleSubmit();
+  }, []);
+
+  // Getting All customer details by cust id
+  useEffect(() => {
+    const getCustomerDetails = async (e) => {
+      const res = await axios.get(
+        `${GlobalService.path}/fetchCustomer/${cust_id}`
+      );
+      console.log(res);
+      setCustomerName(res.data.data[0].cust_name);
+      setContact(res.data.data[0].mobile);
+      setgstin(res.data.data[0].gstin);
+      setAddress(res.data.data[0].address);
+      setBankName(res.data.data[0].bank_name);
+      setAccountNo(res.data.data[0].acc_no);
+      setIFSC(res.data.data[0].ifsc);
+      setBranch(res.data.data[0].branch);
+      console.log(tableData);
+    };
+    getCustomerDetails();
+  }, []);
 
   return (
     <div>
@@ -130,7 +157,7 @@ function CustomerHistory() {
                                 className="profile-label-icon"
                                 style={{ marginRight: "20px" }}
                               />
-                            {contact}
+                              {contact}
                             </p>
                             <p className="profile-item">
                               <FontAwesomeIcon
@@ -151,14 +178,70 @@ function CustomerHistory() {
                               Bank Name : {bankName}
                             </p>
                             <p className="profile-item">
-                              Account Number :  {accountNo}
+                              Account Number : {accountNo}
                             </p>
 
-                           
                             <p className="profile-item">IFSC: {ifsc}</p>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/*Total Order Count Section */}
+                <div className="panel panel-white">
+                  <div className="panel-heading clearfix">
+                    <h4 className="panel-title">Total Purchase Weight</h4>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <label>From</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={fromDate}
+                        onChange={(e) => setFromDate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <label>To</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        value={toDate}
+                        onChange={(e) => setToDate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-md-2">
+                      <label></label>
+                      <br />
+                      <button
+                        className="btn btn-primary"
+                        value="Submit"
+                        onClick={handleClick}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                    <div className="col-md-2">
+                      <label></label>
+                      <br />
+                      <input
+                        type="text"
+                        value={
+                          totalPurchaseqty !== undefined
+                            ? totalPurchaseqty + " Kg"
+                            : 0 + " Kg"
+                        }
+                        style={{
+                          border: "none",
+                          fontFamily: "bold",
+                          textDecoration: "underline",
+                          fontSize: "15px",
+                        }}
+                        readOnly
+                      />
                     </div>
                   </div>
                 </div>
@@ -173,31 +256,33 @@ function CustomerHistory() {
                         <div className="table-container">
                           <table id="example3" className="display table">
                             <thead className="sticky-header">
-                            <tr>
-                            <th>Sr. No.</th>
-                            <th>Invoice No</th>
-                            <th>Date</th>
-                            <th>Customer Name </th>
-                            
-                            <th>Total Amount </th>
-                            <th>Action</th>
-                          </tr>
+                              <tr>
+                                <th>Sr. No.</th>
+                                <th>Invoice No</th>
+                                <th>Date</th>
+                                <th>Customer Name </th>
+
+                                <th>Total Amount </th>
+                                <th>Action</th>
+                              </tr>
                             </thead>
                             <tbody>
-                            {tableData && tableData?.length > 0 ? (
+                              {tableData && tableData?.length > 0 ? (
                                 tableData.map((row, index) => (
                                   <tr>
                                     <td>{index + 1}</td>
                                     <td>{row.invoice_no}</td>
                                     <td>{row.date}</td>
-                                    <td style={{width:"20%"}}>{customerName}</td>
+                                    <td style={{ width: "20%" }}>
+                                      {customerName}
+                                    </td>
                                     <td>{row.total}</td>
-          
+
                                     <td>
                                       <a
                                         className="me-3"
                                         href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
-                                        style={{cursor:"pointer"}}
+                                        style={{ cursor: "pointer" }}
                                       >
                                         <img
                                           src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"

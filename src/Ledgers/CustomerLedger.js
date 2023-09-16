@@ -119,7 +119,7 @@ function CustomerLedger() {
                   (
                   <tr key={index}>
                     <td>{row.date}</td>
-                    <td>Sales Outside</td>
+                    <td>{row.sales_pay_id}</td>
                     <td>{row.cust_name}</td>
                     <td>{row.invoice_no}</td>
                     <td>{row.total?parseFloat(row.total):0}</td>

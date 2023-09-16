@@ -156,7 +156,7 @@ export const PurchaseTable = () => {
                           <td>
                           <a
                           className="me-3"
-                          href={`/purchaseHistory?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}`}
+                          href={`/purchaseHistory?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
                           style={{cursor:"pointer"}}
                         >
                           <img
