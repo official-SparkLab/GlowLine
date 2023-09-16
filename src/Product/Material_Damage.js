@@ -14,7 +14,7 @@ export const Material_Damage = () => {
   const [date, setDate] = useState(today);
 
   const [HDNCode, setHDNCode] = useState();
-  const [quantity, setQuantity] = useState(0);
+  const [totalweight, setTotalWeight] = useState(0);
   const[type,setType] = useState("");
 
   const [productData, setProductData] = useState();
@@ -52,11 +52,11 @@ export const Material_Damage = () => {
     return data.prod_name;
   });
   let productDetails = {
-    prod_id: selectedProductData?.p_id,
+    p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     date,
     hsn: selectedProductData?.hsn,
-    qty: quantity,
+    total_weight: totalweight,
     type,
   };
 
@@ -71,7 +71,7 @@ export const Material_Damage = () => {
       );
       alert("Product added successfully");
       setProdId();
-      setQuantity(0);
+      setTotalWeight(0);
       setType("");
     } catch (error) {
       alert("Failed to add product");
@@ -167,15 +167,15 @@ export const Material_Damage = () => {
                         </div>
                         <div className="col-sm-6">
                         <div className="form-group">
-                          <label>Qty/Unit</label>
+                          <label>Total Weight</label>
                           <input
                             type="number"
                             id="date"
                             name="date"
                             placeholder="Enter Qty"
                             className="form-control"
-                            value={quantity}
-                            onChange={(e)=>setQuantity(e.target.value)}
+                            value={totalweight}
+                            onChange={(e)=>setTotalWeight(e.target.value)}
                           />
                         </div>
                       </div>

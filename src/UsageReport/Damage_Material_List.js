@@ -135,7 +135,7 @@ export const Damage_material_List = () => {
                                         <th>Sr. No.</th>
                                         <th>Product Name</th>
                                         <th>HSN</th>
-                                        <th>Quantity</th>
+                                        <th>Total Weight</th>
                                         <th>Type</th>
                                         <th>Action</th>
                                     </tr>
@@ -149,7 +149,7 @@ export const Damage_material_List = () => {
                                                 <td>{index + 1}</td>
                                                 <td style={{width:"20%"}}>{row.prod_name}</td>
                                                 <td>{row.hsn}</td>
-                                                <td>{row.qty}</td>
+                                                <td>{row.total_weight}</td>
                                                 <td>{row.type}</td>
                                                 <td>
                                                 

@@ -126,7 +126,7 @@ export const SaleEntryForm = () => {
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     hsn: selectedProductData?.hsn,
-    weight,
+    total_weight:totalWeight,
     qty: quantity,
     rate,
     total,
@@ -266,7 +266,7 @@ export const SaleEntryForm = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h2 className="modal-title" id="myModalLabel">
-                  Purchase Details
+                  Sale Details
                 </h2>
               </div>
               <hr />
@@ -471,6 +471,7 @@ export const SaleEntryForm = () => {
                         placeholder="Enter Total Weight"
                         className="form-control"
                         value={totalWeight}
+                        onChange={(e)=>setTotalWeight(e.target.value)}
                       />
                     </div>
                   </div>

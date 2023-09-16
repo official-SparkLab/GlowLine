@@ -249,7 +249,7 @@ function SaleInvoice() {
                     <td>{row.prod_name}</td>{" "}
                     {/* Assuming invoice_no is a property of the row object */}
                     <td>{row.hsn}</td>
-                    <td>{row.weight}</td>
+                    <td>{row.total_weight}</td>
                     <td>{row.qty}</td>
                     <td>{row.rate}</td>
                     <td>{row.total}</td>

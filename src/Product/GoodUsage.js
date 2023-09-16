@@ -67,12 +67,11 @@ export const GoodUsage = () => {
     return data.prod_name;
   });
   let productDetails = {
-    prod_id: selectedProductData?.p_id,
+    p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
     date,
     hsn: selectedProductData?.hsn,
     qty: quantity,
-    weight,
     total_weight: totalWeight,
     type,
   };

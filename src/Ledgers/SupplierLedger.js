@@ -121,7 +121,7 @@ function SupplierLedger() {
                     (
                   <tr key={index}>
                     <td>{row.date}</td>
-                    <td>Sales Inside</td>
+                    <td>{row.pur_pay_id}</td>
                     <td>{row.sup_name}</td>
                     <td>{row.invoice_no}</td>
                     <td>{row.total?parseFloat(row.total):0}</td>
