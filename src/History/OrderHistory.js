@@ -28,20 +28,18 @@ function OrderHistory() {
   const invoice_no = queryParams.get("invoice_no");
   const date = queryParams.get("date");
 
-
   const [customerName, setCustomerName] = useState();
   const [contact, setContact] = useState();
   const [address, setAddress] = useState();
   const [gstin, setgstin] = useState();
 
-  const[trans_amt,setTransAmt] = useState();
-  const[hamali,setHamali] = useState();
+  const [trans_amt, setTransAmt] = useState();
+  const [hamali, setHamali] = useState();
   const [total, setotal] = useState(0);
   const [sub_total, setSubtotal] = useState();
   const [cgst, setCgst] = useState("");
   const [sgst, setSgst] = useState("");
   const [igst, setIgst] = useState("");
-
 
   const [tableData, setTableData] = useState("");
 
@@ -50,13 +48,14 @@ function OrderHistory() {
       try {
         const [invoiceRes, invoiceProd, custRes] = await Promise.all([
           axios.get(`${GlobalService.path}/fetchSale/${date}/${invoice_no}`),
-          axios.get(`${GlobalService.path}/fetchSProduct/${date}/${invoice_no}`),
+          axios.get(
+            `${GlobalService.path}/fetchSProduct/${date}/${invoice_no}`
+          ),
           axios.get(`${GlobalService.path}/fetchCustomer/${cust_id}`),
         ]);
 
-
-         // Invoice Product Details
-         setTableData(invoiceProd.data.data);
+        // Invoice Product Details
+        setTableData(invoiceProd.data.data);
 
         // Customer Details
         setCustomerName(custRes.data.data[0].cust_name);
@@ -65,16 +64,13 @@ function OrderHistory() {
         setAddress(custRes.data.data[0].address);
 
         // Invoice Details
-       setTransAmt(invoiceRes.data.data.trans_amt);
-       setHamali(invoiceRes.data.data.hamali);
+        setTransAmt(invoiceRes.data.data.trans_amt);
+        setHamali(invoiceRes.data.data.hamali);
         setotal(invoiceRes.data.data.total);
         setSubtotal(invoiceRes.data.data.sub_total);
         setCgst(invoiceRes.data.data.cgst_amt);
         setSgst(invoiceRes.data.data.sgat_amt);
         setIgst(invoiceRes.data.data.igst_amt);
-        
-
-       
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -207,36 +203,42 @@ function OrderHistory() {
                           </div>
                         </div>
                         <div className="table-container">
-                        <table className="display table">
-                          <thead className="sticky-header">
-                            <tr>
-                              <th style={{ fontWeight: "350" }}>Sr. No</th>
-                              <th style={{ fontWeight: "350" }}>
-                                Product Name
-                              </th>
-                              <th style={{ fontWeight: "350" }}>HSN</th>
-                              <th style={{ fontWeight: "350" }}>Total Weight</th>
-                              <th style={{ fontWeight: "350" }}>Unit/Bag's</th>
-                              <th style={{ fontWeight: "350" }}>Rate</th>
-                              <th style={{ fontWeight: "350" }}>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {Array.isArray(tableData) &&
-                              tableData.map((row, index) => (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td style={{width:"20%"}}>{row.prod_name}</td>
-                                  {/* Assuming invoice_no is a property of the row object */}
-                                  <td>{row.hsn}</td>
-                                  <td>{row.total_weight}</td>
-                                  <td>{row.qty}</td>
-                                  <td>{row.rate}</td>
-                                  <td>{row.total}</td>
-                                </tr>
-                              ))}
-                          </tbody>
-                        </table>
+                          <table className="display table">
+                            <thead className="sticky-header">
+                              <tr>
+                                <th style={{ fontWeight: "350" }}>Sr. No</th>
+                                <th style={{ fontWeight: "350" }}>
+                                  Product Name
+                                </th>
+                                <th style={{ fontWeight: "350" }}>HSN</th>
+                                <th style={{ fontWeight: "350" }}>
+                                  Total Weight
+                                </th>
+                                <th style={{ fontWeight: "350" }}>
+                                  Unit/Bag's
+                                </th>
+                                <th style={{ fontWeight: "350" }}>Rate</th>
+                                <th style={{ fontWeight: "350" }}>Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {Array.isArray(tableData) &&
+                                tableData.map((row, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td style={{ width: "20%" }}>
+                                      {row.prod_name}
+                                    </td>
+                                    {/* Assuming invoice_no is a property of the row object */}
+                                    <td>{row.hsn}</td>
+                                    <td>{row.total_weight}</td>
+                                    <td>{row.qty}</td>
+                                    <td>{row.rate}</td>
+                                    <td>{row.total}</td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                       <hr />
@@ -249,7 +251,6 @@ function OrderHistory() {
 
                         <div className="profile-details">
                           <div className="row">
-                          
                             <div className="col col-sm-2">
                               <p
                                 className="profile-item"
@@ -257,7 +258,9 @@ function OrderHistory() {
                               >
                                 Sub Total
                               </p>
-                              <p className="profile-item">{sub_total ? sub_total : 0}</p>
+                              <p className="profile-item">
+                                {sub_total ? sub_total : 0}
+                              </p>
                             </div>
                             <div className="col col-sm-2">
                               <p
@@ -278,15 +281,16 @@ function OrderHistory() {
                                 Transport Amount
                               </p>
                               <p className="profile-item">{trans_amt}</p>
-                            </div><div className="col col-sm-2">
-                            <p
-                              className="profile-item"
-                              style={{ fontWeight: "350" }}
-                            >
-                              Other Amount
-                            </p>
-                            <p className="profile-item">{hamali}</p>
-                          </div>
+                            </div>
+                            <div className="col col-sm-2">
+                              <p
+                                className="profile-item"
+                                style={{ fontWeight: "350" }}
+                              >
+                                Other Amount
+                              </p>
+                              <p className="profile-item">{hamali}</p>
+                            </div>
                             <div className="col col-sm-2">
                               <p
                                 className="profile-item"
@@ -296,10 +300,7 @@ function OrderHistory() {
                               </p>
                               <p className="profile-item">{total}</p>
                             </div>
-                            <div className="col col-sm-1">
-                             
-                            </div>
-                           
+                            <div className="col col-sm-1"></div>
                           </div>
                         </div>
                       </div>

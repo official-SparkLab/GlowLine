@@ -151,7 +151,7 @@ export const SaleEntryTable = () => {
                           <td>
                           <a
                           className="me-3"
-                          href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}`}
+                          href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                           style={{cursor:"pointer"}}
                         >
                           <img
