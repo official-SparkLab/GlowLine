@@ -1,7 +1,11 @@
 import React from "react";
-
+import {useAuth} from "././Utils/AuthContext"
 function SideBar() {
 
+  const username = localStorage.getItem('username');
+  const isloggedIn = localStorage.getItem("isLoggedIn");
+
+  const {handleLogout} = useAuth();
 
   return (
     <div>
@@ -20,6 +24,29 @@ function SideBar() {
               <span>Dashboard</span>
             </a>
           </li>
+          {/*Create User */}
+
+          {username==="admin" &&( <li>
+            <a href="">
+            <i className="menu-icon fa fa-address-book" />
+              <span>User Profile</span>
+              <i className="accordion-icon fa fa-angle-left" />
+            </a>
+            <ul className="sub-menu">
+              <li>
+                <a href="/users">Users</a>
+              </li>
+            </ul>
+          </li>)}
+              {/* Logged out */}
+          {isloggedIn==="true" &&( <li>
+            <a onClick={()=>handleLogout()} style={{cursor:"pointer"}}>
+            <i className="menu-icon fa fa-sign-out" />
+              <span>Logout</span>
+              <i className="accordion-icon fa fa-angle-left" />
+            </a>
+          </li>)}
+
           <hr style={{ width: "80%" }} />
           <li>
             <a href="javascript:void(0)">

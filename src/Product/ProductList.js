@@ -168,9 +168,7 @@ export const ProductList = () => {
                                                 <td>{row.hsn}</td>
                                                 <td>{row.type}</td>
                                                 <td>
-                                                    <Link className="me-3" to={`/productView/${row.p_id}`}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </Link>
+                                                    
                                                     <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Link>

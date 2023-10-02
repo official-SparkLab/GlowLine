@@ -146,8 +146,8 @@ export const CustomerTable = () => {
                                         <th>Sr. No.</th>
                                         <th>Customer Name</th>
                                         <th>Contact</th>
-                                        <th>Email </th>
-                                        <th>Country</th>
+                                        <th>GSTIN </th>
+                                        <th>Address</th>
                                         <th>Action</th>
                                     </tr>
 
@@ -159,10 +159,10 @@ export const CustomerTable = () => {
                                             <tr>
                                                
                                                 <td>{index + 1}</td>
-                                                <td>{row.cust_name}</td>
+                                                <td style={{width:"20%"}}>{row.cust_name}</td>
                                                 <td>{row.mobile}</td>
-                                                <td>{row.email}</td>
-                                                <td>{row.country}</td>
+                                                <td>{row.gstin}</td>
+                                                <td style={{width:"20%"}}>{row.address}</td>
                                                 <td>
                                                     <a className="me-3" href={`/customerHistory?cust_id=${row.cust_id}`}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
