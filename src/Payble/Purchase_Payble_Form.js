@@ -6,6 +6,7 @@ import axios from "axios";
 
 export const Purchase_Payble_Form = ({ row }) => {
   const today = new Date().toISOString().split("T")[0];
+  const[pur_pay_id,setPur_pay_id] = useState();
   const [SupplierName, setSupplierName] = useState();
   const [contact, setContact] = useState();
   const [GSTIN, setGSTIN] = useState();
@@ -71,6 +72,21 @@ export const Purchase_Payble_Form = ({ row }) => {
   }, [SupplierName]);
 
   
+  useEffect(() => {
+    if (row != undefined) {
+      setPur_pay_id(row.pur_pay_id);
+      setSupId(row.sup_id);
+      setDate(row.date);
+      setContact(row.mobile_no);
+      setSupplierName(row.sup_name);
+      setGSTIN(row.gstin);
+      setAvailable_bal(row.available_bal);
+      setPendingAmt(row.pending_amt);
+      setPaid_amount(row.paid_amount);
+      setPaymentMode(row.payment_mode);
+      setTrx_no(row.trx_no);
+    }
+  }, []);
   
 
   // All Supplier Names
@@ -94,18 +110,34 @@ let payableDetails = {
 
 const addPurchasePayble = async (e) => {
   e.preventDefault();
- 
-  try {
-    const res = await axios.post(
-      `${GlobalService.path}/addPurchasePayable`,
-      payableDetails
-    );
-    alert("Purchase Payble Details added successfully");
-    window.location.reload();
-    console.log(res);
-  } catch (error) {
-    console.log(error);
+  if (row == undefined) {
+    try {
+      const res = await axios.post(
+        `${GlobalService.path}/addPurchasePayable`,
+        payableDetails
+      );
+      alert("Purchase Payble Details added successfully");
+      window.location.reload();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    try {
+      const res = await axios.put(
+        `${GlobalService.path}/addPurchasePayable/${pur_pay_id}`,
+        payableDetails
+      );
+      console.log(res);
+      alert("Purchase Payble details updated successfully");
+      window.location.reload();
+    } catch (error) {
+      alert("Failed to update bank details");
+
+      console.log(error);
+    }
   }
+ 
 };
 
 
@@ -138,7 +170,7 @@ const addPurchasePayble = async (e) => {
                       value={SupplierName} // Set the value prop to control the selected value
                       onChange={handleAutocompleteChange}
                       renderInput={(params) => (
-                        <TextField {...params} label="Supplier Name" />
+                        <TextField {...params} label={SupplierName ? SupplierName : "Supplier Name" }/>
                       )}
                     />
                   </div>

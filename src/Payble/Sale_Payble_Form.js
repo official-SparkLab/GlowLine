@@ -13,10 +13,11 @@ export const Sale_Payble_Form = ({ row }) => {
   const [custId, setCustId] = useState();
   const [tableData, setTableData] = useState();
   const [pendingAmt, setPendingAmt] = useState(0);
-  const[paid_amount,setPaid_amount] = useState(0);
-  let [available_bal,setAvailable_bal] = useState(null);
-  const[payment_mode,setPaymentMode] = useState("Select");
-  const[trx_no,setTrx_no] = useState("");
+  const [paid_amount, setPaid_amount] = useState(0);
+  let [available_bal, setAvailable_bal] = useState(null);
+  const [payment_mode, setPaymentMode] = useState("Select");
+  const [trx_no, setTrx_no] = useState("");
+  const[sales_pay_id,setSales_pay_id] = useState();
 
   // Autocomplete for SUpplier Name
   const handleAutocompleteChange = (event, newValue) => {
@@ -69,45 +70,72 @@ export const Sale_Payble_Form = ({ row }) => {
     getSupplierDetails();
   }, [customer_name]);
 
-  
-  
+  useEffect(() => {
+    if (row != undefined) {
+      setSales_pay_id(row.sale_pay_id);
+      setCustId(row.cust_id);
+      setDate(row.date);
+      setContact(row.mobile);
+      setCustomerName(row.cust_name);
+      setGSTIN(row.gstin);
+      setAvailable_bal(row.available_bal);
+      setPendingAmt(row.pending_amt);
+      setPaid_amount(row.paid_amount);
+      setPaymentMode(row.payment_mode);
+      setTrx_no(row.trx_no);
+    }
+  }, []);
+
 
   // All Customer Names
   let custname = tableData?.map((data) => {
     return data.cust_name;
   });
 
-// Add Purchase Details
-let payableDetails = {
-  cust_id:custId,
-  cust_name:customer_name,
-  date,
-  mobile:contact,
-  gstin:GSTIN,
-  pending_amt:pendingAmt,
-  paid_amount:paid_amount,
-  available_bal:available_bal,
-  payment_mode:payment_mode,
-  trx_no:trx_no
-};
+  // Add Purchase Details
+  let payableDetails = {
+    cust_id: custId,
+    cust_name: customer_name,
+    date,
+    mobile: contact,
+    gstin: GSTIN,
+    pending_amt: pendingAmt,
+    paid_amount: paid_amount,
+    available_bal: available_bal,
+    payment_mode: payment_mode,
+    trx_no: trx_no,
+  };
 
-const addSalePayble = async (e) => {
-  e.preventDefault();
- 
-  try {
-    const res = await axios.post(
-      `${GlobalService.path}/addSalePayable`,
-      payableDetails
-    );
-    alert("Sale Payble Details added successfully");
-    window.location.reload();
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  const addSalePayble = async (e) => {
+    e.preventDefault();
+    if (row == undefined) {
+      try {
+        const res = await axios.post(
+          `${GlobalService.path}/addSalePayable`,
+          payableDetails
+        );
+        alert("Sale Payble Details added successfully");
+        window.location.reload();
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const res = await axios.put(
+          `${GlobalService.path}/addSalePayable/${sales_pay_id}`,
+          payableDetails
+        );
+        console.log(res);
+        alert("Sale Payble details updated successfully");
+        window.location.reload();
+      } catch (error) {
+        alert("Failed to update bank details");
 
-
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className="Main-Wrapper">
@@ -137,7 +165,12 @@ const addSalePayble = async (e) => {
                       value={customer_name} // Set the value prop to control the selected value
                       onChange={handleAutocompleteChange}
                       renderInput={(params) => (
-                        <TextField {...params} label="Customer Name" />
+                        <TextField
+                          {...params}
+                          label={
+                            customer_name ? customer_name : "Customer Name"
+                          }
+                        />
                       )}
                     />
                   </div>
@@ -201,96 +234,96 @@ const addSalePayble = async (e) => {
                 Billing Details
               </h4>
             </div>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-sm-4">
-                    <div className="form-group">
-                      <label>Pending Amount</label>
-                      <input
-                        type="number"
-                        id="p_amt"
-                        className="form-control"
-                        placeholder={0}
-                        onkeypress="javascript : return isFloat(event)"
-                        required=""
-                        value={pendingAmt}
-                        onChange={(e) => setPendingAmt(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-4">
-                    <div className="form-group">
-                      <label>Paid Amount</label>
-                      <input
-                        type="number"
-                        id="paid_amt"
-                        name="paid_amt"
-                        onkeyup="cal1();"
-                        className="form-control"
-                        placeholder={0}
-                        onkeypress="javascript : return isFloat(event)"
-                        required=""
-                        value={paid_amount}
-                        onChange={(e) => {
-                          setPaid_amount(e.target.value);
-                          setAvailable_bal(pendingAmt - e.target.value);
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-sm-4">
-                    <div className="form-group">
-                      <label>Available Balance</label>
-                      <input
-                        type="number"
-                        id="balance"
-                        className="form-control"
-                        placeholder="0"
-                        required=""
-                        readOnly
-                        value={available_bal }
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
+            <div className="modal-body">
+              <div className="row">
                 <div className="col-sm-4">
-                <div className="form-group">
-                  <label>Payment mode</label>
-                  <select
-                    name="pmode"
-                    id="pmode"
-                    className="form-control"
-                    value={payment_mode} // Set the value attribute to the selectedValue state
-                    onChange={handleChange}
-                  >
-                    <option value="Select">Select</option>
-                    <option value="URD">URD</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Cheque">Cheque</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Online">Online</option>
-                  </select>
+                  <div className="form-group">
+                    <label>Pending Amount</label>
+                    <input
+                      type="number"
+                      id="p_amt"
+                      className="form-control"
+                      placeholder={0}
+                      onkeypress="javascript : return isFloat(event)"
+                      required=""
+                      value={pendingAmt}
+                      onChange={(e) => setPendingAmt(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
-                  <div className="col-sm-4">
-                    <div className="form-group">
-                      <label>Trx.no</label>
-                      <input
-                        type="text"
-                        id="tr_no"
-                        name="tr_no"
-                        className="form-control"
-                        placeholder="trx. No"
-                        onkeypress="javascript : return isAlphanumric(event)"
-                        required=""
-                        value={trx_no}
-                        onChange={(e)=>setTrx_no(e.target.value)}
-                      />
-                    </div>
+                <div className="col-sm-4">
+                  <div className="form-group">
+                    <label>Paid Amount</label>
+                    <input
+                      type="number"
+                      id="paid_amt"
+                      name="paid_amt"
+                      onkeyup="cal1();"
+                      className="form-control"
+                      placeholder={0}
+                      onkeypress="javascript : return isFloat(event)"
+                      required=""
+                      value={paid_amount}
+                      onChange={(e) => {
+                        setPaid_amount(e.target.value);
+                        setAvailable_bal(pendingAmt - e.target.value);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-sm-4">
+                  <div className="form-group">
+                    <label>Available Balance</label>
+                    <input
+                      type="number"
+                      id="balance"
+                      className="form-control"
+                      placeholder="0"
+                      required=""
+                      readOnly
+                      value={available_bal}
+                    />
                   </div>
                 </div>
               </div>
+              <div className="row">
+                <div className="col-sm-4">
+                  <div className="form-group">
+                    <label>Payment mode</label>
+                    <select
+                      name="pmode"
+                      id="pmode"
+                      className="form-control"
+                      value={payment_mode} // Set the value attribute to the selectedValue state
+                      onChange={handleChange}
+                    >
+                      <option value="Select">Select</option>
+                      <option value="URD">URD</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Cheque">Cheque</option>
+                      <option value="Bank Transfer">Bank Transfer</option>
+                      <option value="Online">Online</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="col-sm-4">
+                  <div className="form-group">
+                    <label>Trx.no</label>
+                    <input
+                      type="text"
+                      id="tr_no"
+                      name="tr_no"
+                      className="form-control"
+                      placeholder="trx. No"
+                      onkeypress="javascript : return isAlphanumric(event)"
+                      required=""
+                      value={trx_no}
+                      onChange={(e) => setTrx_no(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="modal-footer">
               <button
                 type="submit"
