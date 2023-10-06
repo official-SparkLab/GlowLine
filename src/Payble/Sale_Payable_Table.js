@@ -37,6 +37,8 @@ export const Sale_Payable_Table = () => {
         getExpenseDetails()
     }, [])
 
+    
+
     const [searchQuery, setSearchQuery] = useState("");
 
 
@@ -167,7 +169,9 @@ export const Sale_Payable_Table = () => {
                                                 <td>{row.paid_amount}</td>
                                                 <td>{row.available_bal}</td>
                                                 <td>
-
+                                                <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
+                                                <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
+                                            </Link>
                                                     <a className="confirm-text"  style={{marginLeft:"10px"}} onClick={() => deleteItem(row.sale_pay_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
                                                     </a>
