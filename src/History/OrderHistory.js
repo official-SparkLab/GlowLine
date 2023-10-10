@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
+import UpdateSale from "../Sale-Entry/UpdateSale";
 function OrderHistory() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -78,6 +79,11 @@ function OrderHistory() {
 
     fetchData();
   }, []);
+
+  const [showUpdate, setShowUpdate] = useState(false);
+  const updateData = () => {
+    setShowUpdate(true);
+  };
 
   return (
     <div>
@@ -192,6 +198,7 @@ function OrderHistory() {
                               data-toggle="modal"
                               data-target="#updateOrder"
                               style={{ marginTop: "5px" }}
+                              onClick={updateData}
                             >
                               Edit Order
                               <FontAwesomeIcon
@@ -200,6 +207,7 @@ function OrderHistory() {
                                 style={{ marginLeft: "5px" }}
                               />
                             </button>
+                            {showUpdate && <UpdateSale/>}
                           </div>
                         </div>
                         <div className="table-container">
