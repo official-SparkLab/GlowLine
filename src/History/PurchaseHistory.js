@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
+import UpdatePurchase from "../Purchase-Entry/UpdatePurchase";
 function PurchaseHistory() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -42,6 +43,10 @@ function PurchaseHistory() {
   const [sgst, setSgst] = useState("");
   const [igst, setIgst] = useState("");
 
+  const [showUpdate, setShowUpdate] = useState(false);
+  const updateData = () => {
+    setShowUpdate(true);
+  };
 
   const [tableData, setTableData] = useState("");
 
@@ -50,7 +55,7 @@ function PurchaseHistory() {
       try {
         const [invoiceRes, invoiceProd, custRes] = await Promise.all([
           axios.get(`${GlobalService.path}/fetchPurchase/${date}/${invoice_no}`),
-          axios.get(`${GlobalService.path}/fetchPProduct/${invoice_no}`),
+          axios.get(`${GlobalService.path}/fetchPProduct/${date}/${invoice_no}`),
           axios.get(`${GlobalService.path}/fetchSupplier/${sup_id}`),
         ]);
 
@@ -195,6 +200,7 @@ function PurchaseHistory() {
                               data-toggle="modal"
                               data-target="#updateOrder"
                               style={{ marginTop: "5px" }}
+                              onClick={updateData}
                             >
                               Edit Order
                               <FontAwesomeIcon
@@ -203,6 +209,7 @@ function PurchaseHistory() {
                                 style={{ marginLeft: "5px" }}
                               />
                             </button>
+                            {showUpdate && <UpdatePurchase/>}
                           </div>
                         </div>
                         <div className="table-container">

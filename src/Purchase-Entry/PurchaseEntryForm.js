@@ -146,7 +146,7 @@ export const PurchaseEntryForm = () => {
       setProdId(prodId + 1);
 
       const getProdTableData = await axios.get(
-        `${GlobalService.path}/fetchPurchaseProduct/${date}/${invoiceNumber}`
+        `${GlobalService.path}/fetchPProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
       console.log(getProdTableData.data.data);
@@ -205,7 +205,7 @@ export const PurchaseEntryForm = () => {
       if (response.status == 200) {
         alert("Product Deleted Success");
         const deletedProduct = itemsToShow.find(
-          (product) => product.p_id === id
+          (product) => product.row_p_id === id
         );
         console.log(deletedProduct);
         // Calculate the new subtotal by subtracting the deleted product's total from the current subtotal
@@ -213,7 +213,7 @@ export const PurchaseEntryForm = () => {
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.p_id !== id)
+          itemsToShow.filter((product) => product.row_p_id !== id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -549,7 +549,7 @@ export const PurchaseEntryForm = () => {
                             <td>
                               <a
                                 className="confirm-text"
-                                onClick={() => deleteItem(row.p_id)}
+                                onClick={() => deleteItem(row.row_p_id)}
                               >
                                 <img
                                   src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
