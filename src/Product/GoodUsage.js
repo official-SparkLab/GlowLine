@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
-import { Autocomplete, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Autocomplete,  TextField } from "@mui/material";
 import SideBar from "../SideBar";
 import Header from "../header";
 
 export const GoodUsage = () => {
   const today = new Date().toISOString().split("T")[0];
-
-  const [prod_id, setProdId] = useState();
   const [prodName, setProdName] = useState();
   const [date, setDate] = useState(today);
 
@@ -36,18 +33,17 @@ export const GoodUsage = () => {
 
       if (prodName != undefined || prodName != null) {
         const filteredData = productData?.filter(
-          (row) => row.prod_name === prodName
+          (row) => row.prod_name == prodName
         );
         setSelectedProductData(filteredData[0]);
         console.log("prod_name=", filteredData);
         setHDNCode(filteredData[0]?.hsn);
-        setProdId(filteredData[0]?.p_id);
         setType(filteredData[0]?.type);
       }
     };
 
     getProductDetails();
-  }, [prodName]);
+  }, [prodName,productData]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = e.target.value;
@@ -78,15 +74,14 @@ export const GoodUsage = () => {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-    console.log(productDetails);
 
     try {
       const res = await axios.post(
         `${GlobalService.path}/addGoodsUsage`,
         productDetails
       );
+      console.log(res);
       alert("Product added successfully");
-      setProdId();
       setQuantity(0);
       setWeight(0);
       setTotalWeight(0);

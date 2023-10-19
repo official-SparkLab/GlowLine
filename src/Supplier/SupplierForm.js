@@ -50,7 +50,7 @@ export const SupplierForm = ({ row }) => {
             setAccountNo(row.acc_no)
             setDescription(row.description)
         }
-    },[])
+},[row])
 
     const submitSupplierDetails = async (e) => {
         e.preventDefault()

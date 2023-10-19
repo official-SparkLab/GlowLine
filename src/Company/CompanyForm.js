@@ -34,7 +34,7 @@ export const CompanyForm = ({row}) => {
             setGST(row.gst)
             setCompanyCode(row.company_code)
         }
-    },[])
+    },[row])
 
     const submitCompanyDetails = async (e) => {
         e.preventDefault()
@@ -122,7 +122,7 @@ export const CompanyForm = ({row}) => {
                                                 name="entryName"
                                                 className="form-control"
                                                 placeholder="Enter Email"
-                                                required=""
+                                                
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
 

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 
 export const CashBookForm = ({ row }) => {
-    console.log({ row });
     const today = new Date().toISOString().split("T")[0];
 
     const [entryName, setEntryName] = useState();
@@ -31,7 +30,7 @@ export const CashBookForm = ({ row }) => {
             setPaidBy(row.paid_by)
             setNote(row.note)
         }
-    },[])
+    },[row])
 
     const submitCashBook = async (e) => {
         console.log('u r in submit');
@@ -164,7 +163,7 @@ export const CashBookForm = ({ row }) => {
                                                 id="sup_address"
                                                 className="form-control"
                                                 placeholder="Enter Note"
-                                                required=""
+                                               
                                                 value={note}
                                                 onChange={(e) => setNote(e.target.value)}
                                             />

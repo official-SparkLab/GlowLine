@@ -108,7 +108,6 @@ function Users() {
 
   //fetch User 
   const [tableData,setTableData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -117,12 +116,10 @@ function Users() {
         const data = await response.json();
         // Filter out records with status not equal to 1
         setTableData(data.data);
-        setIsLoading(false);
         
       } catch (error) {
         console.error(error);
       } finally {
-        setIsLoading(false);
       }
     };
 

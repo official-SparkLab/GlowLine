@@ -11,34 +11,20 @@ export const DashboardStructure = () => {
 
 
   useEffect(() => {
-    const getCompanyDetails = async (e) => {
-        const res = await axios.get(`${GlobalService.path}/goodsStock`)
-        console.log(res.data.data);
-        setTableData(res.data.data)
-        console.log(tableData);
-    }
-    getCompanyDetails()
-}, [])
-
-useEffect(() => {
-  const getCompanyDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/retailStock`)
-      console.log(res.data.data);
-      setTableData1(res.data.data)
-      console.log(tableData);
-  }
-  getCompanyDetails()
-}, [])
-
-useEffect(() => {
-  const getCompanyDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/rawStock`)
-      console.log(res.data.data);
-      setTableData2(res.data.data)
-      console.log(tableData);
-  }
-  getCompanyDetails()
-}, [])
+    const fetchData = async () => {
+      const res1 = await axios.get(`${GlobalService.path}/goodsStock`);
+      setTableData(res1.data.data);
+  
+      const res2 = await axios.get(`${GlobalService.path}/retailStock`);
+      setTableData1(res2.data.data);
+  
+      const res3 = await axios.get(`${GlobalService.path}/rawStock`);
+      setTableData2(res3.data.data);
+    };
+  
+    fetchData();
+  }, []);
+  
 
   return (
     <>

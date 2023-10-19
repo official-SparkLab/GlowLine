@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
 import Modal from "../Modal/Modal";
 import SideBar from "../SideBar";
 import Header from "../header";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import ExportToExcel from "../ExportToExcel";
 import { QuatationForm } from "./QuatationForm";
+import { Button } from "@mui/material";
 
 export const QuatationTable = () => {
   const [open, setOpen] = useState(false);
@@ -25,9 +24,8 @@ export const QuatationTable = () => {
   useEffect(() => {
     const getCustomerDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchQuatation`);
-     
+
       setTableData(res.data.data.reverse());
-    
     };
     getCustomerDetails();
   }, []);
@@ -61,28 +59,23 @@ export const QuatationTable = () => {
   const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
   const totalPageRange = 2; // Number of pages to display
-  const pageCount = Math.ceil(allItems?.length / itemsPerPage);
 
-  const pageRange = () => {
-    if (pageCount <= totalPageRange) {
-      return Array.from({ length: pageCount }, (_, i) => i + 1);
-    } else {
-      const halfRange = Math.floor((totalPageRange - 3) / 2);
-      const startPages = [1, 2, 3];
-      const endPages = [pageCount - 2, pageCount - 1, pageCount];
 
-      return [
-        ...startPages,
-        "...",
-        ...Array.from(
-          { length: totalPageRange - 6 },
-          (_, i) => i + currentPage - halfRange
-        ),
-        "...",
-        ...endPages,
-      ];
+  const deleteItem = async (q_id) => {
+    try {
+      const response = await axios.put(
+        `${GlobalService.path}/deleteQuatation/${q_id}`
+      );
+      if (response.status === 200) {
+        alert("Deleted quatation Details");
+        window.location.reload();
+      } else alert("Failed to Delete");
+    } catch (error) {
+      alert("Failed to delete record");
+      console.error("Error deleting item:", error);
     }
   };
+
   return (
     <>
       <div className="page-container">
@@ -149,14 +142,16 @@ export const QuatationTable = () => {
                           <td>{row.total}</td>
 
                           <td>
+                          <Button className="confirm-text" style={{marginLeft:"10px"}} onClick={()=>deleteItem(row.q_id)}>
+                          <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
+                      </Button>
                             <a
-                              type="submit"
                               id="btnprint"
                               className="btn-danger btn-sm"
                               title="Invoice"
                               aria-hidden="true"
-                              style={{marginLeft:"10px",cursor:"pointer"}}
-                              onClick={()=>window.location.href = `/quatationInvoice?voucher_no=${row.voucher_no}`}
+                              style={{ marginLeft: "10px", cursor: "pointer" }}
+                              href={`/quatationInvoice?voucher_no=${row.voucher_no}`}
                             >
                               <i className="fa fa-print" />
                             </a>

@@ -21,7 +21,6 @@ export const ProductForm = ({ row }) => {
 
     useEffect(() => {
         if (row != undefined) {
-            console.log('row=', row);
             setProdName(row.prod_name)
             setRate(row.rate)
             setGST(row.gst)
@@ -29,7 +28,7 @@ export const ProductForm = ({ row }) => {
             setDescription(row.description)
             setProdType(row.type)
         }
-    }, [])
+    }, [row])
 
     const submitProductDetails = async (e) => {
         e.preventDefault()
@@ -158,7 +157,7 @@ export const ProductForm = ({ row }) => {
                                             id="sup_address"
                                             className="form-control"
                                             placeholder="Enter Production Description"
-                                            required=""
+                                        
                                             value={description}
                                             onChange={(e) => setDescription(e.target.value)}
                                         />

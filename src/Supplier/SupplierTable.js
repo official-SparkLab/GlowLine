@@ -3,12 +3,12 @@ import SideBar from "../SideBar";
 import Header from "../header";
 import Modal from "../Modal/Modal";
 import { SupplierForm } from "./SupplierForm";
-import { Button } from "@mui/material";
 import axios from "axios";
 import { GlobalService } from "../service/GlobalService";
 import { Link } from "react-router-dom";
 import ExportToExcel from "../ExportToExcel";
 import Pagination from "react-js-pagination";
+import { Button } from "@mui/material";
 
 export const SupplierTable = () => {
     const [open, setOpen] = useState(false)
@@ -29,12 +29,12 @@ export const SupplierTable = () => {
     useEffect(() => {
         const getExpenseDetails = async (e) => {
             const res = await axios.get(`${GlobalService.path}/fetchSupplier`)
-            console.log(res);
+           
             setTableData(res.data.data)
-            console.log(tableData);
+            
         }
         getExpenseDetails()
-    }, [])
+    }, [tableData])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -61,25 +61,13 @@ export const SupplierTable = () => {
     const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
     const totalPageRange = 2; // Number of pages to display
-    const pageCount = Math.ceil(allItems?.length / itemsPerPage);
-
-    const pageRange = () => {
-        if (pageCount <= totalPageRange) {
-            return Array.from({ length: pageCount }, (_, i) => i + 1);
-        } else {
-            const halfRange = Math.floor((totalPageRange - 3) / 2);
-            const startPages = [1, 2, 3];
-            const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-            return [...startPages, '...', ...Array.from({ length: totalPageRange - 6 }, (_, i) => i + currentPage - halfRange), '...', ...endPages];
-        }
-    };
+    
 
     const deleteItem = async (id) => {
         try {
             const response = await axios.put(`${GlobalService.path}/deleteSupplier/${id}`);
             if (response.status == 200) {
-                alert(response.data.message)
+                alert("Records deleted successfully")
                 window.location.reload()
             } else alert('Failed to Delete')
 
@@ -167,9 +155,9 @@ export const SupplierTable = () => {
                                                     <Link className="me-3" style={{marginLeft:"10px"}}  onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Link>
-                                                    <a className="confirm-text" style={{marginLeft:"10px"}}  onClick={() => deleteItem(row.sup_id)} >
+                                                    <Button className="confirm-text" style={{marginLeft:"10px"}}  onClick={() => deleteItem(row.sup_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </a>
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}

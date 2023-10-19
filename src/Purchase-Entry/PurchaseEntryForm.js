@@ -9,23 +9,22 @@ export const PurchaseEntryForm = () => {
   const [prodName, setProdName] = useState();
   const [prodId, setProdId] = useState(1);
   const [HDNCode, setHDNCode] = useState();
-  const [weight, setWeight] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [weight, setWeight] = useState(25);
+  const [quantity, setQuantity] = useState(null);
   const [totalWeight, setTotalWeight] = useState(0);
   const [rate, setRate] = useState();
   const [total, setTotal] = useState();
   const [supplyPlace, setSupplyPlace] = useState();
   const [dispatchNo, setDispatchNo] = useState();
   const [destination, setDestination] = useState();
-  const [transportAmount, setTransportAmount] = useState();
-  const [otherAmount, setOtherAmount] = useState();
-  const [CGST, setCGST] = useState();
-  const [IGST, setIGST] = useState();
-  const [SGST, setSGST] = useState();
-  const [CGSTValue, setCGSTValue] = useState();
-  const [IGSTValue, setIGSTValue] = useState();
-  const [SGSTValue, setSGSTValue] = useState();
-  const [gstBillingTotal, setgstBillingTotal] = useState();
+  const [transportAmount, setTransportAmount] = useState(null);
+  const [otherAmount, setOtherAmount] = useState(null);
+  const [CGST, setCGST] = useState(null);
+  const [IGST, setIGST] = useState(null);
+  const [SGST, setSGST] = useState(null);
+  const [CGSTValue, setCGSTValue] = useState(0);
+  const [IGSTValue, setIGSTValue] = useState(0);
+  const [SGSTValue, setSGSTValue] = useState(0);
   const [tableData, setTableData] = useState();
   const [SupplierName, setSupplierName] = useState();
   const [contact, setContact] = useState();
@@ -61,7 +60,7 @@ export const PurchaseEntryForm = () => {
 
       if (SupplierName != undefined || SupplierName != null) {
         const filtered = tableData?.filter(
-          (row) => row.sup_name === SupplierName
+          (row) => row.sup_name == SupplierName
         );
         if (filtered != undefined) {
           setSupId(filtered[0]?.sup_id);
@@ -73,7 +72,7 @@ export const PurchaseEntryForm = () => {
 
       if (prodName != undefined || prodName != null) {
         const filteredData = productData?.filter(
-          (row) => row.prod_name === prodName
+          (row) => row.prod_name == prodName
         );
         setSelectedProductData(filteredData[0]);
         console.log("prod_name=", filteredData);
@@ -83,7 +82,7 @@ export const PurchaseEntryForm = () => {
     };
 
     getCustomerDetails();
-  }, [SupplierName, prodName]);
+  }, [SupplierName, prodName,productData,tableData]);
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
@@ -94,16 +93,9 @@ export const PurchaseEntryForm = () => {
   }, [quantity, weight, rate]);
 
   useEffect(() => {
-    // let totalAll=itemsToShow?.map((row) => {
-    //     let total=0;
-    //     total = total + row.total;
-    //     return
-    // })
     const totalAll = itemsToShow?.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.total;
     }, 0);
-    // console.log(itemsToShow.Math.sum);
-    console.log(totalAll);
     setSubTotal(totalAll);
   }, [itemsToShow]);
 
@@ -133,7 +125,6 @@ export const PurchaseEntryForm = () => {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-    console.log(productDetails);
 
     try {
       const res = await axios.post(
@@ -149,7 +140,7 @@ export const PurchaseEntryForm = () => {
         `${GlobalService.path}/fetchPProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
-      console.log(getProdTableData.data.data);
+     
     } catch (error) {
       console.log(error);
     }
@@ -181,7 +172,6 @@ export const PurchaseEntryForm = () => {
 
   const submitPurchaseDetails = async (e) => {
     e.preventDefault();
-    console.log(purchaseDetails);
     try {
       const res = await axios.post(
         `${GlobalService.path}/addPurchase`,
@@ -205,7 +195,7 @@ export const PurchaseEntryForm = () => {
       if (response.status == 200) {
         alert("Product Deleted Success");
         const deletedProduct = itemsToShow.find(
-          (product) => product.row_p_id === id
+          (product) => product.row_p_id == id
         );
         console.log(deletedProduct);
         // Calculate the new subtotal by subtracting the deleted product's total from the current subtotal
@@ -213,7 +203,7 @@ export const PurchaseEntryForm = () => {
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.row_p_id !== id)
+          itemsToShow.filter((product) => product.row_p_id != id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -225,7 +215,6 @@ export const PurchaseEntryForm = () => {
   // Percentage Calculations
 
   useEffect(() => {
-    console.log(subTotal);
 
     const cgstValue = isNaN(CGST) ? 0 : parseFloat((CGST / 100) * subTotal);
     const sgstValue = isNaN(SGST) ? 0 : parseFloat((SGST / 100) * subTotal);
@@ -241,22 +230,13 @@ export const PurchaseEntryForm = () => {
       parseFloat(cgstValue) +
       parseFloat(igstValue) +
       parseFloat(subTotal) +
+      parseFloat(parseFloat((CGST / 100) * transportAmount)) +
       parseFloat(transportAmount) +
       parseFloat(otherAmount);
 
     setGrandTotal(parseFloat(grandTotal));
-    console.log(CGST);
-    console.log(SGST);
-    console.log(IGST);
 
-    console.log(CGSTValue);
-    console.log(SGSTValue);
-    console.log(IGSTValue);
-
-    console.log("grand=", parseFloat(grandTotal).toFixed(2));
-    console.log("tran=", transportAmount);
-    console.log("hamali=", otherAmount);
-  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal]);
+  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal,CGSTValue,IGSTValue,SGSTValue]);
 
   return (
     <>
@@ -547,7 +527,7 @@ export const PurchaseEntryForm = () => {
                             <td>{row.type}</td>
                             <td>{row.total}</td>
                             <td>
-                              <a
+                              <Button
                                 className="confirm-text"
                                 onClick={() => deleteItem(row.row_p_id)}
                               >
@@ -555,7 +535,7 @@ export const PurchaseEntryForm = () => {
                                   src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
                                   alt="img"
                                 />
-                              </a>
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -624,7 +604,7 @@ export const PurchaseEntryForm = () => {
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Transport Amount</label>
+                      <label>Pakcing and Forwarding</label>
                       <input
                         type="text"
                         id="rate"

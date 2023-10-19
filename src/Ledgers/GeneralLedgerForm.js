@@ -4,7 +4,6 @@ import SideBar from "../SideBar";
 import Header from "../header";
 function GeneralLedgerForm() {
   const today = new Date().toISOString().split("T")[0];
-  const [tableData, setTableData] = useState([]);
   const [fromDate, setFromDate] = useState(today);
   const [toDate, setToDate] = useState(today);
 

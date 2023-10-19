@@ -13,7 +13,7 @@ import { Sale_Payble_Form } from "./Sale_Payble_Form";
 
 
 
-export const Sale_Payable_Table = () => {
+export const SalePayableTable = () => {
     const [open, setOpen] = useState(false)
     const [modalOpenPurpose, setModalOpenPurpose] = useState()
     const [row, setRow] = useState()
@@ -30,12 +30,12 @@ export const Sale_Payable_Table = () => {
     useEffect(() => {
         const getExpenseDetails = async (e) => {
             const res = await axios.get(`${GlobalService.path}/fethSalePayable`)
-            console.log(res);
+            
             setTableData(res.data.data.reverse())
-            console.log(tableData);
+           
         }
         getExpenseDetails()
-    }, [])
+    }, [tableData])
 
     
 
@@ -64,19 +64,7 @@ export const Sale_Payable_Table = () => {
     const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
     const totalPageRange = 2; // Number of pages to display
-    const pageCount = Math.ceil(allItems?.length / itemsPerPage);
-
-    const pageRange = () => {
-        if (pageCount <= totalPageRange) {
-            return Array.from({ length: pageCount }, (_, i) => i + 1);
-        } else {
-            const halfRange = Math.floor((totalPageRange - 3) / 2);
-            const startPages = [1, 2, 3];
-            const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-            return [...startPages, '...', ...Array.from({ length: totalPageRange - 6 }, (_, i) => i + currentPage - halfRange), '...', ...endPages];
-        }
-    };
+    
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value)
@@ -172,9 +160,9 @@ export const Sale_Payable_Table = () => {
                                                 <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
                                                 <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                             </Link>
-                                                    <a className="confirm-text"  style={{marginLeft:"10px"}} onClick={() => deleteItem(row.sale_pay_id)} >
+                                                    <Button className="confirm-text"  style={{marginLeft:"10px"}} onClick={() => deleteItem(row.sale_pay_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </a>
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}

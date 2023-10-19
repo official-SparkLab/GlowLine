@@ -16,12 +16,10 @@ function CustomerList() {
     useEffect(() => {
         const getCustomerDetails = async (e) => {
             const res = await axios.get(`${GlobalService.path}/fetchCustomer`)
-            console.log(res);
             setTableData(res.data.data)
-            console.log(tableData);
         }
         getCustomerDetails()
-    }, [])
+    }, [tableData]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -54,19 +52,7 @@ function CustomerList() {
     const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
     const totalPageRange = 2; // Number of pages to display
-    const pageCount = Math.ceil(allItems?.length / itemsPerPage);
-
-    const pageRange = () => {
-        if (pageCount <= totalPageRange) {
-            return Array.from({ length: pageCount }, (_, i) => i + 1);
-        } else {
-            const halfRange = Math.floor((totalPageRange - 3) / 2);
-            const startPages = [1, 2, 3];
-            const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-            return [...startPages, '...', ...Array.from({ length: totalPageRange - 6 }, (_, i) => i + currentPage - halfRange), '...', ...endPages];
-        }
-    };
+    
 
 
   return (

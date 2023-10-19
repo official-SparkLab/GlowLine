@@ -7,14 +7,13 @@ import { GlobalService } from "../service/GlobalService";
 function CustomerLedger() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [cust_id, setCustId] = useState(queryParams.get("custId"));
-  const [fromDate, setFromDate] = useState(queryParams.get("fromDate"));
-  const [toDate, setTodate] = useState(queryParams.get("toDate"));
+  const cust_id = queryParams.get("custId");
+  const fromDate = queryParams.get("fromDate");
+  const toDate = queryParams.get("toDate");
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [contactNo, setContactNo] = useState("");
-  const [data, setData] = useState([]);
 
   let credit = 0;
   let debit = 0;
@@ -29,7 +28,6 @@ function CustomerLedger() {
         const customerData = response.data.data[0]; // Assuming you expect only one customer
 
         if (customerData) {
-          setData(customerData);
           setName(customerData.cust_name);
           setContactNo(customerData.mobile);
           setAddress(customerData.address);
@@ -60,7 +58,14 @@ function CustomerLedger() {
     };
 
     getLedgerDetails();
-  }, []);
+  }, [cust_id,fromDate,toDate]);
+
+
+  
+  const filteredData = tableData.filter((row) => {
+    const rowDate =  tableData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return rowDate ;
+  });
 
   return (
     <div>
@@ -112,29 +117,30 @@ function CustomerLedger() {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(tableData) && tableData.length > 0 &&
-                tableData.map((row, index) =>  (
-                  (debit = parseFloat(debit) + parseFloat(row.total)),
-                  (credit = parseFloat(credit) + parseFloat(row.sub_total)),
-                  (
-                  <tr key={index}>
-                    <td>{row.date}</td>
-                    <td>{row.sales_pay_id}</td>
-                    <td>{row.cust_name}</td>
-                    <td>{row.invoice_no}</td>
-                    <td>{row.total?parseFloat(row.total):0}</td>
-                    <td>{row.sub_total?parseFloat(row.sub_total):0}</td>
-                  </tr>
-                  )))}
-              <tr style={{height:"100%"}}>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
+      {filteredData.length > 0 &&
+        filteredData.map((row, index) => {
+          debit += parseFloat(row.total);
+          credit += parseFloat(row.sub_total);
+          return (
+            <tr key={index}>
+              <td>{row.date}</td>
+              <td>{row.sales_id}</td>
+              <td>{row.cust_name}</td>
+              <td>{row.invoice_no}</td>
+              <td>{row.total ? parseFloat(row.total) : 0}</td>
+              <td>{row.sub_total ? parseFloat(row.sub_total) : 0}</td>
+            </tr>
+          );
+        })}
+      <tr style={{ height: "100%" }}>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
             <tfoot style={{ bottom: 0 }}>
             <tr>
               <th />

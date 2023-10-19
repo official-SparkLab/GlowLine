@@ -30,7 +30,7 @@ export const AdvancePayment = ({ row }) => {
             setPaymentType(row.payment_type)
             setDescription(row.discription)
         }
-    },[])
+    },[row])
 
     const submitadvancePaymentDetails = async (e) => {
         e.preventDefault()
@@ -142,7 +142,7 @@ export const AdvancePayment = ({ row }) => {
                                                 name="entryName"
                                                 className="form-control"
                                                 placeholder="Enter Description"
-                                                required=""
+                                                
                                                 value={description}
                                                 onChange={(e) => setDescription(e.target.value)}
                                             />

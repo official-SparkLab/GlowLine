@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
-import { Autocomplete, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { Button } from "@mui/material";
 
 
 function UpdatePurchase() {
@@ -16,18 +15,18 @@ function UpdatePurchase() {
   const [prodId, setProdId] = useState(null);
   const [HDNCode, setHDNCode] = useState();
   let [weight, setWeight] = useState(25);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(null);
   let [totalWeight, setTotalWeight] = useState(0);
   const [rate, setRate] = useState(0);
   let [total, setTotal] = useState(0);
   const [supplyPlace, setSupplyPlace] = useState();
   const [dispatchNo, setDispatchNo] = useState();
   const [destination, setDestination] = useState();
-  const [transportAmount, setTransportAmount] = useState(0);
-  const [otherAmount, setOtherAmount] = useState(0);
-  const [CGST, setCGST] = useState(0);
-  const [IGST, setIGST] = useState(0);
-  const [SGST, setSGST] = useState(0);
+  const [transportAmount, setTransportAmount] = useState(null);
+  const [otherAmount, setOtherAmount] = useState(null);
+  const [CGST, setCGST] = useState(null);
+  const [IGST, setIGST] = useState(null);
+  const [SGST, setSGST] = useState(null);
   let [CGSTValue, setCGSTValue] = useState(0);
   let [IGSTValue, setIGSTValue] = useState(0);
   let [SGSTValue, setSGSTValue] = useState(0);
@@ -40,7 +39,7 @@ function UpdatePurchase() {
   const [itemsToShow, setItemToShow] = useState();
   const [subTotal, setSubTotal] = useState(0);
   let [grandTotal, setGrandTotal] = useState(0);
-  const [custId, setCustId] = useState(queryParams.get("sup_id"));
+  const custId = queryParams.get("sup_id");
   const [sales_prod_id,setSalesProdId] = useState(null);
 
   useEffect(() => {
@@ -55,7 +54,7 @@ function UpdatePurchase() {
 
     if (prodName != undefined || prodName != null) {
       const filteredData = productData?.filter(
-        (row) => row.prod_name === prodName
+        (row) => row.prod_name == prodName
       );
       setSelectedProductData(filteredData[0]);
       setHDNCode(filteredData[0]?.hsn);
@@ -66,17 +65,16 @@ function UpdatePurchase() {
   };
 
     getCustomerDetails();
-  }, [prodName]);
+  }, [prodName,productData]);
 
 
  
 
 
   
-  const [selectedRow, setSelectedRow] = useState(null);
 
   const handleRowClick = (row) => {
-    setSelectedRow(row);
+   
     setSalesProdId(row.pur_prod_id);
     setProdId(row.p_id);
     setProdName(row.prod_name);
@@ -124,7 +122,7 @@ function UpdatePurchase() {
     };
 
     fetchData();
-  }, []);
+  }, [date,invoice_no]);
 
 
   let productDetails = {
@@ -141,7 +139,7 @@ function UpdatePurchase() {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-    console.log(productDetails);
+   
 
     try {
       const res = await axios.put(
@@ -155,7 +153,7 @@ function UpdatePurchase() {
         `${GlobalService.path}/fetchPProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
-      console.log(getProdTableData.data.data);
+      
     } catch (error) {
       console.log(error);
     }
@@ -186,13 +184,13 @@ function UpdatePurchase() {
 
   const submitSaleProduct = async (e) => {
     e.preventDefault();
-    console.log(saleProductDetails);
+   
     try {
       const res = await axios.put(
         `${GlobalService.path}/updatePurchase/${date}/${invoice_no}`,
         saleProductDetails
       );
-
+        console.log(res);
       alert("Purchase details Updated successfully");
       window.location.reload();
     } catch (error) {
@@ -205,7 +203,6 @@ function UpdatePurchase() {
       const response = await axios.delete(
         `${GlobalService.path}/deletePurchaseProduct/${id}`
       );
-      console.log(response);
       if (response.status == 200) {
         alert("Product deleted successfully");
         const deletedProduct = itemsToShow.find(
@@ -217,7 +214,7 @@ function UpdatePurchase() {
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.row_p_id !== id)
+          itemsToShow.filter((product) => product.row_p_id != id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -243,11 +240,12 @@ function UpdatePurchase() {
       parseFloat(cgstValue) +
       parseFloat(igstValue) +
       parseFloat(subTotal) +
+      parseFloat(parseFloat((CGST / 100) * transportAmount)) +
       parseFloat(transportAmount) +
       parseFloat(otherAmount);
 
     setGrandTotal(parseFloat(grandTotal));
-  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal,quantity]);
+  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal,quantity,weight]);
 
   return (
     <div
@@ -497,7 +495,7 @@ function UpdatePurchase() {
                             >
                               <i className="fa fa-edit"></i>
                             </button>
-                            <a
+                            <Button
                               className="confirm-text"
                               onClick={() => deleteItem(row.row_p_id)}
                             >
@@ -505,7 +503,7 @@ function UpdatePurchase() {
                                 src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
                                 alt="img"
                               />
-                            </a>
+                            </Button>
                           </td>
                         </tr>
                       ))

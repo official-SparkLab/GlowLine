@@ -5,17 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faEdit,
-  faFileInvoice,
-  faLocation,
-  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
   faUser,
   faMobileAlt,
-  faEnvelope,
   faMapMarkerAlt,
-  faEye,
+ 
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -32,7 +28,7 @@ function OrderHistory() {
   const [customerName, setCustomerName] = useState();
   const [contact, setContact] = useState();
   const [address, setAddress] = useState();
-  const [gstin, setgstin] = useState();
+  
 
   const [trans_amt, setTransAmt] = useState();
   const [hamali, setHamali] = useState();
@@ -61,7 +57,7 @@ function OrderHistory() {
         // Customer Details
         setCustomerName(custRes.data.data[0].cust_name);
         setContact(custRes.data.data[0].mobile);
-        setgstin(custRes.data.data[0].gstin);
+        
         setAddress(custRes.data.data[0].address);
 
         // Invoice Details
@@ -78,7 +74,7 @@ function OrderHistory() {
     };
 
     fetchData();
-  }, []);
+  }, [invoice_no,cust_id,date]);
 
   const [showUpdate, setShowUpdate] = useState(false);
   const updateData = () => {
@@ -100,7 +96,7 @@ function OrderHistory() {
                 <div className="back" style={{ margin: "0px 5px 10px 0px" }}>
                   <div className="row">
                     <div className="col col-md-6">
-                      <a
+                      <button
                         onClick={() => {
                           window.history.back();
                         }}
@@ -112,7 +108,7 @@ function OrderHistory() {
                           style={{ marginRight: "7px" }}
                         />
                         Back
-                      </a>
+                      </button>
                       <h2
                         className=""
                         style={{

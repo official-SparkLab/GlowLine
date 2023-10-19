@@ -50,12 +50,12 @@ export const EmployeeDetails = ({ row }) => {
             setAccountNo(row.account_no)
 
         }
-    }, [])
+    }, [row])
 
     const submitEmployeeDetails = async (e) => {
         e.preventDefault()
 
-        if (row === undefined) {
+        if (row == undefined) {
             try {
                 const res = await axios.post(`${GlobalService.path}/addEmployee`, employeeDetailsItem);
                 console.log(res);

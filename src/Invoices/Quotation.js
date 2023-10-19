@@ -10,8 +10,6 @@ function Quotation() {
   const voucher_no = queryParams.get("voucher_no");
 
   const [companyAddress, setCompanyAddress] = useState("");
-  const [companyEmail, setCompanyEmail] = useState("");
-  const [comapnyContact, setComapnyContact] = useState("");
   const [companyGstin, setCompanyGstin] = useState("");
   const [bankName, setBankName] = useState();
   const [IFSC, setIFSC] = useState();
@@ -62,7 +60,7 @@ function Quotation() {
     };
 
     fetchData();
-  }, []);
+  }, [voucher_no]);
 
   // Fetching Company Details
 
@@ -72,8 +70,6 @@ function Quotation() {
         const response = await axios.get(`${GlobalService.path}/fetchCompany`);
         // Compnay Details
         setCompanyAddress(response.data.data[0].address);
-        setCompanyEmail(response.data.data[0].email);
-        setComapnyContact(response.data.data[0].contact);
         setCompanyGstin(response.data.data[0].gst);
       } catch (error) {
         console.log("Error fetching data:", error);

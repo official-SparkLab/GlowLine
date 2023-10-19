@@ -29,12 +29,12 @@ export const CompanyTable = () => {
     useEffect(() => {
         const getCompanyDetails = async (e) => {
             const res = await axios.get(`${GlobalService.path}/fetchCompany`)
-            console.log(res);
+            
             setTableData(res.data.data)
-            console.log(tableData);
+            
         }
         getCompanyDetails()
-    }, [])
+    }, [tableData])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -61,19 +61,9 @@ export const CompanyTable = () => {
     const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
     const totalPageRange = 2; // Number of pages to display
-    const pageCount = Math.ceil(allItems?.length / itemsPerPage);
+    
 
-    const pageRange = () => {
-        if (pageCount <= totalPageRange) {
-            return Array.from({ length: pageCount }, (_, i) => i + 1);
-        } else {
-            const halfRange = Math.floor((totalPageRange - 3) / 2);
-            const startPages = [1, 2, 3];
-            const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-            return [...startPages, '...', ...Array.from({ length: totalPageRange - 6 }, (_, i) => i + currentPage - halfRange), '...', ...endPages];
-        }
-    };
+  
 
     const deleteItem = async (id) => {
         try {
@@ -169,9 +159,9 @@ export const CompanyTable = () => {
                                                     <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Link>
-                                                    <a className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.com_id)} >
+                                                    <Button className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.com_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </a>
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}
