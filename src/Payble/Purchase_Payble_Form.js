@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete,TextField } from "@mui/material";
 
 import axios from "axios";
 
@@ -22,7 +22,6 @@ export const Purchase_Payble_Form = ({ row }) => {
   // Autocomplete for SUpplier Name
   const handleAutocompleteChange = (event, newValue) => {
     setSupplierName(newValue);
-    console.log(SupplierName);
   };
 
   const handleChange = (e) => {
@@ -34,11 +33,10 @@ export const Purchase_Payble_Form = ({ row }) => {
     const getSupplierDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchSupplier`);
       setTableData(res.data.data);
-      console.log(res.data.data);
 
       if (SupplierName != undefined || SupplierName != null) {
         const filtered = tableData?.filter(
-          (row) => row.sup_name === SupplierName
+          (row) => row.sup_name == SupplierName
         );
         if (filtered != undefined) {
           setSupId(filtered[0]?.sup_id);
@@ -59,8 +57,6 @@ export const Purchase_Payble_Form = ({ row }) => {
           `${GlobalService.path}/payableAmt/${supId}`
         );
 
-        // Handle the response from the next API as needed
-        console.log(nextApiRes.data);
         setPendingAmt(nextApiRes.data.totalAmt);
       } catch (error) {
         // Handle any errors from the next API
@@ -69,7 +65,7 @@ export const Purchase_Payble_Form = ({ row }) => {
     };
 
     getSupplierDetails();
-  }, [SupplierName]);
+  }, [SupplierName,tableData]);
 
   
   useEffect(() => {
@@ -86,7 +82,7 @@ export const Purchase_Payble_Form = ({ row }) => {
       setPaymentMode(row.payment_mode);
       setTrx_no(row.trx_no);
     }
-  }, []);
+  }, [row]);
   
 
   // All Supplier Names

@@ -3,13 +3,14 @@ import SideBar from "../SideBar";
 import Header from "../header";
 
 import Modal from "../Modal/Modal";
-import { Button } from "@mui/material";
+
 import axios from "axios";
 import { GlobalService } from "../service/GlobalService";
 import { Link } from "react-router-dom";
 import Pagination from "react-js-pagination";
 import ExportToExcel from "../ExportToExcel";
 import { BankDetails } from "./BankDetails";
+import { Button } from "@mui/material";
 
 export const BankDetailsTable = () => {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,6 @@ export const BankDetailsTable = () => {
   const [tableData, setTableData] = useState();
   const [row, setRow] = useState();
   const openModal = (modalPurpose, row) => {
-    console.log(row);
     setRow(row);
     setModalOpenPurpose(modalPurpose);
     setOpen(true);
@@ -29,9 +29,7 @@ export const BankDetailsTable = () => {
   useEffect(() => {
     const bankDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchBankDetails`);
-      console.log(res);
       setTableData(res.data.data);
-      console.log(tableData);
     };
     bankDetails();
   }, []);
@@ -60,39 +58,19 @@ export const BankDetailsTable = () => {
   const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
   const totalPageRange = 2; // Number of pages to display
-  const pageCount = Math.ceil(allItems?.length / itemsPerPage);
-
-  const pageRange = () => {
-    if (pageCount <= totalPageRange) {
-      return Array.from({ length: pageCount }, (_, i) => i + 1);
-    } else {
-      const halfRange = Math.floor((totalPageRange - 3) / 2);
-      const startPages = [1, 2, 3];
-      const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-      return [
-        ...startPages,
-        "...",
-        ...Array.from(
-          { length: totalPageRange - 6 },
-          (_, i) => i + currentPage - halfRange
-        ),
-        "...",
-        ...endPages,
-      ];
-    }
-  };
+  
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
     setCurrentPage(1);
   };
+
 
   const deleteItem = async (id) => {
     try {
       const response = await axios.put(
         `${GlobalService.path}/deleteBankDetails/${id}`
       );
-      if (response.status == 200) {
+      if (response.status === 200) {
         alert("Deleted Bank Details");
         window.location.reload();
       } else alert("Failed to Delete");
@@ -101,6 +79,7 @@ export const BankDetailsTable = () => {
       console.error("Error deleting item:", error);
     }
   };
+
 
   return (
     <>
@@ -165,15 +144,6 @@ export const BankDetailsTable = () => {
                           <td>
                             <Link
                               className="me-3"
-                              to={`/cashBookView/${row.cb_id}`}
-                            >
-                              <img
-                                src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                alt="img"
-                              />
-                            </Link>
-                            <Link
-                              className="me-3"
                               style={{ marginLeft: "10px" }}
                               onClick={() => openModal("update", row)}
                             >
@@ -182,7 +152,7 @@ export const BankDetailsTable = () => {
                                 alt="img"
                               />
                             </Link>
-                            <a
+                            <Button
                               className="confirm-text"
                               style={{ marginLeft: "10px" }}
                               onClick={() => deleteItem(row.cb_id)}
@@ -191,7 +161,7 @@ export const BankDetailsTable = () => {
                                 src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
                                 alt="img"
                               />
-                            </a>
+                            </Button>
                           </td>
                         </tr>
                       ))

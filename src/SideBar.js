@@ -26,8 +26,8 @@ function SideBar() {
           </li>
           {/*Create User */}
 
-          {username==="admin" &&( <li>
-            <a href="">
+          {username=="admin" &&( <li>
+            <a href="#">
             <i className="menu-icon fa fa-address-book" />
               <span>User Profile</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -39,8 +39,8 @@ function SideBar() {
             </ul>
           </li>)}
               {/* Logged out */}
-          {isloggedIn==="true" &&( <li>
-            <a onClick={()=>handleLogout()} style={{cursor:"pointer"}}>
+          {isloggedIn=="true" &&( <li>
+            <a href="#" onClick={()=>handleLogout()} style={{cursor:"pointer"}}>
             <i className="menu-icon fa fa-sign-out" />
               <span>Logout</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -49,7 +49,7 @@ function SideBar() {
 
           <hr style={{ width: "80%" }} />
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-book" />
               <span>Cash Book</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -61,7 +61,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-inr" />
               <span>Enpense Master</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -73,7 +73,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-edit" />
               <span>Product Master</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -87,7 +87,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-address-book" />
               <span>Supplier Master</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -99,7 +99,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-address-book" />
               <span> Customer Forms</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -111,7 +111,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon icon-format_list_bulleted" />
               <span>Purchase Entry</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -124,7 +124,7 @@ function SideBar() {
           </li>
           <li></li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon icon-format_list_bulleted" />
               <span>Sale Entry</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -136,7 +136,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-          <a href="javascript:void(0)">
+          <a href="#">
             <i className="menu-icon icon-format_list_bulleted" />
             <span>Quatation</span>
             <i className="accordion-icon fa fa-angle-left" />
@@ -148,7 +148,7 @@ function SideBar() {
           </ul>
         </li>
           <li>
-          <a href="javascript:void(0)">
+          <a href="#">
             <i className="menu-icon icon-format_list_bulleted" />
             <span>Material Usage</span>
             <i className="accordion-icon fa fa-angle-left" />
@@ -166,7 +166,7 @@ function SideBar() {
           </ul>
         </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-file" />
               <span>E-Way Bill</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -178,7 +178,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-book" />
               <span>Ledger</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -196,7 +196,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon  fa fa-credit-card" />
               <span>Purchase Payable </span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -208,7 +208,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon  fa fa-credit-card" />
               <span>Sale Payable</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -220,7 +220,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon icon-users" />
               <span>Employee forms</span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -241,7 +241,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-industry" />
               <span>Company Details </span>
               <i className="accordion-icon fa fa-angle-left" />
@@ -262,23 +262,23 @@ function SideBar() {
             <u>REPORTS</u>
           </h5>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-industry" />
               <span>Invoice Report</span>
               <i className="accordion-icon fa fa-angle-left" />
             </a>
             <ul className="sub-menu">
               <li>
-                <a href="saleInvoice">Good Sale Invoice</a>
+                <a href="goodSaleInvoiceView">Good Sale Invoice</a>
               </li>
               <li>
-                <a href="quatationInvoice">
+                <a href="quatationInvoiceView">
                   Quatation Invoice
                 </a>
               </li>
 
               <li>
-              <a href="purchaseInvoice">
+              <a href="purchaseInvoiceView">
                 Purchase Invoice
               </a>
             </li>
@@ -286,7 +286,7 @@ function SideBar() {
             </ul>
           </li>
           <li>
-            <a href="javascript:void(0)">
+            <a href="#">
               <i className="menu-icon fa fa-industry" />
               <span>Usage Report</span>
               <i className="accordion-icon fa fa-angle-left" />

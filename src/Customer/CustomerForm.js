@@ -44,7 +44,7 @@ export const CustomerForm = ({ row }) => {
             setAccountNo(row.acc_no)
             setgstin(row.gstin)
         }
-    },[])
+    },[row])
 
     const submitCustomerDetails = async (e) => {
         e.preventDefault()
@@ -131,7 +131,7 @@ export const CustomerForm = ({ row }) => {
                                                 id="sup_address"
                                                 className="form-control"
                                                 placeholder="Enter Email"
-                                                required=""
+                                            
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
@@ -180,55 +180,6 @@ export const CustomerForm = ({ row }) => {
                                                 required=""
                                                 value={address}
                                                 onChange={(e) => setAddress(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label>Bank Name</label>
-                                            <input
-                                                type="text"
-                                                name="sup_address"
-                                                id="sup_address"
-                                                className="form-control"
-                                                placeholder="Enter Bank Name"
-                                                required=""
-                                                value={bankName}
-                                                onChange={(e) => setBankName(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label>IFSC Code</label>
-                                            <input
-                                                type="text"
-                                                name="sup_address"
-                                                id="sup_address"
-                                                className="form-control"
-                                                placeholder="Enter IFSC Code"
-                                                required=""
-                                                value={ifsc}
-                                                onChange={(e) => setIFSC(e.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label>Account Number</label>
-                                            <input
-                                                type="number"
-                                                name="sup_address"
-                                                id="sup_address"
-                                                className="form-control"
-                                                placeholder="Enter Account Number"
-                                                required=""
-                                                value={accountNo}
-                                                onChange={(e) => setAccountNo(e.target.value)}
                                             />
                                         </div>
                                     </div>

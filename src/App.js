@@ -14,12 +14,12 @@ import { EmployeePaymentTable } from './Employee/EmployeePaymentTable';
 import { AdvancePaymentTable } from './Employee/advancePaymentTable';
 import { CompanyTable } from './Company/companyTable';
 
-import { BankDetails } from './BankDetails/BankDetails';
+import { BankDetailsTable } from './BankDetails/BankDetailsTable';
 
 import {RawUsage} from './Product/RawUsage'
 import { EmployeeAttendenceTable } from './Employee/EmployeeAttendenceTable';
-import { Purchase_Payble_Table } from './Payble/Purchase_Payble_Table';
-import { Sale_Payable_Table } from './Payble/Sale_Payable_Table';
+import { PurchasePaybleTable } from './Payble/Purchase_Payble_Table';
+import { SalePayableTable } from './Payble/Sale_Payable_Table';
 import CustomerList from './Ledgers/CustomerList';
 import CustomerLedger from './Ledgers/CustomerLedger';
 import SupplierList from './Ledgers/SupplierList';
@@ -35,13 +35,16 @@ import { GoodUsage } from './Product/GoodUsage';
 import PurchaseInvoice from './Invoices/PurchaseInvoice';
 import GeneralLedgerForm from './Ledgers/GeneralLedgerForm';
 import GeneralLedger from './Ledgers/GeneralLedger';
-import { Material_Damage } from './Product/Material_Damage';
-import { Raw_Usage_List } from './UsageReport/Raw_Usage_Report';
-import { Goods_Production_Report } from './UsageReport/Goods_Production_Report';
-import { Damage_material_List } from './UsageReport/Damage_Material_List';
+import { MaterialDamage } from './Product/Material_Damage';
+import { RawUsageList } from './UsageReport/Raw_Usage_Report';
+import { GoodsProductionReport } from './UsageReport/Goods_Production_Report';
+import { DamagematerialList } from './UsageReport/Damage_Material_List';
 import Login from './Login';
 import Users from './User/Users';
 import { AuthProvider } from './Utils/AuthContext';
+import GoodSaleInvoice from './ViewInvoiceReport/GoodSaleInvoice';
+import PurchaseSaleInvoice from './ViewInvoiceReport/PurchaseSaleInvoice';
+import QuatationInvoiceView from './ViewInvoiceReport/QuatationInvoiceView';
 
 
 function App() {
@@ -69,7 +72,7 @@ function App() {
           <Route path="/productTable" element={<PrivateRoute element={<ProductList/>}/>} />
           <Route path='rawUsage' element={<PrivateRoute element={<RawUsage/>}/>} />
           <Route path='goodsUsage' element={<PrivateRoute element={<GoodUsage/>}/>} />
-          <Route path='materialDamage' element={<PrivateRoute element={<Material_Damage/>}/>} />
+          <Route path='materialDamage' element={<PrivateRoute element={<MaterialDamage/>}/>} />
 
           <Route path="/supplierTable" element={<PrivateRoute element={<SupplierTable/>}/>}/>
           <Route path="/customerTable" element={<PrivateRoute element={<CustomerTable/>}/>} />
@@ -80,9 +83,9 @@ function App() {
           <Route path="/employeePaymentTable" element={<PrivateRoute element={<EmployeePaymentTable/>}/>} />
           <Route path="/advancePaymentTable" element={<PrivateRoute element={<AdvancePaymentTable/>}/>} />
           <Route path="/companyTable" element={<PrivateRoute element={<CompanyTable/>}/>} />
-          <Route path="/bankDetails" element={<PrivateRoute element={<BankDetails/>}/>} />
-          <Route path='purchasePayble' element = {<PrivateRoute element={<Purchase_Payble_Table/>}/>} />
-          <Route path='salePayble' element = {<PrivateRoute element={<Sale_Payable_Table/>}/>} />
+          <Route path="/bankDetails" element={<PrivateRoute element={<BankDetailsTable/>}/>} />
+          <Route path='purchasePayble' element = {<PrivateRoute element={<PurchasePaybleTable/>}/>} />
+          <Route path='salePayble' element = {<PrivateRoute element={<SalePayableTable/>}/>} />
 
           <Route path='customerLedger' element = {<PrivateRoute element={<CustomerList/>}/>}/>
           <Route path='customerLedgerReport' element ={<PrivateRoute element={<CustomerLedger/>}/>}/>
@@ -110,12 +113,17 @@ function App() {
          <Route path='purchaseHistory' element = {<PrivateRoute element={<PurchaseHistory/>}/>}/>
 
 
-          <Route path='rawUsageList' element = {<PrivateRoute element={<Raw_Usage_List/>}/>}/>
+          <Route path='rawUsageList' element = {<PrivateRoute element={<RawUsageList/>}/>}/>
 
-          <Route path='goodsUsageList' element = {<PrivateRoute element={<Goods_Production_Report/>}/>}/>
+          <Route path='goodsUsageList' element = {<PrivateRoute element={<GoodsProductionReport/>}/>}/>
 
-          <Route path='damageList' element = {<PrivateRoute element={<Damage_material_List/>}/>}/>
+          <Route path='damageList' element = {<PrivateRoute element={<DamagematerialList/>}/>}/>
           <Route path="/users" element={<PrivateRoute element={<Users/>}/>} />
+          <Route path="/goodSaleInvoiceView" element={<PrivateRoute element={<GoodSaleInvoice/>}/>} />
+          <Route path="/purchaseInvoiceView" element={<PrivateRoute element={<PurchaseSaleInvoice/>}/>} />
+          <Route path="/quatationInvoiceView" element={<PrivateRoute element={<QuatationInvoiceView/>}/>} />
+
+
 
           <Route path='login' element = {<Login/>}/>
 

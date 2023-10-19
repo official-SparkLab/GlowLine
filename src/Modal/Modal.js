@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {} from "react";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 
 
 function Modal({ open, onClose, component: Component, rowDetails, PathName, modalPurpose }) {
-    console.log({rowDetails});
+    
 
     return (
         <div>

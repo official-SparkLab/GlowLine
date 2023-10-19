@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
-import { Autocomplete, Button, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Autocomplete,  Button,  TextField } from "@mui/material";
+
 
 export const SaleEntryForm = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -12,25 +12,25 @@ export const SaleEntryForm = () => {
   const [prodName, setProdName] = useState();
   const [prodId, setProdId] = useState(1);
   const [HDNCode, setHDNCode] = useState();
-  const [weight, setWeight] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [weight, setWeight] = useState(25);
+  const [quantity, setQuantity] = useState(null);
   const [totalWeight, setTotalWeight] = useState(0);
-  const [rate, setRate] = useState();
-  const [total, setTotal] = useState();
+  const [rate, setRate] = useState(0);
+  const [total, setTotal] = useState(0);
   const [supplyPlace, setSupplyPlace] = useState();
   const [dispatchNo, setDispatchNo] = useState();
   const [destination, setDestination] = useState();
-  const [transportAmount, setTransportAmount] = useState();
-  const [otherAmount, setOtherAmount] = useState();
+  const [transportAmount, setTransportAmount] = useState(null);
+  const [otherAmount, setOtherAmount] = useState(null);
   const[Driver_Name,setDriverName] = useState("");
   const[Vehicle_No,setVehicleNo] = useState();
-  const [CGST, setCGST] = useState();
-  const [IGST, setIGST] = useState();
-  const [SGST, setSGST] = useState();
-  const [CGSTValue, setCGSTValue] = useState();
-  const [IGSTValue, setIGSTValue] = useState();
-  const [SGSTValue, setSGSTValue] = useState();
-  const [gstBillingTotal, setgstBillingTotal] = useState();
+  const [CGST, setCGST] = useState(null);
+  const [IGST, setIGST] = useState(null);
+  const [SGST, setSGST] = useState(null);
+  const [CGSTValue, setCGSTValue] = useState(0);
+  const [IGSTValue, setIGSTValue] = useState(0);
+  const [SGSTValue, setSGSTValue] = useState(0);
+ 
   const [tableData, setTableData] = useState();
   const [customerName, setCustomerName] = useState();
   const [contact, setContact] = useState();
@@ -45,7 +45,6 @@ export const SaleEntryForm = () => {
 
   const handleAutocompleteChange = (event, newValue) => {
     setCustomerName(newValue);
-    console.log(customerName);
   };
 
   const handleProductAutocompleteChange = (event, newValue) => {
@@ -56,17 +55,16 @@ export const SaleEntryForm = () => {
     const getCustomerDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchCustomer`);
       setTableData(res.data.data);
-      console.log(res.data.data);
+     
 
       const productRes = await axios.get(
         `${GlobalService.path}/fetchProductsForSale`
       );
-      console.log(productRes);
       setProductData(productRes.data.data);
 
       if (customerName != undefined || customerName != null) {
         const filtered = tableData?.filter(
-          (row) => row.cust_name === customerName
+          (row) => row.cust_name == customerName
         );
         if (filtered != undefined) {
           setCustId(filtered[0]?.cust_id);
@@ -78,17 +76,17 @@ export const SaleEntryForm = () => {
 
       if (prodName != undefined || prodName != null) {
         const filteredData = productData?.filter(
-          (row) => row.prod_name === prodName
+          (row) => row.prod_name == prodName
         );
         setSelectedProductData(filteredData[0]);
-        console.log("prod_name=", filteredData);
+        
         setHDNCode(filteredData[0]?.hsn);
         setRate(filteredData[0]?.rate);
       }
     };
 
     getCustomerDetails();
-  }, [customerName, prodName]);
+  }, [customerName,prodName]);
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
@@ -99,16 +97,9 @@ export const SaleEntryForm = () => {
   }, [quantity, weight, rate]);
 
   useEffect(() => {
-    // let totalAll=itemsToShow?.map((row) => {
-    //     let total=0;
-    //     total = total + row.total;
-    //     return
-    // })
     const totalAll = itemsToShow?.reduce((accumulator, currentValue) => {
       return accumulator + currentValue.total;
     }, 0);
-    // console.log(itemsToShow.Math.sum);
-    console.log(totalAll);
     setSubTotal(totalAll);
   }, [itemsToShow]);
 
@@ -135,7 +126,6 @@ export const SaleEntryForm = () => {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-    console.log(productDetails);
 
     try {
       const res = await axios.post(
@@ -143,15 +133,13 @@ export const SaleEntryForm = () => {
         productDetails
       );
       alert("Product added successfully");
-      console.log(res);
-      // const pID=prodId+1
+      console.log(res)
       setProdId(prodId + 1);
 
       const getProdTableData = await axios.get(
         `${GlobalService.path}/fetchSaleProduct/${date}/${invoiceNumber}`
       );
       setItemToShow(getProdTableData.data.data);
-      console.log(getProdTableData.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -190,8 +178,8 @@ export const SaleEntryForm = () => {
         `${GlobalService.path}/addSale`,
         saleProductDetails
       );
-
       alert("Sale details added successfully");
+      console.log(res)
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -205,17 +193,16 @@ export const SaleEntryForm = () => {
       );
       console.log(response);
       if (response.status == 200) {
-        alert(response.data.message);
+        alert("Product deleted successfully");
         const deletedProduct = itemsToShow.find(
-          (product) => product.sp_id === id
+          (product) => product.sp_id == id
         );
-        console.log(deletedProduct);
         // Calculate the new subtotal by subtracting the deleted product's total from the current subtotal
         const newSubTotal = subTotal - deletedProduct?.total;
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.sp_id !== id)
+          itemsToShow.filter((product) => product.sp_id != id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -225,8 +212,6 @@ export const SaleEntryForm = () => {
   };
 
   useEffect(() => {
-    console.log(subTotal);
-
     const cgstValue = isNaN(CGST) ? 0 : parseFloat((CGST / 100) * subTotal);
     const sgstValue = isNaN(SGST) ? 0 : parseFloat((SGST / 100) * subTotal);
     const igstValue = isNaN(IGST) ? 0 : parseFloat((IGST / 100) * subTotal);
@@ -241,22 +226,12 @@ export const SaleEntryForm = () => {
       parseFloat(cgstValue) +
       parseFloat(igstValue) +
       parseFloat(subTotal) +
-      parseFloat(transportAmount) +
+      parseFloat(parseFloat((CGST / 100) * transportAmount)) +
+      parseFloat(transportAmount)+
       parseFloat(otherAmount);
 
     setGrandTotal(parseFloat(grandTotal));
-    console.log(CGST);
-    console.log(SGST);
-    console.log(IGST);
-
-    console.log(CGSTValue);
-    console.log(SGSTValue);
-    console.log(IGSTValue);
-
-    console.log("grand=", parseFloat(grandTotal).toFixed(2));
-    console.log("tran=", transportAmount);
-    console.log("hamali=", otherAmount);
-  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal]);
+  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal,CGSTValue,IGSTValue,SGSTValue]);
 
   return (
     <>
@@ -543,7 +518,7 @@ export const SaleEntryForm = () => {
                             <td>{row.type}</td>
                             <td>{row.total}</td>
                             <td>
-                              <a
+                              <Button
                                 className="confirm-text"
                                 onClick={() => deleteItem(row.sp_id)}
                               >
@@ -551,7 +526,7 @@ export const SaleEntryForm = () => {
                                   src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
                                   alt="img"
                                 />
-                              </a>
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -649,7 +624,7 @@ export const SaleEntryForm = () => {
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Transport Amount</label>
+                      <label>Packing and Forwarding</label>
                       <input
                         type="number"
                         id="Transport"

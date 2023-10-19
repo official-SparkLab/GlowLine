@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
-import { Autocomplete, Button, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 
 import axios from "axios";
 
@@ -33,11 +33,10 @@ export const Sale_Payble_Form = ({ row }) => {
     const getSupplierDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchCustomer`);
       setTableData(res.data.data);
-      console.log(res.data.data);
 
       if (customer_name != undefined || customer_name != null) {
         const filtered = tableData?.filter(
-          (row) => row.cust_name === customer_name
+          (row) => row.cust_name == customer_name
         );
         if (filtered != undefined) {
           setCustId(filtered[0]?.cust_id);
@@ -58,8 +57,6 @@ export const Sale_Payble_Form = ({ row }) => {
           `${GlobalService.path}/salePayableAmt/${custId}`
         );
 
-        // Handle the response from the next API as needed
-        console.log(nextApiRes.data);
         setPendingAmt(nextApiRes.data.totalAmt);
       } catch (error) {
         // Handle any errors from the next API
@@ -68,7 +65,7 @@ export const Sale_Payble_Form = ({ row }) => {
     };
 
     getSupplierDetails();
-  }, [customer_name]);
+  }, [customer_name,tableData]);
 
   useEffect(() => {
     if (row != undefined) {
@@ -84,7 +81,7 @@ export const Sale_Payble_Form = ({ row }) => {
       setPaymentMode(row.payment_mode);
       setTrx_no(row.trx_no);
     }
-  }, []);
+  }, [row]);
 
 
   // All Customer Names

@@ -29,7 +29,7 @@ export const EmployeeAttendeceForm = ({ row }) => {
         setdescription(row.description);
         setDate(row.date);
         }
-    }, [])
+    }, [row])
 
     const submitEmployeeAttendenceDetails = async (e) => {
         e.preventDefault()
@@ -119,8 +119,7 @@ export const EmployeeAttendeceForm = ({ row }) => {
                         name="txt_desc"
                         className="form-control"
                         placeholder="Description "
-                        required=""
-                        defaultValue={""}
+                        
                         value={description}
                         onChange={(e)=>setdescription(e.target.value)}
                       />

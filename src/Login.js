@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {useAuth} from "./Utils/AuthContext"
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
@@ -22,9 +22,8 @@ const Login = () => {
     else{
       navigate('/login');
     }
-  },[]);
+  });
   const {
-    isLoggedIn,
     password,
     useremail,
     setUserEmail,

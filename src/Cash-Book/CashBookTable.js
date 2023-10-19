@@ -16,7 +16,6 @@ export const CashBookTable = () => {
     const [tableData, setTableData] = useState()
     const [row, setRow] = useState()
     const openModal = (modalPurpose, row) => {
-        console.log(row);
         setRow(row)
         setModalOpenPurpose(modalPurpose)
         setOpen(true)
@@ -29,12 +28,10 @@ export const CashBookTable = () => {
     useEffect(() => {
         const getCashBookDetails = async (e) => {
             const res = await axios.get(`${GlobalService.path}/fetchCashbook`)
-            console.log(res);
             setTableData(res.data.data)
-            console.log(tableData);
         }
         getCashBookDetails()
-    }, [])
+    }, [tableData])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -61,19 +58,7 @@ export const CashBookTable = () => {
     const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
     const totalPageRange = 2; // Number of pages to display
-    const pageCount = Math.ceil(allItems?.length / itemsPerPage);
-
-    const pageRange = () => {
-        if (pageCount <= totalPageRange) {
-            return Array.from({ length: pageCount }, (_, i) => i + 1);
-        } else {
-            const halfRange = Math.floor((totalPageRange - 3) / 2);
-            const startPages = [1, 2, 3];
-            const endPages = [pageCount - 2, pageCount - 1, pageCount];
-
-            return [...startPages, '...', ...Array.from({ length: totalPageRange - 6 }, (_, i) => i + currentPage - halfRange), '...', ...endPages];
-        }
-    };
+  
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value)
         setCurrentPage(1)
@@ -82,7 +67,7 @@ export const CashBookTable = () => {
     const deleteItem = async (id) => {
         try {
             const response = await axios.put(`${GlobalService.path}/deleteCashbook/${id}`);
-            if (response.status == 200) {
+            if (response.status === 200) {
                 alert(response.data.message)
                 window.location.reload()
             } else alert('Failed to Delete')
@@ -166,9 +151,9 @@ export const CashBookTable = () => {
                                                     <Button className="me-3" onClick={() => openModal('update', row)}>
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
                                                     </Button>
-                                                    <a className="confirm-text" onClick={() => deleteItem(row.cb_id)} >
+                                                    <Button className="confirm-text" onClick={() => deleteItem(row.cb_id)} >
                                                         <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </a>
+                                                    </Button>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}

@@ -11,32 +11,39 @@ export const QuatationForm = () => {
   const [prodName, setProdName] = useState();
   const [prodId, setProdId] = useState(1);
   const [HDNCode, setHDNCode] = useState();
-  const [weight, setWeight] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [weight, setWeight] = useState(25);
+  const [quantity, setQuantity] = useState(null);
   const [totalWeight, setTotalWeight] = useState(0);
   const [rate, setRate] = useState();
   const [total, setTotal] = useState();
   const [order_no, setOrderNo] = useState();
   const [destination, setDestination] = useState();
-  const [transportAmount, setTransportAmount] = useState();
-  const [otherAmount, setOtherAmount] = useState();
-  const [CGST, setCGST] = useState();
-  const [IGST, setIGST] = useState();
-  const [SGST, setSGST] = useState();
-  const [CGSTValue, setCGSTValue] = useState();
-  const [IGSTValue, setIGSTValue] = useState();
-  const [SGSTValue, setSGSTValue] = useState();
- 
+  const [transportAmount, setTransportAmount] = useState(null);
+  const [otherAmount, setOtherAmount] = useState(null);
+  const [CGST, setCGST] = useState(null);
+  const [IGST, setIGST] = useState(null);
+  const [SGST, setSGST] = useState(null);
+  const [CGSTValue, setCGSTValue] = useState(0);
+  const [IGSTValue, setIGSTValue] = useState(0);
+  const [SGSTValue, setSGSTValue] = useState(0);
 
+  const [tableData, setTableData] = useState();
+  const [customerName, setCustomerName] = useState();
+  const [contact, setContact] = useState();
+  const [GSTIN, setGSTIN] = useState();
+  const [address, setAddress] = useState();
   const [productData, setProductData] = useState();
   const [selectedProductData, setSelectedProductData] = useState();
   const [itemsToShow, setItemToShow] = useState();
   const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
+  const [custId, setCustId] = useState();
  
 
 
-
+  const handleAutocompleteChange = (event, newValue) => {
+    setCustomerName(newValue);
+  };
   const handleProductAutocompleteChange = (event, newValue) => {
     setProdName(newValue);
   };
@@ -44,15 +51,31 @@ export const QuatationForm = () => {
   useEffect(() => {
     const getCustomerDetails = async (e) => {
 
+      const res = await axios.get(`${GlobalService.path}/fetchCustomer`);
+      setTableData(res.data.data);
+
       const productRes = await axios.get(
         `${GlobalService.path}/fetchProductsForSale`
       );
-      console.log(productRes);
+
+      if (customerName != undefined || customerName != null) {
+        const filtered = tableData?.filter(
+          (row) => row.cust_name == customerName
+        );
+        if (filtered != undefined) {
+          setCustId(filtered[0]?.cust_id);
+          setContact(filtered[0]?.mobile);
+          setGSTIN(filtered[0]?.gstin);
+          setAddress(filtered[0]?.address);
+        }
+      }
+     
       setProductData(productRes.data.data);
+
 
       if (prodName != undefined || prodName != null) {
         const filteredData = productData?.filter(
-          (row) => row.prod_name === prodName
+          (row) => row.prod_name == prodName
         );
         setSelectedProductData(filteredData[0]);
         console.log("prod_name=", filteredData);
@@ -62,7 +85,11 @@ export const QuatationForm = () => {
     };
 
     getCustomerDetails();
-  }, [prodName]);
+  }, [prodName,customerName]);
+
+  let custname = tableData?.map((data) => {
+    return data.cust_name;
+  });
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
@@ -114,6 +141,7 @@ export const QuatationForm = () => {
         `${GlobalService.path}/addQuataionProduct`,
         productDetails
       );
+      console.log(res);
       alert("Product added successfully");
       console.log(res);
       // const pID=prodId+1
@@ -123,7 +151,7 @@ export const QuatationForm = () => {
         `${GlobalService.path}/fetchQuatationProduct/${voucherNo}`
       );
       setItemToShow(getProdTableData.data.data);
-      console.log(getProdTableData.data.data);
+    
     } catch (error) {
       console.log(error);
     }
@@ -132,6 +160,11 @@ export const QuatationForm = () => {
   let saleProductDetails = {
     voucher_no: voucherNo,
     date,
+    cust_id: custId,
+    cust_name: customerName,
+    mobile: contact,
+    gstin: GSTIN,
+    address,
     order_no: order_no,
     destination: destination,
     trans_amt: transportAmount,
@@ -148,14 +181,14 @@ export const QuatationForm = () => {
 
   const submitSaleProduct = async (e) => {
     e.preventDefault();
-    console.log(saleProductDetails);
+    
     try {
       const res = await axios.post(
         `${GlobalService.path}/addQuatation`,
         saleProductDetails
       );
 
-      alert("Sale details added successfully");
+      alert("Quatation details added successfully");
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -167,19 +200,19 @@ export const QuatationForm = () => {
       const response = await axios.delete(
         `${GlobalService.path}/deleteQuatationProduct/${id}`
       );
-      console.log(response);
+      
       if (response.status == 200) {
-        alert(response.data.message);
+        alert("Record deleted successfully");
         const deletedProduct = itemsToShow.find(
-          (product) => product.qp_id === id
+          (product) => product.qp_id == id
         );
-        console.log(deletedProduct);
+        
         // Calculate the new subtotal by subtracting the deleted product's total from the current subtotal
         const newSubTotal = subTotal - deletedProduct?.total;
         // Update the subtotal state
         setSubTotal(newSubTotal);
         setItemToShow((itemsToShow) =>
-          itemsToShow.filter((product) => product.qp_id !== id)
+          itemsToShow.filter((product) => product.qp_id != id)
         );
       } else alert("Failed to Delete");
     } catch (error) {
@@ -189,7 +222,7 @@ export const QuatationForm = () => {
   };
 
   useEffect(() => {
-    console.log(subTotal);
+   
 
     const cgstValue = isNaN(CGST) ? 0 : parseFloat((CGST / 100) * subTotal);
     const sgstValue = isNaN(SGST) ? 0 : parseFloat((SGST / 100) * subTotal);
@@ -205,22 +238,13 @@ export const QuatationForm = () => {
       parseFloat(cgstValue) +
       parseFloat(igstValue) +
       parseFloat(subTotal) +
+      parseFloat(parseFloat((CGST / 100) * transportAmount)) +
       parseFloat(transportAmount) +
       parseFloat(otherAmount);
 
     setGrandTotal(parseFloat(grandTotal));
-    console.log(CGST);
-    console.log(SGST);
-    console.log(IGST);
-
-    console.log(CGSTValue);
-    console.log(SGSTValue);
-    console.log(IGSTValue);
-
-    console.log("grand=", parseFloat(grandTotal).toFixed(2));
-    console.log("tran=", transportAmount);
-    console.log("hamali=", otherAmount);
-  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal]);
+    
+  }, [CGST, SGST, IGST, transportAmount, otherAmount, subTotal,CGSTValue,IGSTValue,SGSTValue]);
 
   return (
     <>
@@ -272,7 +296,75 @@ export const QuatationForm = () => {
                   </div>
                 </div>
               </div>
-              <hr />
+               {/* Customer Details */}
+               <hr />
+               <div className="modal-header">
+                 <h4 className="modal-title" id="myModalLabel">
+                   Customer Details
+                 </h4>
+               </div>
+               <div className="modal-body">
+                 <div className="row">
+                   <div className="col-sm-6">
+                     <Autocomplete
+                       disablePortal
+                       id="combo-box-demo"
+                       options={custname}
+                       value={customerName} // Set the value prop to control the selected value
+                       onChange={handleAutocompleteChange}
+                       renderInput={(params) => (
+                         <TextField {...params} label="Customer Name" />
+                       )}
+                     />
+                   </div>
+                   <div className="col-sm-6">
+                     <div className="form-group">
+                       <label>Contact</label>
+                       <input
+                         type="text"
+                         id="Contact"
+                         name="Contact"
+                         placeholder="Enter Contact"
+                         className="form-control"
+                         maxLength={10}
+                         value={contact}
+                         onChange={(e) => setContact(e.target.value)}
+                       />
+                     </div>
+                   </div>
+                   <div className="col-sm-6">
+                     <div className="form-group">
+                       <label>GSTIN</label>
+                       <input
+                         type="text"
+                         name="GSTIN"
+                         id="GSTIN"
+                         className="form-control"
+                         placeholder="Enter GSTIN"
+                         required=""
+                         value={GSTIN}
+                         onChange={(e) => setGSTIN(e.target.value)}
+                       />
+                     </div>
+                   </div>
+                   <div className="col-sm-6">
+                     <div className="form-group">
+                       <label>Address</label>
+                       <input
+                         type="text"
+                         name="Address"
+                         id="Address"
+                         className="form-control"
+                         placeholder="Enter Address"
+                         required=""
+                         value={address}
+                         onChange={(e) => setAddress(e.target.value)}
+                       />
+                     </div>
+                   </div>
+                 </div>
+               </div>
+               <hr />
               <div className="modal-header">
                 <h4 className="modal-title" id="myModalLabel">
                   Product Details
@@ -438,7 +530,7 @@ export const QuatationForm = () => {
                             <td>{row.type}</td>
                             <td>{row.total}</td>
                             <td>
-                              <a
+                              <Button
                                 className="confirm-text"
                                 onClick={() => deleteItem(row.qp_id)}
                               >
@@ -446,7 +538,7 @@ export const QuatationForm = () => {
                                   src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
                                   alt="img"
                                 />
-                              </a>
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -502,7 +594,7 @@ export const QuatationForm = () => {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Transport Amount</label>
+                      <label>Packing and Forwarding</label>
                       <input
                         type="number"
                         id="rate"

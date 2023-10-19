@@ -70,7 +70,7 @@ function SaleInvoice() {
     };
 
     fetchData();
-  }, []);
+  }, [invoice_no,cust_id,dateParam]);
 
   // Fetching Company Details
 
@@ -202,23 +202,23 @@ function SaleInvoice() {
                         <tr>
                           <td style={{ width: "50%" }}>
                             <label>Vehical No</label> <br />
-                            {VehicleNo}
+                           
                           </td>
-                          <td style={{ width: "50%" }}>0</td>
+                          <td style={{ width: "50%" }}> {VehicleNo}</td>
                         </tr>
                         <tr>
                           <td style={{ width: "50%" }}>
                             <label>Driver Name :</label> <br />
-                            {DriverName}
+                           
                           </td>
                           <td style={{ width: "50%" }}>
-                            {/*?php echo $ino?*/}
+                          {DriverName}
                           </td>
                         </tr>
                         <tr style={{ height: 120 }}>
                           <td colSpan={2} style={{ top: 0 }}>
-                            <label>Destination :</label> <br />
-                            {destination}
+                            <label>Destination :</label>  {destination} <br />
+                           
                           </td>
                         </tr>
                       </tbody>

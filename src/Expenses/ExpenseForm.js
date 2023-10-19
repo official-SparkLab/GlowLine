@@ -30,11 +30,10 @@ export const ExpenseForm = ({ row }) => {
             setPaidStatus(row.paid_status)
             setNote(row.note)
         }
-    }, [])
+    }, [row])
 
     const submitExpenseDetails = async (e) => {
         e.preventDefault()
-        console.log('u r in submit');
         if (row == undefined) {
             try {
                 console.log(expenseItem);
@@ -48,7 +47,7 @@ export const ExpenseForm = ({ row }) => {
             }
         } else {
             try {
-                console.log(expenseItem);
+               
                 const res = await axios.put(`${GlobalService.path}/addExpense/${row.exp_id}`, expenseItem);
                 console.log(res);
                 alert("Expense updated successfully")
@@ -161,7 +160,7 @@ export const ExpenseForm = ({ row }) => {
                                                 id="sup_address"
                                                 className="form-control"
                                                 placeholder="Enter Note"
-                                                required=""
+                                                
                                                 value={note}
                                                 onChange={(e) => setNote(e.target.value)}
                                             />

@@ -13,10 +13,10 @@ function Header() {
         {/* Brand and toggle get grouped for better mobile display */}
         <div className="navbar-header">
           <div className="logo-sm">
-            <a href="#" id="sidebar-toggle-button">
+            <a href='#' id="sidebar-toggle-button">
               <i className="fa fa-bars" />
             </a>
-            <a className="logo-box" >
+            <a href='#' className="logo-box" >
               <span>Arihant Organics</span>
             </a>
             

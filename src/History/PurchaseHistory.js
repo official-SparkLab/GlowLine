@@ -5,17 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faEdit,
-  faFileInvoice,
-  faLocation,
-  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
   faUser,
   faMobileAlt,
-  faEnvelope,
   faMapMarkerAlt,
-  faEye,
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -33,7 +29,7 @@ function PurchaseHistory() {
   const [customerName, setCustomerName] = useState();
   const [contact, setContact] = useState();
   const [address, setAddress] = useState();
-  const [gstin, setgstin] = useState();
+
 
   const[trans_amt,setTransAmt] = useState();
   const[hamali,setHamali] = useState();
@@ -65,7 +61,6 @@ function PurchaseHistory() {
         // Customer Details
         setCustomerName(custRes.data.data[0].sup_name);
         setContact(custRes.data.data[0].mobile_no);
-        setgstin(custRes.data.data[0].gstin);
         setAddress(custRes.data.data[0].address);
 
         // Invoice Details
@@ -85,7 +80,7 @@ function PurchaseHistory() {
     };
 
     fetchData();
-  }, []);
+  }, [invoice_no,sup_id,date]);
 
   return (
     <div>
@@ -102,19 +97,17 @@ function PurchaseHistory() {
                 <div className="back" style={{ margin: "0px 5px 10px 0px" }}>
                   <div className="row">
                     <div className="col col-md-6">
-                      <a
+                      <button type="button" className="btn btn-text back-button"
                         onClick={() => {
                           window.history.back();
                         }}
-                        type="submit"
-                        className="back-button"
                       >
                         <FontAwesomeIcon
                           icon={faArrowLeft}
                           style={{ marginRight: "7px" }}
                         />
                         Back
-                      </a>
+                      </button>
                       <h2
                         className=""
                         style={{

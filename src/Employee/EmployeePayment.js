@@ -32,7 +32,7 @@ export const EmployeePayment = ({ row }) => {
             setDeduction(row.deduction)
             setDescription(row.description)
         }
-    }, [])
+    }, [row])
 
     const submitEmployeePaymentDetails = async (e) => {
         e.preventDefault()
@@ -156,7 +156,7 @@ export const EmployeePayment = ({ row }) => {
                                                 name="entryName"
                                                 className="form-control"
                                                 placeholder="Enter Description"
-                                                required=""
+                                               
                                                 value={description}
                                                 onChange={(e) => setDescription(e.target.value)}
                                             />

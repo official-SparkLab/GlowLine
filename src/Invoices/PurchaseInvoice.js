@@ -20,7 +20,6 @@ function PurchaseInvoice() {
   const [accountNo, setAccountNo] = useState();
   const [branch, setBranch] = useState();
 
-  const [date, setDate] = useState();
   const [dispatchNo, setDispatchNo] = useState("");
   const [destination, setDestination] = useState("");
   const [customer_name, setCustomerName] = useState("");
@@ -49,7 +48,6 @@ function PurchaseInvoice() {
         setCustGstIn(custRes.data.data[0].gstin);
 
         // Invoice Details
-        setDate(invoiceRes.data.data.date);
         setDestination(invoiceRes.data.data.destination);
         setDispatchNo(invoiceRes.data.data.dispatch_no);
         setotal(invoiceRes.data.data.total);
@@ -66,7 +64,7 @@ function PurchaseInvoice() {
     };
 
     fetchData();
-  }, []);
+  }, [invoice_no,sup_id,dateParam]);
 
   // Fetching Company Details
 

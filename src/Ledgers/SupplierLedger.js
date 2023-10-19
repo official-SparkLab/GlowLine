@@ -7,14 +7,13 @@ import { GlobalService } from "../service/GlobalService";
 function SupplierLedger() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const [SupID, setSupID] = useState(queryParams.get("supId"));
-  const [fromDate, setFromDate] = useState(queryParams.get("fromDate"));
-  const [toDate, setTodate] = useState(queryParams.get("toDate"));
+  const SupID = queryParams.get("supId");
+  const fromDate = queryParams.get("fromDate");
+  const toDate = queryParams.get("toDate");
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [contactNo, setContactNo] = useState("");
-  const [data, setData] = useState([]);
   let credit = 0;
   let debit = 0;
 
@@ -28,7 +27,6 @@ function SupplierLedger() {
         const supplierData = response.data.data[0]; // Assuming you expect only one customer
 
         if (supplierData) {
-          setData(supplierData);
           setName(supplierData.sup_name);
           setContactNo(supplierData.mobile_no);
           setAddress(supplierData.address);
@@ -52,6 +50,7 @@ function SupplierLedger() {
         const supplierData = response.data.data;
         // Assuming you expect only one customer
         setTableData(supplierData);
+        console.log(tableData)
       } catch (error) {
         console.error("Error fetching suplier details:", error);
         // Handle error appropriately (e.g., show an error message)
@@ -59,7 +58,7 @@ function SupplierLedger() {
     };
 
     getLedgerDetails();
-  }, []);
+  }, [SupID,fromDate,toDate]);
 
 
  
@@ -121,7 +120,7 @@ function SupplierLedger() {
                     (
                   <tr key={index}>
                     <td>{row.date}</td>
-                    <td>{row.pur_pay_id}</td>
+                    <td>{row.rawp_id}</td>
                     <td>{row.sup_name}</td>
                     <td>{row.invoice_no}</td>
                     <td>{row.total?parseFloat(row.total):0}</td>

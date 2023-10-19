@@ -1,19 +1,16 @@
-import React from "react";
+import React, { useCallback } from "react";
 import SideBar from "../SideBar";
 import Header from "../header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowLeft,
-  faEdit,
-  faLocation,
+  faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
   faUser,
   faMobileAlt,
-  faEnvelope,
-  faMapMarkerAlt,
-  faEye,
+  faMapMarkerAlt
+  
 } from "@fortawesome/free-solid-svg-icons";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
@@ -33,13 +30,12 @@ function CustomerHistory() {
 
   const [customerName, setCustomerName] = useState();
   const [contact, setContact] = useState();
-  const [email, setEmail] = useState();
   const [address, setAddress] = useState();
   const [bankName, setBankName] = useState();
   const [ifsc, setIFSC] = useState();
-  const [brnach, setBranch] = useState();
+  
   const [accountNo, setAccountNo] = useState();
-  const [gstin, setgstin] = useState();
+ 
   const [fromDate, setFromDate] = useState(financialYearDate);
   const [toDate, setToDate] = useState(today);
 
@@ -47,18 +43,13 @@ function CustomerHistory() {
 
   const [totalPurchaseqty, setTotalPurchaseqty] = useState(0);
   // Counting Total Weight of purchase quantity
-  const handleSubmit = async (e) => {
+  const handleSubmit =useCallback( async (e) => {
     const res = await axios.get(
       `${GlobalService.path}/fetchPurchaseWeight/${cust_id}/${fromDate}/${toDate}`
     );
-
     setTotalPurchaseqty(res.data.data[0].total);
-  };
+  },[cust_id,fromDate,toDate]);
 
-  // Handle click button for total purchaseweight
-  const handleClick = () => {
-    handleSubmit();
-  };
 
   // Getting all Sale Details By customer id
   useEffect(() => {
@@ -66,13 +57,11 @@ function CustomerHistory() {
       const res = await axios.get(
         `${GlobalService.path}/fetchSaleById/${cust_id}`
       );
-      console.log(res);
       setTableData(res.data.data);
-      console.log(tableData);
     };
     getCustomerDetails();
     handleSubmit();
-  }, []);
+  }, [tableData,handleSubmit,cust_id]);
 
   // Getting All customer details by cust id
   useEffect(() => {
@@ -80,19 +69,17 @@ function CustomerHistory() {
       const res = await axios.get(
         `${GlobalService.path}/fetchCustomer/${cust_id}`
       );
-      console.log(res);
+      
       setCustomerName(res.data.data[0].cust_name);
       setContact(res.data.data[0].mobile);
-      setgstin(res.data.data[0].gstin);
       setAddress(res.data.data[0].address);
       setBankName(res.data.data[0].bank_name);
       setAccountNo(res.data.data[0].acc_no);
       setIFSC(res.data.data[0].ifsc);
-      setBranch(res.data.data[0].branch);
-      console.log(tableData);
+   
     };
     getCustomerDetails();
-  }, []);
+  }, [cust_id]);
 
   return (
     <div>
@@ -219,7 +206,7 @@ function CustomerHistory() {
                       <button
                         className="btn btn-primary"
                         value="Submit"
-                        onClick={handleClick}
+                        onClick={handleSubmit}
                       >
                         Submit
                       </button>

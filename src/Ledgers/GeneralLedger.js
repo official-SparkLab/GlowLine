@@ -15,15 +15,19 @@ function GeneralLedger() {
       const res = await axios.get(
         `${GlobalService.path}/generalLedger/${fromDate}/${toDate}`
       );
-      console.log(res);
+
       setTableData(res.data.data);
-      console.log(tableData);
     };
     getCustomerDetails();
-  }, []);
+  }, [tableData,fromDate,toDate]);
 
   let credit = 0;
   let debit = 0;
+
+  const filteredData = tableData.filter((row) => {
+    const rowDate =  tableData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return rowDate ;
+  });
 
   return (
     <div>
@@ -50,29 +54,30 @@ function GeneralLedger() {
           <table className="tables">
             <thead>
               <tr>
-              <th>Date</th>
-              <th>Particulars</th>
-              <th>Vch Type</th>
-              <th>Vch No.</th>
-              <th>Debit</th>
-              <th>Credit</th>
+                <th>Date</th>
+                <th>Particulars</th>
+                <th>Vch Type</th>
+                <th>Vch No.</th>
+                <th>Debit</th>
+                <th>Credit</th>
               </tr>
             </thead>
             <tbody>
-              {tableData.map((row, index) => (
-                (debit = parseFloat(debit) + parseFloat(row.total)),
-                (credit = parseFloat(credit) + parseFloat(row.sub_total)),
-                (
-                <tr key={index}>
-                <td>{row.date}</td>
-                <td>{row.sales_pay_id}</td>
-                <td>{row.cust_name}</td>
-                <td>{row.invoice_no}</td>
-                <td>{parseFloat(row.total)}</td>
-                <td>{parseFloat(row.sub_total)}</td>
-                
-                </tr>
-              )))}
+            {filteredData.length > 0 &&
+              filteredData.map((row, index) => {
+                debit += parseFloat(row.total);
+                credit += parseFloat(row.sub_total);
+                return(
+                    <tr key={index}>
+                      <td>{row.date}</td>
+                      <td>{row.sales_id}</td>
+                      <td>{row.cust_name}</td>
+                      <td>{row.invoice_no}</td>
+                      <td>{parseFloat(row.total)}</td>
+                      <td>{parseFloat(row.sub_total)}</td>
+                    </tr>
+                  )
+                })}
 
               <tr style={{ height: "100%" }}>
                 <td />
@@ -87,7 +92,7 @@ function GeneralLedger() {
                 <th />
                 <th />
                 <th />
-                
+                <th/>
                 <td>&#8377;{Math.round(debit)}</td>
                 <td>&#8377;{Math.round(credit)}</td>
               </tr>
