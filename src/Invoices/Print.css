@@ -1,0 +1,16 @@
+
+    /* Reset background color for printing to ensure it's preserved */
+    .yellow-color {
+      background-color: yellow !important;
+      color: black !important;
+      border: none;
+    }
+
+    .gray-color{
+        width: 60%;
+        background-color: gray !important;
+        border: none;
+    }
+  
+    /* Other print-specific styles go here */
+  

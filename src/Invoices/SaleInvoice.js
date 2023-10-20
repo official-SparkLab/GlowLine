@@ -3,7 +3,7 @@ import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { toWords } from "number-to-words";
-
+import "./Print.css";
 function SaleInvoice() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -122,45 +122,46 @@ function SaleInvoice() {
           type="text/css"
           dangerouslySetInnerHTML={{
             __html:
-              "\n   \n      .invoice-box {\n        max-width: 210mm;\n        margin: auto;\n        height: 260mm;\n       \n        border: 2px solid black;\n          position: relative;\n   \n      \n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\n      .invoice-header {\n        max-width: 210mm;\n        font-size: 16px;\n        line-height: 24px;\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\ntable {\n  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n\n\n      \n\n      @media only screen and (max-width: 600px) {\n        .invoice-box table tr.top table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n          margin: 5px;\n        }\n\n        .invoice-box table tr.information table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n\n        }\n        .tables tfoot\n      {\n         display: table-footer-group;\n      }\n      }\n\n      /** RTL **/\n      .invoice-box.rtl {\n        direction: rtl;\n        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n      }\n\n           .tables {\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        height: 390px;\n\n        width: 100%;\n\n      }\n     \n\n      .tables tfoot\n      {\n        bottom: 0;\n        \n      }\n\n      td, th {\n        border: 1px solid black;\n\n        text-align: left;\n        padding: 2px;\n      }\n\nlabel\n      {\n        font-weight: bold;\n      }\n    ",
+              "\n   \n      .invoice-box {\n        max-width: 210mm;\n        margin: auto;\n        height: 260mm;\n       \n        border: 1px solid black;\n          position: relative;\n   \n      \n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\n      .invoice-header {\n        max-width: 210mm;\n        font-size: 16px;\n        line-height: 20px;\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\ntable {\n  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n\n\n      \n\n      @media only screen and (max-width: 600px) {\n        .invoice-box table tr.top table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n          margin: 5px;\n        }\n\n        .invoice-box table tr.information table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n\n        }\n        .tables tfoot\n      {\n         display: table-footer-group;\n      }\n      }\n\n      /** RTL **/\n      .invoice-box.rtl {\n        direction: rtl;\n        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n      }\n\n           .tables {\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        height: 390px;\n\n        width: 100%;\n\n      }\n     \n\n      .tables tfoot\n      {\n        bottom: 0;\n        \n      }\n\n      td, th {\n        border: 1px solid black;\n\n         text-align: left;\n        padding: 2px;\n      }\n\nlabel\n      {\n        font-weight: bold;\n      }\n    ",
           }}
         />
-        <div className="invoice-box ">
+        <div className="invoice-box" style={{backgroundColor:"white"}}>
           <div className="invoice-header">
             <center>
               <span>Tax Invoice</span>
             </center>
             <table style={{ height: 300 }}>
               <tbody>
-                <tr style={{ height: 280 }}>
+                <tr style={{ height: 300 }}>
                   <td style={{ width: "50%", marginTop: 0, marginBottom: 0 }}>
-                    <div style={{ height: 150 }}>
-                      <center style={{ top: 0, fontSize: 22, fontWeight: 600 }}>
-                        Glowline Thermoplastic Paint
-                      </center>
+                    <div style={{ height: 130 }}>
+                      <h4 style={{ top: 0, fontSize: 17, marginLeft: 10, fontWeight: 600 }}>
+                        Name :Glowline Thermoplastic Paint
+                      </h4>
                       <div
-                        style={{ marginTop: 10, marginLeft: 10, fontSize: 16 }}
+                        style={{ marginTop: 10, marginLeft: 10,}}
                       >
-                        <b>
-                          <label> {companyAddress} </label>
-                          <br />
-                        </b>
-                        <label>E-Mail : {companyEmail}</label>
-                        <br />
-                        <label>Mobile : {comapnyContact}</label>
-                        <br />
-                        <label>
-                          GST No :<b>{companyGstin}</b>
-                        </label>
+                        
+                          <h5 style={{fontSize:"14px"}}><b>Office  :</b> {companyAddress} </h5>
+                          
+                        
+                        <h5 style={{fontSize:"14px"}}><b>E-Mail :</b> {companyEmail}</h5>
+                        
+                        <h5 style={{fontSize:"14px"}}><b>Mobile :</b>{comapnyContact}</h5>
+                       
+                        <h5 style={{fontSize:"15px"}}>
+                        <b>GST No :{companyGstin}</b>
+                        </h5>
                       </div>
                     </div>
                     <hr />
-                    <div style={{ height: 130, fontSize: 16 }}>
-                      <label>Party Name: {customer_name}</label>
+                    <div style={{ height: 150,  }}>
+                      <label style={{fontSize:"16px"}}>Party Name: </label>&nbsp;
+                      <span style={{fontSize:"14px"}}>{customer_name}</span>
                       <br />
-                      <label>Address : {cust_address}</label>
-                      <br />
-                      <label>GST NO :{cust_gstin}</label>
+                      <h5 ><b>Address  &nbsp;&nbsp;&nbsp;&nbsp;: </b>{cust_address}</h5>
+                      
+                      <h5  style={{fontSize:"15px"}}><b>GST NO   &nbsp;&nbsp;&nbsp;&nbsp;: {cust_gstin}</b></h5>
                     </div>
                   </td>
                   <td style={{ width: "50%" }}>
@@ -217,7 +218,7 @@ function SaleInvoice() {
                         </tr>
                         <tr style={{ height: 120 }}>
                           <td colSpan={2} style={{ top: 0 }}>
-                            <label>Destination :</label>  {destination} <br />
+                            <h5 style={{fontSize:""}}><b>Destination : </b>{destination}</h5> <br />
                            
                           </td>
                         </tr>
@@ -228,17 +229,16 @@ function SaleInvoice() {
               </tbody>
             </table>
           </div>
-          <br />
-          <table className="tables">
+          <table className="tables" style={{marginTop:"10px"}}>
             <thead>
               <tr>
-                <th style={{ width: "7%" }}>No</th>
-                <th style={{ width: "35%" }}>Description of Goods</th>
-                <th style={{ width: "12%" }}>HSN</th>
-                <th>Quantity</th>
-                <th>Units/Bag's</th>
-                <th style={{ width: "12%" }}>Rate</th>
-                <th style={{ width: "15%" }}>Amount</th>
+                <th style={{ width: "7%" }}><b>No</b></th>
+                <th style={{ width: "35%" }}><b>Description of Goods</b></th>
+                <th style={{ width: "12%" }}><b>HSN</b></th>
+                <th><b>Quantity</b></th>
+                <th><b>Units/Bag's</b></th>
+                <th style={{ width: "12%" }}><b>Rate</b></th>
+                <th style={{ width: "15%" }}><b>Amount</b></th>
               </tr>
             </thead>
             <tbody>
@@ -277,7 +277,7 @@ function SaleInvoice() {
                       float: "left",
                     }}
                   >
-                    <b>Bank Details</b>
+                    Bank Details
                   </div>
                   <div style={{ width: "65%", float: "right", padding: 2 }}>
                     GLOWLINE THERMOPLASTIC PAINTS
@@ -297,13 +297,13 @@ function SaleInvoice() {
                       float: "left",
                     }}
                   >
-                    <b>A/c No : </b>
+                    A/c No :
                   </div>
                   <div style={{ width: "65%", float: "right", padding: 2 }}>
                     {accountNo}
                   </div>
                 </td>
-                <td colSpan={2}>CGST 18%</td>
+                <td colSpan={2}>CGST 9%</td>
                 <td>{cgst}</td>
               </tr>
               <tr>
@@ -317,13 +317,13 @@ function SaleInvoice() {
                       float: "left",
                     }}
                   >
-                    <b>Bank Name :</b>
+                    Bank Name :
                   </div>
                   <div style={{ width: "65%", float: "right", padding: 2 }}>
                     {bankName}
                   </div>
                 </td>
-                <td colSpan={2}>SGST 18%</td>
+                <td colSpan={2}>SGST 9%</td>
                 <td>{sgst}</td>
               </tr>
               <tr>
@@ -337,7 +337,7 @@ function SaleInvoice() {
                       float: "left",
                     }}
                   >
-                    <b>Branch :</b>
+                    Branch :
                   </div>
                   <div style={{ width: "65%", float: "right", padding: 2 }}>
                     {branch}
@@ -357,7 +357,7 @@ function SaleInvoice() {
                       float: "left",
                     }}
                   >
-                    <b>IFSC Code :</b>
+                    IFSC Code :
                   </div>
                   <div style={{ width: "65%", float: "right", padding: 2 }}>
                     {IFSC}
@@ -375,12 +375,11 @@ function SaleInvoice() {
           <br />
           <table>
             <tbody>
-              <tr style={{ height: 100 }}>
-                <td colSpan={2}>
+              <tr style={{ height:"80px",border:"0" }}>
+                <td colSpan={2} style={{border:"0"}}>
                   <div style={{ float: "right", marginRight: 50 }}>
                     GLOWLINE THERMOPLASTIC PAINT
                   </div>
-                  <br />
                   <br />
                   <br />
                   <br />
@@ -390,18 +389,9 @@ function SaleInvoice() {
                   </div>
                 </td>
               </tr>
-              <tr>
-                <td
-                  style={{
-                    height: 25,
-                    width: "60%",
-                    backgroundColor: "gray",
-                    border: 0,
-                  }}
-                ></td>
-                <td
-                  style={{ height: 25, backgroundColor: "yellow", border: 0 }}
-                ></td>
+              <tr style={{height:"25px"}}>
+                <td className="gray-color"></td>
+                <td className="yellow-color"></td>
               </tr>
               <tr>
                 <td
