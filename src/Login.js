@@ -22,8 +22,9 @@ const Login = () => {
     else{
       navigate('/login');
     }
-  });
+  },[]);
   const {
+    isLoggedIn,
     password,
     useremail,
     setUserEmail,
@@ -178,7 +179,6 @@ const LoginButton = styled.button`
     background-color: #45a049;
   }
 `;
-
 
 
 export default Login;
