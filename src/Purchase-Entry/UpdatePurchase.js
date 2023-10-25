@@ -67,10 +67,6 @@ function UpdatePurchase() {
     getCustomerDetails();
   }, [prodName,productData]);
 
-
- 
-
-
   
 
   const handleRowClick = (row) => {
@@ -348,7 +344,7 @@ function UpdatePurchase() {
                       )
                     }
                   >
-                    <option>{prodName}</option>
+                    <option>Select product</option>
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}

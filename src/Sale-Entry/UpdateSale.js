@@ -355,7 +355,7 @@ console.log(res);
                       )
                     }
                   >
-                    <option>{prodName}</option>
+                    <option>Select product</option>
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}
