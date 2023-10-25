@@ -26,7 +26,7 @@ export const PurchaseEntryForm = () => {
   const [IGSTValue, setIGSTValue] = useState(0);
   const [SGSTValue, setSGSTValue] = useState(0);
   const [tableData, setTableData] = useState();
-  const [SupplierName, setSupplierName] = useState();
+  const [SupplierName, setSupplierName] = useState(null);
   const [contact, setContact] = useState();
   const [GSTIN, setGSTIN] = useState();
   const [address, setAddress] = useState();
@@ -72,7 +72,7 @@ export const PurchaseEntryForm = () => {
     };
 
     getCustomerDetails();
-  }, [SupplierName, prodName,productData,tableData]);
+  }, [SupplierName,prodName]);
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
@@ -294,7 +294,7 @@ export const PurchaseEntryForm = () => {
                       )
                     }
                   >
-                    <option>{SupplierName}</option>
+                    <option>Select supplier</option>
                     {Array.isArray(tableData) && tableData.map((item, index) => (
                       <option key={index} value={item.sup_name}>
                         {item.sup_name}
@@ -310,7 +310,7 @@ export const PurchaseEntryForm = () => {
                         type="text"
                         id="date"
                         name="date"
-                        placeholder="Enter Weight"
+                        placeholder="Enter contact"
                         className="form-control"
                         value={contact}
                         onChange={(e) => setContact(e.target.value)}
@@ -388,7 +388,7 @@ export const PurchaseEntryForm = () => {
                       )
                     }
                   >
-                    <option>{prodName}</option>
+                    <option>Select product</option>
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}

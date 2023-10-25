@@ -291,7 +291,7 @@ export const SaleEntryForm = () => {
                     )
                   }
                 >
-                  <option>{customerName}</option>
+                  <option>Select customer</option>
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.cust_name}>
                       {item.cust_name}
@@ -383,7 +383,7 @@ export const SaleEntryForm = () => {
                       )
                     }
                   >
-                    <option>{prodName}</option>
+                    <option>Select product</option>
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}
