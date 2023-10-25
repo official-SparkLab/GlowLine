@@ -37,25 +37,15 @@ export const PurchaseEntryForm = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [suptId, setSupId] = useState();
 
-  const handleAutocompleteChange = (event, newValue) => {
-    setSupplierName(newValue);
-    console.log(SupplierName);
-  };
-
-  const handleProductAutocompleteChange = (event, newValue) => {
-    setProdName(newValue);
-  };
 
   useEffect(() => {
     const getCustomerDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchSupplier`);
       setTableData(res.data.data);
-      console.log(res.data.data);
 
       const productRes = await axios.get(
         `${GlobalService.path}/fetchProductsForPurchase`
       );
-      console.log(productRes);
       setProductData(productRes.data.data);
 
       if (SupplierName != undefined || SupplierName != null) {
@@ -98,14 +88,6 @@ export const PurchaseEntryForm = () => {
     }, 0);
     setSubTotal(totalAll);
   }, [itemsToShow]);
-
-  let supname = tableData?.map((data) => {
-    return data.sup_name;
-  });
-
-  let productname = productData?.map((data) => {
-    return data.prod_name;
-  });
 
   let productDetails = {
     pur_prod_id: prodId,
@@ -300,17 +282,25 @@ export const PurchaseEntryForm = () => {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Supplier Name</label>
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={supname}
-                        value={SupplierName} // Set the value prop to control the selected value
-                        onChange={handleAutocompleteChange}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Supplier Name" />
-                        )}
-                      />
+                    <label>Supplier Name</label>
+                    <select
+                    name="sname"
+                    id="supName"
+                    className="form-control"
+                    value={SupplierName}
+                    onChange={(e) =>
+                      setSupplierName(
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option>{SupplierName}</option>
+                    {Array.isArray(tableData) && tableData.map((item, index) => (
+                      <option key={index} value={item.sup_name}>
+                        {item.sup_name}
+                      </option>
+                    ))}
+                  </select>
                     </div>
                   </div>
                   <div className="col-sm-6">
@@ -386,17 +376,25 @@ export const PurchaseEntryForm = () => {
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
-                      <label>Product Name</label>
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        options={productname}
-                        value={prodName} // Set the value prop to control the selected value
-                        onChange={handleProductAutocompleteChange}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Product Name" />
-                        )}
-                      />
+                    <label>Product Name</label>
+                    <select
+                    name="pname"
+                    id="prodName"
+                    className="form-control"
+                    value={prodName}
+                    onChange={(e) =>
+                      setProdName(
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option>{prodName}</option>
+                    {Array.isArray(productData) && productData.map((item, index) => (
+                      <option key={index} value={item.prod_name}>
+                        {item.prod_name}
+                      </option>
+                    ))}
+                  </select>
                     </div>
                   </div>
                 </div>

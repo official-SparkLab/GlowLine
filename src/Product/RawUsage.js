@@ -19,9 +19,6 @@ export const RawUsage = () => {
   const [productData, setProductData] = useState();
   const [selectedProductData, setSelectedProductData] = useState();
 
-  const handleProductAutocompleteChange = (event, newValue) => {
-    setProdName(newValue);
-  };
 
   useEffect(() => {
     const getProductDetails = async (e) => {
@@ -57,9 +54,7 @@ export const RawUsage = () => {
     setTotalWeight(newTotalWeight);
   };
 
-  let productname = productData?.map((data) => {
-    return data.prod_name;
-  });
+
   let productDetails = {
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
@@ -148,17 +143,25 @@ export const RawUsage = () => {
                         </div>
                         <div className="col-sm-6">
                           <div className="form-group">
-                            <label>Product Name</label>
-                            <Autocomplete
-                              disablePortal
-                              id="combo-box-demo-productname"
-                              options={productname}
-                              value={prodName} // Set the value prop to control the selected value
-                              onChange={handleProductAutocompleteChange}
-                              renderInput={(params) => (
-                                <TextField {...params} label="Product Name" />
-                              )}
-                            />
+                          <label>Product Name</label>
+                          <select
+                          name="pname"
+                          id="prodName"
+                          className="form-control"
+                          value={prodName}
+                          onChange={(e) =>
+                            setProdName(
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option>{prodName}</option>
+                          {Array.isArray(productData) && productData.map((item, index) => (
+                            <option key={index} value={item.prod_name}>
+                              {item.prod_name}
+                            </option>
+                          ))}
+                        </select>
                           </div>
                         </div>
                       </div>

@@ -40,14 +40,6 @@ export const QuatationForm = () => {
   const [custId, setCustId] = useState();
  
 
-
-  const handleAutocompleteChange = (event, newValue) => {
-    setCustomerName(newValue);
-  };
-  const handleProductAutocompleteChange = (event, newValue) => {
-    setProdName(newValue);
-  };
-
   useEffect(() => {
     const getCustomerDetails = async (e) => {
 
@@ -87,10 +79,6 @@ export const QuatationForm = () => {
     getCustomerDetails();
   }, [prodName,customerName]);
 
-  let custname = tableData?.map((data) => {
-    return data.cust_name;
-  });
-
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
     const totalWeight = weight * quantity;
@@ -114,10 +102,6 @@ export const QuatationForm = () => {
   }, [itemsToShow]);
 
 
-
-  let productname = productData?.map((data) => {
-    return data.prod_name;
-  });
   let productDetails = {
     q_prod_id: prodId,
     voucher_no: voucherNo,
@@ -141,7 +125,6 @@ export const QuatationForm = () => {
         `${GlobalService.path}/addQuataionProduct`,
         productDetails
       );
-      console.log(res);
       alert("Product added successfully");
       console.log(res);
       // const pID=prodId+1
@@ -306,16 +289,25 @@ export const QuatationForm = () => {
                <div className="modal-body">
                  <div className="row">
                    <div className="col-sm-6">
-                     <Autocomplete
-                       disablePortal
-                       id="combo-box-demo"
-                       options={custname}
-                       value={customerName} // Set the value prop to control the selected value
-                       onChange={handleAutocompleteChange}
-                       renderInput={(params) => (
-                         <TextField {...params} label="Customer Name" />
-                       )}
-                     />
+                   <label>Customer Name</label>
+                   <select
+                   name="cname"
+                   id="CUstName"
+                   className="form-control"
+                   value={customerName}
+                   onChange={(e) =>
+                     setCustomerName(
+                       e.target.value
+                     )
+                   }
+                 >
+                   <option>{customerName}</option>
+                   {Array.isArray(tableData) && tableData.map((item, index) => (
+                     <option key={index} value={item.cust_name}>
+                       {item.cust_name}
+                     </option>
+                   ))}
+                 </select>
                    </div>
                    <div className="col-sm-6">
                      <div className="form-group">
@@ -390,16 +382,24 @@ export const QuatationForm = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                     <label>Product Name</label>
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo-productname"
-                        options={productname}
-                        value={prodName} // Set the value prop to control the selected value
-                        onChange={handleProductAutocompleteChange}
-                        renderInput={(params) => (
-                          <TextField {...params} label="Product Name" />
-                        )}
-                      />
+                    <select
+                    name="pname"
+                    id="prodName"
+                    className="form-control"
+                    value={prodName}
+                    onChange={(e) =>
+                      setProdName(
+                        e.target.value
+                      )
+                    }
+                  >
+                    <option>{prodName}</option>
+                    {Array.isArray(productData) && productData.map((item, index) => (
+                      <option key={index} value={item.prod_name}>
+                        {item.prod_name}
+                      </option>
+                    ))}
+                  </select>
                     </div>
                   </div>
                 </div>
