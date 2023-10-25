@@ -19,16 +19,13 @@ export const GoodUsage = () => {
   const [productData, setProductData] = useState();
   const [selectedProductData, setSelectedProductData] = useState();
 
-  const handleProductAutocompleteChange = (event, newValue) => {
-    setProdName(newValue);
-  };
+ 
 
   useEffect(() => {
     const getProductDetails = async (e) => {
       const productRes = await axios.get(
         `${GlobalService.path}/fetchProductsForGoodsUsage`
       );
-      console.log(productRes);
       setProductData(productRes.data.data);
 
       if (prodName != undefined || prodName != null) {
@@ -59,9 +56,6 @@ export const GoodUsage = () => {
     setTotalWeight(newTotalWeight);
   };
 
-  let productname = productData?.map((data) => {
-    return data.prod_name;
-  });
   let productDetails = {
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
@@ -149,17 +143,25 @@ export const GoodUsage = () => {
                         </div>
                         <div className="col-sm-6">
                           <div className="form-group">
-                            <label>Product Name</label>
-                            <Autocomplete
-                              disablePortal
-                              id="combo-box-demo-productname"
-                              options={productname}
-                              value={prodName} // Set the value prop to control the selected value
-                              onChange={handleProductAutocompleteChange}
-                              renderInput={(params) => (
-                                <TextField {...params} label="Product Name" />
-                              )}
-                            />
+                          <label>Product Name</label>
+                          <select
+                          name="pname"
+                          id="prodName"
+                          className="form-control"
+                          value={prodName}
+                          onChange={(e) =>
+                            setProdName(
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option>{prodName}</option>
+                          {Array.isArray(productData) && productData.map((item, index) => (
+                            <option key={index} value={item.prod_name}>
+                              {item.prod_name}
+                            </option>
+                          ))}
+                        </select>
                           </div>
                         </div>
                       </div>

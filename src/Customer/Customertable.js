@@ -73,7 +73,7 @@ export const CustomerTable = () => {
         try {
             const response = await axios.put(`${GlobalService.path}/deleteCustomer/${id}`);
             if (response.status == 200) {
-                alert(response.data.message)
+                alert("Customer deleted successfully")
                 window.location.reload()
             } else alert('Failed to Delete')
 

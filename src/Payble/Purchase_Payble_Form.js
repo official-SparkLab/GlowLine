@@ -83,12 +83,7 @@ export const Purchase_Payble_Form = ({ row }) => {
       setTrx_no(row.trx_no);
     }
   }, [row]);
-  
 
-  // All Supplier Names
-  let supname = tableData?.map((data) => {
-    return data.sup_name;
-  });
 
 // Add Purchase Details
 let payableDetails = {
@@ -124,7 +119,6 @@ const addPurchasePayble = async (e) => {
         `${GlobalService.path}/addPurchasePayable/${pur_pay_id}`,
         payableDetails
       );
-      console.log(res);
       alert("Purchase Payble details updated successfully");
       window.location.reload();
     } catch (error) {
@@ -158,17 +152,25 @@ const addPurchasePayble = async (e) => {
               <div className="row">
                 <div className="col-sm-6">
                   <div className="form-group">
-                    <label>Supplier Name</label>
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={supname}
-                      value={SupplierName} // Set the value prop to control the selected value
-                      onChange={handleAutocompleteChange}
-                      renderInput={(params) => (
-                        <TextField {...params} label={SupplierName ? SupplierName : "Supplier Name" }/>
-                      )}
-                    />
+                  <label>Supplier Name</label>
+                  <select
+                  name="sname"
+                  id="supName"
+                  className="form-control"
+                  value={SupplierName}
+                  onChange={(e) =>
+                    setSupplierName(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option>{SupplierName}</option>
+                  {Array.isArray(tableData) && tableData.map((item, index) => (
+                    <option key={index} value={item.sup_name}>
+                      {item.sup_name}
+                    </option>
+                  ))}
+                </select>
                   </div>
                 </div>
                 <div className="col-sm-6">

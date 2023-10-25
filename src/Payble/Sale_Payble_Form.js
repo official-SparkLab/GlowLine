@@ -19,10 +19,6 @@ export const Sale_Payble_Form = ({ row }) => {
   const [trx_no, setTrx_no] = useState("");
   const[sales_pay_id,setSales_pay_id] = useState();
 
-  // Autocomplete for SUpplier Name
-  const handleAutocompleteChange = (event, newValue) => {
-    setCustomerName(newValue);
-  };
 
   const handleChange = (e) => {
     setPaymentMode(e.target.value);
@@ -82,12 +78,6 @@ export const Sale_Payble_Form = ({ row }) => {
       setTrx_no(row.trx_no);
     }
   }, [row]);
-
-
-  // All Customer Names
-  let custname = tableData?.map((data) => {
-    return data.cust_name;
-  });
 
   // Add Purchase Details
   let payableDetails = {
@@ -154,22 +144,25 @@ export const Sale_Payble_Form = ({ row }) => {
               <div className="row">
                 <div className="col-sm-6">
                   <div className="form-group">
-                    <label>Customer Name</label>
-                    <Autocomplete
-                      disablePortal
-                      id="combo-box-demo"
-                      options={custname}
-                      value={customer_name} // Set the value prop to control the selected value
-                      onChange={handleAutocompleteChange}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={
-                            customer_name ? customer_name : "Customer Name"
-                          }
-                        />
-                      )}
-                    />
+                  <label>Customer Name</label>
+                  <select
+                  name="cname"
+                  id="custName"
+                  className="form-control"
+                  value={customer_name}
+                  onChange={(e) =>
+                    setCustomerName(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option>{customer_name}</option>
+                  {Array.isArray(tableData) && tableData.map((item, index) => (
+                    <option key={index} value={item.cust_name}>
+                      {item.cust_name}
+                    </option>
+                  ))}
+                </select>
                   </div>
                 </div>
                 <div className="col-sm-6">
