@@ -61,7 +61,7 @@ export const Sale_Payble_Form = ({ row }) => {
     };
 
     getSupplierDetails();
-  }, [customer_name,tableData]);
+  }, [customer_name]);
 
   useEffect(() => {
     if (row != undefined) {
@@ -126,7 +126,6 @@ export const Sale_Payble_Form = ({ row }) => {
 
   return (
     <div className="Main-Wrapper">
-      <form onSubmit={addSalePayble}>
         <div className="modal-dialog" style={{ width: "100%" }}>
           <div className="modal-content">
             <div className="modal-header">
@@ -156,7 +155,7 @@ export const Sale_Payble_Form = ({ row }) => {
                     )
                   }
                 >
-                  <option>{customer_name}</option>
+                  <option>Select customer</option>
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.cust_name}>
                       {item.cust_name}
@@ -316,9 +315,10 @@ export const Sale_Payble_Form = ({ row }) => {
             </div>
             <div className="modal-footer">
               <button
-                type="submit"
+                type="button"
                 id="add-row"
                 name="btn_save"
+                onClick={addSalePayble}
                 className="btn btn-success"
               >
                 Save
@@ -333,7 +333,6 @@ export const Sale_Payble_Form = ({ row }) => {
             </div>
           </div>
         </div>
-      </form>
     </div>
   );
 };

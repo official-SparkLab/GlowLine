@@ -65,7 +65,7 @@ export const Purchase_Payble_Form = ({ row }) => {
     };
 
     getSupplierDetails();
-  }, [SupplierName,tableData]);
+  }, [SupplierName]);
 
   
   useEffect(() => {
@@ -134,7 +134,6 @@ const addPurchasePayble = async (e) => {
 
   return (
     <div className="Main-Wrapper">
-      <form onSubmit={addPurchasePayble}>
         <div className="modal-dialog" style={{ width: "100%" }}>
           <div className="modal-content">
             <div className="modal-header">
@@ -164,7 +163,7 @@ const addPurchasePayble = async (e) => {
                     )
                   }
                 >
-                  <option>{SupplierName}</option>
+                  <option>Select supplier</option>
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.sup_name}>
                       {item.sup_name}
@@ -324,9 +323,10 @@ const addPurchasePayble = async (e) => {
               </div>
             <div className="modal-footer">
               <button
-                type="submit"
+                type="button"
                 id="add-row"
                 name="btn_save"
+                onClick={addPurchasePayble}
                 className="btn btn-success"
               >
                 Save
@@ -341,7 +341,6 @@ const addPurchasePayble = async (e) => {
             </div>
           </div>
         </div>
-      </form>
     </div>
   );
 };

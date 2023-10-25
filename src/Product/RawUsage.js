@@ -11,8 +11,8 @@ export const RawUsage = () => {
   const [date, setDate] = useState(today);
 
   const [HDNCode, setHDNCode] = useState();
-  const [weight, setWeight] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [weight, setWeight] = useState(null);
+  const [quantity, setQuantity] = useState(null);
   let [totalWeight, setTotalWeight] = useState(0);
   const[type,setType] = useState("");
 
@@ -38,7 +38,7 @@ export const RawUsage = () => {
       }
     };
     getProductDetails();
-  }, [prodName,productData]);
+  }, [prodName]);
 
   const handleQuantityChange = (e) => {
     const newQuantity = e.target.value;
@@ -74,12 +74,10 @@ export const RawUsage = () => {
         `${GlobalService.path}/addRawUsage`,
         productDetails
       );
-      console.log(res);
+      
       alert("Product added successfully");
-      setQuantity(0);
-      setWeight(0);
-      setTotalWeight(0);
-      setType("");
+      console.log(res);
+   window.location.reload();
     } catch (error) {
       alert("Failed to add product");
       console.log(error);
@@ -155,7 +153,7 @@ export const RawUsage = () => {
                             )
                           }
                         >
-                          <option>{prodName}</option>
+                          <option>select Product</option>
                           {Array.isArray(productData) && productData.map((item, index) => (
                             <option key={index} value={item.prod_name}>
                               {item.prod_name}
