@@ -39,7 +39,7 @@ export const MaterialDamage = () => {
       }
     };
     getProductDetails();
-  }, [prodName,productData]);
+  }, [prodName]);
 
  
 
@@ -61,10 +61,9 @@ export const MaterialDamage = () => {
         `${GlobalService.path}/addDamage`,
         productDetails
       );
-      console.log(res);
       alert("Product added successfully");
-      setTotalWeight(0);
-      setType("");
+      console.log(res);
+      window.location.reload();
     } catch (error) {
       alert("Failed to add product");
       console.log(error);
@@ -139,7 +138,7 @@ export const MaterialDamage = () => {
                             )
                           }
                         >
-                          <option>{prodName}</option>
+                          <option>select Product</option>
                           {Array.isArray(productData) && productData.map((item, index) => (
                             <option key={index} value={item.prod_name}>
                               {item.prod_name}
