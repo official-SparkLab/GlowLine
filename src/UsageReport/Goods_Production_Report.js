@@ -52,7 +52,7 @@ export const GoodsProductionReport = () => {
 
     const deleteItem = async (id) => {
         try {
-            const response = await axios.put(`${GlobalService.path}/deleteGoodsUsage/${id}`);
+            const response = await axios.delete(`${GlobalService.path}/deleteGoodsUsage/${id}`);
             if (response.status == 200) {
                 alert("Record deleted successfully")
                 window.location.reload()

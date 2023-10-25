@@ -51,7 +51,7 @@ export const RawUsageList = () => {
 
     const deleteItem = async (id) => {
         try {
-            const response = await axios.put(`${GlobalService.path}/deleteRawUsage/${id}`);
+            const response = await axios.delete(`${GlobalService.path}/deleteRawUsage/${id}`);
             if (response.status == 200) {
                 alert("Record deleted successfully")
                 window.location.reload()
