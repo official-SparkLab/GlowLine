@@ -152,24 +152,26 @@ const addPurchasePayble = async (e) => {
                 <div className="col-sm-6">
                   <div className="form-group">
                   <label>Supplier Name</label>
-                  <select
+                  <input
                   name="sname"
                   id="supName"
+                  list="suppliers"
                   className="form-control"
+                  placeholder="Please Select Supplier"
                   value={SupplierName}
                   onChange={(e) =>
                     setSupplierName(
                       e.target.value
                     )
                   }
-                >
-                  <option>Select supplier</option>
+                />
+                  <datalist id="suppliers">
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.sup_name}>
                       {item.sup_name}
                     </option>
                   ))}
-                </select>
+                </datalist>
                   </div>
                 </div>
                 <div className="col-sm-6">

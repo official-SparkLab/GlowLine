@@ -382,24 +382,26 @@ export const QuatationForm = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                     <label>Product Name</label>
-                    <select
+                    <input
                     name="pname"
                     id="prodName"
+                    list="products"
                     className="form-control"
+                    placeholder=""
                     value={prodName}
                     onChange={(e) =>
                       setProdName(
                         e.target.value
                       )
                     }
-                  >
-                    <option>Select product</option>
+                  />
+                    <datalist id="products">
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                     </div>
                   </div>
                 </div>
