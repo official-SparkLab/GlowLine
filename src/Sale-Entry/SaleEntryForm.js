@@ -116,12 +116,15 @@ export const SaleEntryForm = () => {
     try {
       const res = await axios.post(
         `${GlobalService.path}/addSaleProduct`,
-        productDetails
+        {
+          ...productDetails,
+          cust_id: custId, // Add cust_id to the productDetails
+        }
       );
       alert("Product added successfully");
-      console.log(res)
+      console.log(res);
       setProdId(prodId + 1);
-
+  
       const getProdTableData = await axios.get(
         `${GlobalService.path}/fetchSaleProduct/${date}/${invoiceNumber}`
       );
