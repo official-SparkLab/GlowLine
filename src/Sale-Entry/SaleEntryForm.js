@@ -283,24 +283,27 @@ export const SaleEntryForm = () => {
                 <div className="row">
                   <div className="col-sm-6">
                   <label>Customer Name</label>
-                  <select
+                  <input
                   name="cname"
+                  list="customers"
                   id="CustName"
                   className="form-control"
+                  placeholder="Please Select Customer"
                   value={customerName}
                   onChange={(e) =>
                     setCustomerName(
                       e.target.value
                     )
                   }
-                >
-                  <option>Select customer</option>
+                />
+                  <datalist id="customers">
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.cust_name}>
                       {item.cust_name}
                     </option>
                   ))}
-                </select>
+                  </datalist>
+                
                   </div>
                   <div className="col-sm-6">
                     <div className="form-group">
@@ -375,24 +378,26 @@ export const SaleEntryForm = () => {
                   <div className="col-sm-6">
                     <div className="form-group">
                     <label>Product Name</label>
-                    <select
+                    <input
                     name="pname"
+                    list="products"
                     id="prodName"
                     className="form-control"
+                    placeholder="Please Select Product"
                     value={prodName}
                     onChange={(e) =>
                       setProdName(
                         e.target.value
                       )
                     }
-                  >
-                    <option>Select product</option>
+                  />
+                    <datalist id="products">
                     {Array.isArray(productData) && productData.map((item, index) => (
                       <option key={index} value={item.prod_name}>
                         {item.prod_name}
                       </option>
                     ))}
-                  </select>
+                  </datalist>
                     </div>
                   </div>
                 </div>

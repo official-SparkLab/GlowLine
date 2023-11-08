@@ -144,24 +144,26 @@ export const Sale_Payble_Form = ({ row }) => {
                 <div className="col-sm-6">
                   <div className="form-group">
                   <label>Customer Name</label>
-                  <select
+                  <input
                   name="cname"
                   id="custName"
+                  list="customers"
                   className="form-control"
+                  placeholder="Please Select Customer"
                   value={customer_name}
                   onChange={(e) =>
                     setCustomerName(
                       e.target.value
                     )
                   }
-                >
-                  <option>Select customer</option>
+                />
+                 <datalist id="customers">
                   {Array.isArray(tableData) && tableData.map((item, index) => (
                     <option key={index} value={item.cust_name}>
                       {item.cust_name}
                     </option>
                   ))}
-                </select>
+                </datalist>
                   </div>
                 </div>
                 <div className="col-sm-6">
