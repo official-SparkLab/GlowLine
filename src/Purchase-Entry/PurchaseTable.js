@@ -27,7 +27,7 @@ export const PurchaseTable = () => {
       setTableData(res.data.data.reverse());
     };
     getCustomerDetails();
-  }, [tableData]);
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -131,20 +131,22 @@ export const PurchaseTable = () => {
                               href={`/purchaseHistory?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
                               style={{ cursor: "pointer" }}
                             >
-                              <img
-                                src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                alt="img"
-                              />
+                              <i
+                                className="fa fa-eye"
+                                style={{ color: "black", fontSize: "18px" }}
+                              ></i>
                             </a>
                             <a
                               id="btndelete"
-                              className="btn-danger btn-sm"
                               title="Invoice"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
                               href={`/purchaseInvoice?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
                             >
-                              <i className="fa fa-print" />
+                              <i
+                                className="fa fa-print"
+                                style={{ color: "red", fontSize: "18px" }}
+                              ></i>
                             </a>
                           </td>
                         </tr>

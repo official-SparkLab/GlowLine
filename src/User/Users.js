@@ -124,7 +124,7 @@ function Users() {
     };
 
     fetchData();
-  }, []);
+  },[]);
 
 const[showUpdate,setShowUpdate] = useState(false);
   const updateData = (id) => {

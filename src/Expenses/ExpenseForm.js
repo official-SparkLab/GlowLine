@@ -36,7 +36,6 @@ export const ExpenseForm = ({ row }) => {
         e.preventDefault()
         if (row == undefined) {
             try {
-                console.log(expenseItem);
                 const res = await axios.post(`${GlobalService.path}/addExpense`, expenseItem);
                 console.log(res);
                 alert("Expense added successfully");

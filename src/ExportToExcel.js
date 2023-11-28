@@ -26,7 +26,7 @@ const ExportToExcel = ({ data }) => {
     return (
         <Tooltip title="Export data to Excel">
             <Button onClick={handleExport}>
-                <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/excel.svg" alt="img" />
+            <i className="fa fa-file-excel-o" style={{fontSize:"24px",marginTop:"-3px",color:"green"}} />
             </Button>
         </Tooltip>
 

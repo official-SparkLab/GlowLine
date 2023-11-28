@@ -34,7 +34,7 @@ export const CustomerTable = () => {
             
         }
         getCustomerDetails()
-    }, [tableData])
+    },[])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -133,7 +133,7 @@ export const CustomerTable = () => {
                                        
                                         <th>Sr. No.</th>
                                         <th>Customer Name</th>
-                                        <th>Contact</th>
+                                        <th>Mobile No</th>
                                         <th>GSTIN </th>
                                         <th>Address</th>
                                         <th>Action</th>
@@ -153,14 +153,20 @@ export const CustomerTable = () => {
                                                 <td style={{width:"20%"}}>{row.address}</td>
                                                 <td>
                                                     <a className="me-3" href={`/customerHistory?cust_id=${row.cust_id}`}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </a>
+                                                    <i
+                                                    className="fa fa-eye"
+                                                    style={{ color: "black", fontSize: "18px" }}
+                                                  ></i>  </a>
                                                     <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
-                                                    </Link>
-                                                    <Button className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.cust_id)} >
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </Button>
+                                                    <i
+                                                    className="fa fa-edit"
+                                                    style={{ color: "blue", fontSize: "18px" }}
+                                                  ></i></Link>
+                                                    <Link className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.cust_id)} >
+                                                    <i
+                                                    className="fa fa-trash"
+                                                    style={{ color: "red", fontSize: "18px" }}
+                                                  ></i></Link>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}

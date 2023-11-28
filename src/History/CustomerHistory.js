@@ -61,7 +61,7 @@ function CustomerHistory() {
     };
     getCustomerDetails();
     handleSubmit();
-  }, [tableData,handleSubmit,cust_id]);
+  }, []);
 
   // Getting All customer details by cust id
   useEffect(() => {
@@ -271,10 +271,10 @@ function CustomerHistory() {
                                         href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                                         style={{ cursor: "pointer" }}
                                       >
-                                        <img
-                                          src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                          alt="img"
-                                        />
+                                      <i
+                                      className="fa fa-print"
+                                      style={{ color: "red", fontSize: "18px" }}
+                                    ></i>
                                       </a>
                                     </td>
                                   </tr>

@@ -27,7 +27,7 @@ export const SaleEntryTable = () => {
      
     };
     getCustomerDetails();
-  }, [tableData]);
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -130,20 +130,23 @@ export const SaleEntryTable = () => {
                               href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                               style={{ cursor: "pointer" }}
                             >
-                              <img
-                                src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                alt="img"
-                              />
+                            <i
+                            className="fa fa-eye"
+                            style={{ color: "black", fontSize: "18px" }}
+                          ></i>
                             </a>
                             <a
                               id="btndelete"
-                              className="btn-danger btn-sm"
+                              
                               title="Delete"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
                               href={`/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                             >
-                              <i className="fa fa-print" />
+                            <i
+                            className="fa fa-print"
+                            style={{ color: "red", fontSize: "18px" }}
+                          ></i>
                             </a>
                           </td>
                         </tr>

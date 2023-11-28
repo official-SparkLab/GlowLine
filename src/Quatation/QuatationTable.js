@@ -8,6 +8,7 @@ import Pagination from "react-js-pagination";
 import ExportToExcel from "../ExportToExcel";
 import { QuatationForm } from "./QuatationForm";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const QuatationTable = () => {
   const [open, setOpen] = useState(false);
@@ -59,7 +60,6 @@ export const QuatationTable = () => {
   const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
   const totalPageRange = 2; // Number of pages to display
-
 
   const deleteItem = async (q_id) => {
     try {
@@ -142,18 +142,27 @@ export const QuatationTable = () => {
                           <td>{row.total}</td>
 
                           <td>
-                          <Button className="confirm-text" style={{marginLeft:"10px"}} onClick={()=>deleteItem(row.q_id)}>
-                          <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                      </Button>
+                            <Link
+                              className="confirm-text"
+                              style={{ marginLeft: "10px" }}
+                              onClick={() => deleteItem(row.q_id)}
+                            >
+                              <i
+                                className="fa fa-trash"
+                                style={{ color: "red", fontSize: "18px" }}
+                              ></i>{" "}
+                            </Link>
                             <a
                               id="btnprint"
-                              className="btn-danger btn-sm"
                               title="Invoice"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
                               href={`/quatationInvoice?voucher_no=${row.voucher_no}`}
                             >
-                              <i className="fa fa-print" />
+                              <i
+                                className="fa fa-print"
+                                style={{ color: "red", fontSize: "18px" }}
+                              ></i>
                             </a>
                           </td>
                         </tr>
