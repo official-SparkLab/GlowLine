@@ -38,7 +38,7 @@ function SupplierHistory() {
       setTableData(res.data.data);
     };
     getCustomerDetails();
-  }, [tableData,sup_id]);
+  }, [sup_id]);
 
   useEffect(() => {
     const getCustomerDetails = async (e) => {
@@ -188,10 +188,10 @@ function SupplierHistory() {
                                         href={`/purchaseHistory?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
                                         style={{ cursor: "pointer" }}
                                       >
-                                        <img
-                                          src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg"
-                                          alt="img"
-                                        />
+                                      <i
+                                      className="fa fa-print"
+                                      style={{ color: "red", fontSize: "18px" }}
+                                    ></i>
                                       </a>
                                     </td>
                                   </tr>

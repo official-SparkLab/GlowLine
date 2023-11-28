@@ -34,7 +34,7 @@ export const EmployeePaymentTable = () => {
             
         }
         getEmployeePaymentDetails()
-    }, [tableData])
+    }, [])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -149,15 +149,17 @@ export const EmployeePaymentTable = () => {
                                                 <td>{row.salary_type}</td>
                                                 <td>{row.deduction}</td>
                                                 <td>
-                                                    <Link className="me-3" to={`/empPaymentDetailsView/${row.emp_id}`}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/eye.svg" alt="img" />
-                                                    </Link>
+                                                    
                                                     <Link className="me-3" style={{marginLeft:"10px"}} onClick={() => openModal('update', row)}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/edit.svg" alt="img" />
-                                                    </Link>
-                                                    <Button className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.emp_id)}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </Button>
+                                                    <i
+                                                    className="fa fa-edit"
+                                                    style={{ color: "blue", fontSize: "18px" }}
+                                                  ></i> </Link>
+                                                    <Link className="confirm-text" style={{marginLeft:"10px"}} onClick={() => deleteItem(row.emp_id)}>
+                                                    <i
+                                                    className="fa fa-trash"
+                                                    style={{ color: "red", fontSize: "18px" }}
+                                                  ></i> </Link>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}

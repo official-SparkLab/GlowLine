@@ -6,6 +6,7 @@ import axios from "axios"
 import ExportToExcel from "../ExportToExcel"
 import Pagination from "react-js-pagination"
 import { Button } from "@mui/material"
+import { Link } from "react-router-dom"
 
 export const RawUsageList = () => {
  
@@ -20,7 +21,7 @@ export const RawUsageList = () => {
             
         }
         getProductDetails()
-    }, [tableData])
+    }, [])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -143,9 +144,11 @@ export const RawUsageList = () => {
                                                 <td>{row.type}</td>
                                                 <td>
                                                
-                                                    <Button className="confirm-text" style={{marginLeft:"10px",cursor:"pointer"}}  onClick={() => deleteItem(row.raw_id)}>
-                                                        <img src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg" alt="img" />
-                                                    </Button>
+                                                    <Link className="confirm-text" style={{marginLeft:"10px",cursor:"pointer"}}  onClick={() => deleteItem(row.raw_id)}>
+                                                    <i
+                                                    className="fa fa-trash"
+                                                    style={{ color: "red", fontSize: "18px" }}
+                                                  ></i>   </Link>
                                                 </td>
                                             </tr>
                                         ))) : (<tr><td>No Data Available</td></tr>)}
