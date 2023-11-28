@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import { Autocomplete, Button, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const QuatationForm = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -532,15 +533,15 @@ export const QuatationForm = () => {
                             <td>{row.type}</td>
                             <td>{row.total}</td>
                             <td>
-                              <Button
+                              <Link
                                 className="confirm-text"
                                 onClick={() => deleteItem(row.qp_id)}
                               >
-                                <img
-                                  src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
-                                  alt="img"
-                                />
-                              </Button>
+                              <i
+                              className="fa fa-trash"
+                              style={{ color: "red", fontSize: "18px" }}
+                            ></i>
+                              </Link>
                             </td>
                           </tr>
                         ))

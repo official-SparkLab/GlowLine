@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 
 
@@ -482,24 +482,27 @@ function UpdatePurchase() {
                           <td>{row.type}</td>
                           <td>{row.total}</td>
                           <td>
-                          <button
+                          <Link
                               type="button"
                               style={{ marginLeft: "5px" }}
                               className="btn btn-primary btn-sm"
                               title="Update"
                               onClick={() => handleRowClick(row)}
                             >
-                              <i className="fa fa-edit"></i>
-                            </button>
-                            <Button
+                            <i
+                            className="fa fa-edit"
+                            style={{ color: "blue", fontSize: "18px" }}
+                          ></i>
+                            </Link>
+                            <Link
                               className="confirm-text"
                               onClick={() => deleteItem(row.row_p_id)}
                             >
-                              <img
-                                src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
-                                alt="img"
-                              />
-                            </Button>
+                            <i
+                            className="fa fa-trash"
+                            style={{ color: "red", fontSize: "18px" }}
+                          ></i>
+                            </Link>
                           </td>
                         </tr>
                       ))

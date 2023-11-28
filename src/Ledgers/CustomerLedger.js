@@ -58,13 +58,13 @@ function CustomerLedger() {
     };
 
     getLedgerDetails();
-  }, [cust_id,fromDate,toDate]);
+  }, [cust_id, fromDate, toDate]);
 
-
-  
   const filteredData = tableData.filter((row) => {
-    const rowDate =  tableData.sort((a, b) => new Date(a.date) - new Date(b.date));
-    return rowDate ;
+    const rowDate = tableData.sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
+    );
+    return rowDate;
   });
 
   return (
@@ -77,81 +77,146 @@ function CustomerLedger() {
               "\n   \n      .invoice-box {\n        max-width: 210mm;\n        margin: auto;\n        height: 260mm;\n       \n        border: 2px solid black;\n          position: relative;\n   \n      \n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: #555;\n      }\n\n      .invoice-header {\n        max-width: 210mm;\n    \n        font-size: 16px;\n        line-height: 24px;\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: #555;\n      }\n\ntable {\n  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n\n\n      \n\n      @media only screen and (max-width: 600px) {\n        .invoice-box table tr.top table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n          margin: 5px;\n        }\n\n        .invoice-box table tr.information table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n\n        }\n        .tables tfoot\n      {\n         display: table-footer-group;\n      }\n      }\n\n      /* RTL */\n      .invoice-box.rtl {\n        direction: rtl;\n        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n      }\n\n           .tables {\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        height: 480px;\n\n        width: 100%;\n\n      }\n     \n\n      .tables tfoot\n      {\n        bottom: 0;\n        \n      }\n\n      td, th {\n        border: 1px solid black;\n\n        text-align: left;\n        padding: 2px;\n      }\n\n\n    ",
           }}
         />
-        <div className="invoice-box ">
-          <div className="invoice-header">
-            <center>
-              <h2>Glow Line</h2>
-            </center>
-            <center>
-              <h4>Customer Ledger Summery</h4>
-            </center>
-            <table style={{ tableLayout: "fixed" }}>
-              <tbody>
-                <tr>
-                  <td>
-                    Customer Name: <label>{name}</label>
-                  </td>
-                  <td>Address: {address}</td>
-                </tr>
-                <tr>
-                  <td>
-                    Contact: <label>{contactNo}</label>
-                  </td>
-                  <td>
-                    Date From:{fromDate} <label>to</label> {toDate}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div
+          className="invoice-box "
+          style={{ height: "auto", minHeight: "700px",padding:"12px" }}
+        >
+          <div
+            className="invoice-header"
+            style={{
+              display: "flex",
+              marginTop: "12px",
+              width: "50%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              justifyContent:"center",
+          alignItems:"center"
+            }}
+          >
+            <div style={{ flexDirection: "column", textAlign: "center" }}>
+              <h4>
+                <b>GLOWLINE THERMOPLASTIC PAINTS</b>
+              </h4>
+              <p style={{ fontSize: "14px" }}>KOLHAPUR,MAHARASHTRA</p>
+              <p style={{ fontSize: "14px" }}>shubhamkurade63@gmail.com</p>
+              <p style={{ fontSize: "14px" }}>9604096305</p>
+              <h4>
+                <b>{name}</b>
+              </h4>
+              <p style={{ fontSize: "14px" }}>{address}</p>
+
+              <p style={{ fontSize: "14px" }}>
+                {fromDate} to {toDate}
+              </p>
+            </div>
           </div>
           <br />
           <table className="tables">
             <thead>
-              <tr> 
-                <th>Date</th>
-                <th>Particulars</th>
-                <th>Vch Type</th>
-                <th>Vch No.</th>
-                <th>Debit</th>
-                <th>Credit</th>
+              <tr>
+                <th style={{ borderRight: "0", borderLeft: "0"}}>Date</th>
+                <th style={{ fontWeight: "bold", borderRight: "0", borderLeft: "0" }}>Particulars</th>
+                <th style={{ borderRight: "0", borderLeft: "0"}}>Vch Type</th>
+                <th style={{ borderRight: "0", borderLeft: "0"}}>Vch No.</th>
+                <th style={{ fontWeight: "bold", borderRight: "0", borderLeft: "0"}}>Debit</th>
+                <th style={{ fontWeight: "bold", borderRight: "0", borderLeft: "0" }}>Credit</th>
               </tr>
             </thead>
             <tbody>
-      {filteredData.length > 0 &&
-        filteredData.map((row, index) => {
-          debit += parseFloat(row.total);
-          credit += parseFloat(row.sub_total);
-          return (
-            <tr key={index}>
-              <td>{row.date}</td>
-              <td>{row.sales_id}</td>
-              <td>{row.cust_name}</td>
-              <td>{row.invoice_no}</td>
-              <td>{row.total ? parseFloat(row.total) : 0}</td>
-              <td>{row.sub_total ? parseFloat(row.sub_total) : 0}</td>
-            </tr>
-          );
-        })}
-      <tr style={{ height: "100%" }}>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-            <tfoot style={{ bottom: 0 }}>
+              {filteredData.length > 0 &&
+                filteredData.map((row, index) => {
+                  debit += parseFloat(row.total);
+                  credit += parseFloat(row.sub_total);
+                  return (
+                    <tr key={index}>
+                      <td style={{ border: "0" }}>{row.date}</td>
+                      <td style={{ fontWeight: "bold", border: "0px" }}>
+                        {row.sales_id}
+                      </td>
+                      <td style={{ fontWeight: "bold", border: "0px" }}>
+                        {row.cust_name}
+                      </td>
+                      <td style={{ border: "0" }}>{row.invoice_no}</td>
+                      <td style={{ border: "0" }}>
+                        {row.total ? parseFloat(row.total) : 0}
+                      </td>
+                      <td style={{ border: "0" }}>
+                        {row.sub_total ? parseFloat(row.sub_total) : 0}
+                      </td>
+                    </tr>
+                  );
+                })}
+              <tr style={{ height: "100%" }}>
+                <td style={{ border: "0" }}></td>
+                <td style={{ border: "0" }}></td>
+                <td style={{ border: "0" }}></td>
+                <td style={{ border: "0" }}></td>
+                <td style={{ border: "0" }}></td>
+                <td style={{ border: "0" }}></td>
+              </tr>
+              <tr>
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+
+              <td
+                style={{
+                  borderLeft: "0",
+                  borderRight: "0",
+                  borderBottom: "0",
+                }}
+              >
+                &#8377;{Math.round(debit)}
+              </td>
+              <td
+                style={{
+                  borderRight: "0",
+                  borderLeft: "0",
+                  borderBottom: "0",
+                }}
+              >
+                &#8377;{Math.round(credit)}
+              </td>
+            </tr>{" "}
             <tr>
-              <th />
-              <th />
-              <th />
-              <th/>
-              
-              <td>&#8377;{Math.round(debit)}</td>
-              <td>&#8377;{Math.round(credit)}</td>
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+
+              <td
+                style={{ borderRight: "0", borderLeft: "0", borderTop: "0" }}
+              ></td>
+              <td
+                style={{ borderRight: "0", borderLeft: "0", borderTop: "0" }}
+              >
+                &#8377;{Math.round(debit - credit)}
+              </td>
             </tr>
-          </tfoot>
+            <tr>
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+              <th style={{ border: "0" }} />
+
+              <td
+                style={{
+                  fontWeight: "bold",
+                  borderLeft: "0",
+                  borderRight: "0",
+                }}
+              >
+                &#8377;{Math.round(debit)}
+              </td>
+              <td style={{ fontWeight: "bold", borderLeft: "0",borderRight:"0" }}>
+                &#8377;{Math.round(debit)}
+              </td>
+            </tr>
+            </tbody>
+            
+              
+            
           </table>
         </div>
       </div>

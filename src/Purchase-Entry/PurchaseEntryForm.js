@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, Button, TextField } from "@mui/material";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
+import { Link } from "react-router-dom";
 export const PurchaseEntryForm = () => {
   const today = new Date().toISOString().split("T")[0];
   const [invoiceNumber, setInvoiceNumber] = useState();
@@ -529,15 +530,15 @@ export const PurchaseEntryForm = () => {
                             <td>{row.type}</td>
                             <td>{row.total}</td>
                             <td>
-                              <Button
+                              <Link
                                 className="confirm-text"
                                 onClick={() => deleteItem(row.row_p_id)}
                               >
-                                <img
-                                  src="https://dreamspos.dreamguystech.com/html/template/assets/img/icons/delete.svg"
-                                  alt="img"
-                                />
-                              </Button>
+                              <i
+                              className="fa fa-trash"
+                              style={{ color: "red", fontSize: "18px" }}
+                            ></i>
+                              </Link>
                             </td>
                           </tr>
                         ))
