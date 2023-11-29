@@ -10,6 +10,7 @@ function CustomerLedger() {
   const cust_id = queryParams.get("custId");
   const fromDate = queryParams.get("fromDate");
   const toDate = queryParams.get("toDate");
+  const[pendingAmt,setPendingAmt] = useState(0);
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -31,12 +32,30 @@ function CustomerLedger() {
           setName(customerData.cust_name);
           setContactNo(customerData.mobile);
           setAddress(customerData.address);
+           // Call the next API using supId here
+           await callNextApi(cust_id);
         }
       } catch (error) {
         console.error("Error fetching customer details:", error);
         // Handle error appropriately (e.g., show an error message)
       }
     };
+
+    // Callig next api for pyble amount
+    const callNextApi = async (custId) => {
+      try {
+        // Replace 'nextApiPath' with the actual path of the next API
+        const nextApiRes = await axios.get(
+          `${GlobalService.path}/salePayableAmt/${custId}`
+        );
+
+        setPendingAmt(nextApiRes.data.totalAmt);
+      } catch (error) {
+        // Handle any errors from the next API
+        console.error(error);
+      }
+    };
+
 
     getCustomerDetails();
   }, [cust_id]);
@@ -186,33 +205,15 @@ function CustomerLedger() {
               <th style={{ border: "0" }} />
 
               <td
-                style={{ borderRight: "0", borderLeft: "0", borderTop: "0" }}
-              ></td>
+                style={{ borderRight: "0", borderLeft: "0", fontWeight:"bold"}}
+              >Balance</td>
               <td
-                style={{ borderRight: "0", borderLeft: "0", borderTop: "0" }}
+                style={{ borderRight: "0", borderLeft: "0", fontWeight:"bold" }}
               >
-                &#8377;{Math.round(debit - credit)}
+                &#8377;{Math.round(pendingAmt)}
               </td>
             </tr>
-            <tr>
-              <th style={{ border: "0" }} />
-              <th style={{ border: "0" }} />
-              <th style={{ border: "0" }} />
-              <th style={{ border: "0" }} />
-
-              <td
-                style={{
-                  fontWeight: "bold",
-                  borderLeft: "0",
-                  borderRight: "0",
-                }}
-              >
-                &#8377;{Math.round(debit)}
-              </td>
-              <td style={{ fontWeight: "bold", borderLeft: "0",borderRight:"0" }}>
-                &#8377;{Math.round(debit)}
-              </td>
-            </tr>
+            
             </tbody>
             
               
