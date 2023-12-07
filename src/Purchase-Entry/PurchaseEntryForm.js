@@ -40,40 +40,63 @@ export const PurchaseEntryForm = () => {
 
 
   useEffect(() => {
-    const getCustomerDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/fetchSupplier`);
-      setTableData(res.data.data);
-
-      const productRes = await axios.get(
-        `${GlobalService.path}/fetchProductsForPurchase`
-      );
-      setProductData(productRes.data.data);
-
-      if (SupplierName != undefined || SupplierName != null) {
-        const filtered = tableData?.filter(
-          (row) => row.sup_name == SupplierName
-        );
-        if (filtered != undefined) {
+    const fetchSupplierDetails = async () => {
+      try {
+        const res = await axios.get(`${GlobalService.path}/fetchSupplier`);
+        setTableData(res.data.data);
+      } catch (error) {
+        console.error("Error fetching supplier data:", error);
+      }
+    };
+  
+    fetchSupplierDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const productRes = await axios.get(`${GlobalService.path}/fetchProductsForPurchase`);
+        setProductData(productRes.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+  
+    fetchProductDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateSupplierDetails = () => {
+      if (SupplierName !== undefined || SupplierName !== null) {
+        const filtered = tableData?.filter((row) => row.sup_name === SupplierName);
+        if (filtered !== undefined && filtered.length > 0) {
           setSupId(filtered[0]?.sup_id);
           setContact(filtered[0]?.mobile_no);
           setGSTIN(filtered[0]?.gstin);
           setAddress(filtered[0]?.address);
         }
       }
-
-      if (prodName != undefined || prodName != null) {
-        const filteredData = productData?.filter(
-          (row) => row.prod_name == prodName
-        );
-        setSelectedProductData(filteredData[0]);
-        console.log("prod_name=", filteredData);
-        setHDNCode(filteredData[0]?.hsn);
-        setRate(filteredData[0]?.rate);
+    };
+  
+    updateSupplierDetails();
+  }, [SupplierName, tableData]);
+  
+  useEffect(() => {
+    const updateProductDetails = () => {
+      if (prodName !== undefined || prodName !== null) {
+        const filteredData = productData?.filter((row) => row.prod_name === prodName);
+        if (filteredData !== undefined && filteredData.length > 0) {
+          setSelectedProductData(filteredData[0]);
+          
+          setHDNCode(filteredData[0]?.hsn);
+          setRate(filteredData[0]?.rate);
+        }
       }
     };
-
-    getCustomerDetails();
-  }, [SupplierName,prodName]);
+  
+    updateProductDetails();
+  }, [prodName, productData]);
+  
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes

@@ -46,40 +46,62 @@ export const SaleEntryForm = () => {
 
 
   useEffect(() => {
-    const getCustomerDetails = async (e) => {
-      const res = await axios.get(`${GlobalService.path}/fetchCustomer`);
-      setTableData(res.data.data);
-     
-
-      const productRes = await axios.get(
-        `${GlobalService.path}/fetchProductsForSale`
-      );
-      setProductData(productRes.data.data);
-
-      if (customerName != undefined || customerName != null) {
-        const filtered = tableData?.filter(
-          (row) => row.cust_name == customerName
-        );
-        if (filtered != undefined) {
+    const fetchCustomerDetails = async () => {
+      try {
+        const customerRes = await axios.get(`${GlobalService.path}/fetchCustomer`);
+        setTableData(customerRes.data.data);
+      } catch (error) {
+        console.error("Error fetching customer data:", error);
+      }
+    };
+  
+    fetchCustomerDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateCustomerDetails = () => {
+      if (customerName !== undefined || customerName !== null) {
+        const filtered = tableData?.filter((row) => row.cust_name === customerName);
+        if (filtered !== undefined && filtered.length > 0) {
           setCustId(filtered[0]?.cust_id);
           setContact(filtered[0]?.mobile);
           setGSTIN(filtered[0]?.gstin);
           setAddress(filtered[0]?.address);
         }
       }
-
-      if (prodName != undefined || prodName != null) {
-        const filteredData = productData?.filter(
-          (row) => row.prod_name == prodName
-        );
-        setSelectedProductData(filteredData[0]);
-        setHDNCode(filteredData[0]?.hsn);
-        setRate(filteredData[0]?.rate);
+    };
+  
+    updateCustomerDetails();
+  }, [customerName, tableData]); // Only customerName and tableData are dependencies
+  
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      try {
+        const productRes = await axios.get(`${GlobalService.path}/fetchProductsForSale`);
+        setProductData(productRes.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
       }
     };
-
-    getCustomerDetails();
-  }, [customerName,prodName]);
+  
+    fetchProductDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateProductDetails = () => {
+      if (prodName !== undefined || prodName !== null) {
+        const filteredData = productData?.filter((row) => row.prod_name === prodName);
+        if (filteredData !== undefined && filteredData.length > 0) {
+          setSelectedProductData(filteredData[0]);
+          setHDNCode(filteredData[0]?.hsn);
+          setRate(filteredData[0]?.rate);
+        }
+      }
+    };
+  
+    updateProductDetails();
+  }, [prodName, productData]); // Only prodName and productData are dependencies
+  
 
   useEffect(() => {
     // Calculate totalWeight whenever quantity changes
