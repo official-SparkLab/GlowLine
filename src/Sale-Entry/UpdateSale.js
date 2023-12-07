@@ -46,29 +46,35 @@ function UpdateSale() {
   const [sales_prod_id,setSalesProdId] = useState(null);
 
   useEffect(() => {
-    const getCustomerDetails = async (e) => {
-
-      const productRes = await axios.get(
-        `${GlobalService.path}/fetchProductsForSale`
-      );
-      console.log(productRes);
-      setProductData(productRes.data.data);
-    }
-
-    if (prodName != undefined || prodName != null) {
-      const filteredData = productData?.filter(
-        (row) => row.prod_name == prodName
-      );
-      setSelectedProductData(filteredData[0]);
-      setHDNCode(filteredData[0]?.hsn);
-      setRate(filteredData[0]?.rate);
-      setProdName(filteredData[0]?.prod_name);
-      setProdId(filteredData[0]?.p_id);
-     
-  };
-
-    getCustomerDetails();
-  }, [prodName,productData]);
+    const fetchProductDetails = async () => {
+      try {
+        const productRes = await axios.get(`${GlobalService.path}/fetchProductsForSale`);
+        setProductData(productRes.data.data);
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    };
+  
+    fetchProductDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateProductDetails = () => {
+      if (prodName !== undefined || prodName !== null) {
+        const filteredData = productData?.filter((row) => row.prod_name === prodName);
+        if (filteredData !== undefined && filteredData.length > 0) {
+          setSelectedProductData(filteredData[0]);
+          setHDNCode(filteredData[0]?.hsn);
+          setRate(filteredData[0]?.rate);
+          setProdName(filteredData[0]?.prod_name);
+          setProdId(filteredData[0]?.p_id);
+        }
+      }
+    };
+  
+    updateProductDetails();
+  }, [prodName, productData]);
+  
 
 
  
