@@ -43,6 +43,39 @@ export const SaleEntryForm = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [custId, setCustId] = useState();
+  const[selectedCustomerData,setSelectedCustomerData] = useState([]);
+  const[com_id,setComId] = useState(null);
+  const[comapnyGstNo,setCompanyGstNo] = useState(null);
+  const[CompanyData,setCompanyData] = useState([]);
+  const[selectedCompanyData,setSelectedCompanyData] = useState([]);
+
+
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      try {
+        const compResponse = await axios.get(`${GlobalService.path}/fetchCompany`);
+        setCompanyData(compResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching Company data:", error);
+      }
+    };
+  
+    fetchCompanyDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateCompanyDetails = () => {
+      if (comapnyGstNo !== undefined || comapnyGstNo !== null) {
+        const filtered = CompanyData?.filter((row) => row.gst === comapnyGstNo);
+        if (filtered !== undefined && filtered.length > 0) {
+          setSelectedCompanyData(filtered[0])
+          setComId(filtered[0]?.com_id);
+        }
+      }
+    };
+  
+    updateCompanyDetails();
+  }, [comapnyGstNo, CompanyData]);
 
 
   useEffect(() => {
@@ -63,6 +96,7 @@ export const SaleEntryForm = () => {
       if (customerName !== undefined || customerName !== null) {
         const filtered = tableData?.filter((row) => row.cust_name === customerName);
         if (filtered !== undefined && filtered.length > 0) {
+          setSelectedCustomerData(filtered[0]);
           setCustId(filtered[0]?.cust_id);
           setContact(filtered[0]?.mobile);
           setGSTIN(filtered[0]?.gstin);
@@ -122,6 +156,7 @@ export const SaleEntryForm = () => {
   let productDetails = {
     sales_prod_id: prodId,
     invoice_no: invoiceNumber,
+    cust_id:selectedCustomerData?.cust_id,
     s_date: date,
     p_id: selectedProductData?.p_id,
     prod_name: selectedProductData?.prod_name,
@@ -135,7 +170,7 @@ export const SaleEntryForm = () => {
 
   const addProductDetails = async (e) => {
     e.preventDefault();
-
+console.log(productDetails)
     try {
       const res = await axios.post(
         `${GlobalService.path}/addSaleProduct`,
@@ -177,6 +212,7 @@ export const SaleEntryForm = () => {
     igst_amt: IGSTValue,
     sub_total: subTotal,
     total: grandTotal,
+    com_id:selectedCompanyData.com_id,
   };
 
   const submitSaleProduct = async (e) => {
@@ -200,7 +236,7 @@ export const SaleEntryForm = () => {
       const response = await axios.delete(
         `${GlobalService.path}/deleteSaleProduct/${id}`
       );
-      console.log(response);
+    
       if (response.status == 200) {
         alert("Product deleted successfully");
         const deletedProduct = itemsToShow.find(
@@ -289,6 +325,27 @@ export const SaleEntryForm = () => {
                         onChange={(e) => setDate(e.target.value)}
                       />
                     </div>
+                  </div>
+                    <div className="col-sm-6">
+                  <label>Company GST No.</label>
+                  <select
+                  name="gno"
+                  id="gstno"
+                  className="form-control"
+                  value={comapnyGstNo}
+                  onChange={(e) =>
+                    setCompanyGstNo(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option>Select GST No.</option>
+                  {Array.isArray(CompanyData) && CompanyData.map((item, index) => (
+                    <option key={index} value={item.gst}>
+                      {item.gst}
+                    </option>
+                  ))}
+                </select>
                   </div>
                 </div>
               </div>

@@ -141,7 +141,7 @@ export const SaleEntryTable = () => {
                               title="Delete"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
-                              href={`/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
+                              href={`/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}&com_id=${row.com_id}`}
                             >
                             <i
                             className="fa fa-print"

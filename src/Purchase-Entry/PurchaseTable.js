@@ -141,7 +141,7 @@ export const PurchaseTable = () => {
                               title="Invoice"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
-                              href={`/purchaseInvoice?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}`}
+                              href={`/purchaseInvoice?invoice_no=${row.invoice_no}&sup_id=${row.sup_id}&date=${row.date}&com_id=${row.com_id}`}
                             >
                               <i
                                 className="fa fa-print"

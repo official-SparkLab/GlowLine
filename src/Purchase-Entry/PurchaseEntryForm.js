@@ -37,6 +37,38 @@ export const PurchaseEntryForm = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
   const [suptId, setSupId] = useState();
+  const[com_id,setComId] = useState(null);
+  const[comapnyGstNo,setCompanyGstNo] = useState(null);
+  const[CompanyData,setCompanyData] = useState([]);
+  const[selectedCompanyData,setSelectedCompanyData] = useState([]);
+
+
+  useEffect(() => {
+    const fetchCompanyDetails = async () => {
+      try {
+        const compResponse = await axios.get(`${GlobalService.path}/fetchCompany`);
+        setCompanyData(compResponse.data.data);
+      } catch (error) {
+        console.error("Error fetching Company data:", error);
+      }
+    };
+  
+    fetchCompanyDetails();
+  }, []); // No dependencies needed here
+  
+  useEffect(() => {
+    const updateCompanyDetails = () => {
+      if (comapnyGstNo !== undefined || comapnyGstNo !== null) {
+        const filtered = CompanyData?.filter((row) => row.gst === comapnyGstNo);
+        if (filtered !== undefined && filtered.length > 0) {
+          setSelectedCompanyData(filtered[0])
+          setComId(filtered[0]?.com_id);
+        }
+      }
+    };
+  
+    updateCompanyDetails();
+  }, [comapnyGstNo, CompanyData]);
 
 
   useEffect(() => {
@@ -174,6 +206,7 @@ export const PurchaseEntryForm = () => {
     igst_amt: IGSTValue,
     sub_total: subTotal,
     total: grandTotal,
+    com_id:selectedCompanyData.com_id
   };
 
   const submitPurchaseDetails = async (e) => {
@@ -292,6 +325,27 @@ export const PurchaseEntryForm = () => {
                         onChange={(e) => setDate(e.target.value)}
                       />
                     </div>
+                  </div>
+                  <div className="col-sm-6">
+                  <label>Company GST No.</label>
+                  <select
+                  name="gno"
+                  id="gstno"
+                  className="form-control"
+                  value={comapnyGstNo}
+                  onChange={(e) =>
+                    setCompanyGstNo(
+                      e.target.value
+                    )
+                  }
+                >
+                  <option>Select GST No.</option>
+                  {Array.isArray(CompanyData) && CompanyData.map((item, index) => (
+                    <option key={index} value={item.gst}>
+                      {item.gst}
+                    </option>
+                  ))}
+                </select>
                   </div>
                 </div>
               </div>

@@ -10,6 +10,8 @@ function SaleInvoice() {
   const invoice_no = queryParams.get("invoice_no");
   const cust_id = queryParams.get("cust_id");
   const dateParam = queryParams.get("date");
+  const com_id = queryParams.get("com_id");
+
 
   const [companyAddress, setCompanyAddress] = useState("");
   const [companyEmail, setCompanyEmail] = useState("");
@@ -77,7 +79,7 @@ function SaleInvoice() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${GlobalService.path}/fetchCompany`);
+        const response = await axios.get(`${GlobalService.path}/fetchCompany/${com_id}`);
         // Compnay Details
         setCompanyAddress(response.data.data[0].address);
         setCompanyEmail(response.data.data[0].email);
