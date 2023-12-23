@@ -98,9 +98,50 @@ function Quotation() {
     fetchData();
   }, []);
 
-  const totalinWords = toWords(total)
-    .toLowerCase()
-    .replace(/(^|\s)\S/g, (match) => match.toUpperCase());
+  const convertToWords = (num) => {
+    const capitalizeFirstLetter = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+    if (num >= 1 && num <= 10) {
+      // Convert numbers 1 to 10
+      return capitalizeFirstLetter(toWords(num));
+    } else if (num < 1000) {
+      // Convert numbers less than 1000
+      return capitalizeFirstLetter(toWords(num));
+    } else if (num < 100000) {
+      // Convert numbers less than 100000 (in thousands)
+      const thousands = Math.floor(num / 1000);
+      const remainder = num % 1000;
+      return (
+        (thousands > 1 ? capitalizeFirstLetter(toWords(thousands)) + " " : "") +
+        "Thousand " +
+        convertToWords(remainder)
+      );
+    } else if (num < 10000000) {
+      // Convert numbers less than 10000000 (in lakhs)
+      const lakhs = Math.floor(num / 100000);
+      const remainder = num % 100000;
+      return (
+        (lakhs > 1 ? capitalizeFirstLetter(toWords(lakhs)) + " " : "") +
+        "Lakh " +
+        convertToWords(remainder)
+      );
+    } else {
+      // Convert larger numbers (in millions, billions, etc.)
+      const divisor = Math.pow(10, Math.floor(Math.log10(num)) - 1);
+      const quotient = Math.floor(num / divisor);
+      const remainder = num % divisor;
+      return (
+        convertToWords(quotient) +
+        " " +
+        capitalizeFirstLetter(toWords(divisor)) +
+        " " +
+        convertToWords(remainder)
+      );
+    }
+  };
+  
+  const totalinWords = convertToWords(total);
 
   return (
     <div>
