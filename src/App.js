@@ -45,6 +45,7 @@ import { AuthProvider } from './Utils/AuthContext';
 import GoodSaleInvoice from './ViewInvoiceReport/GoodSaleInvoice';
 import PurchaseSaleInvoice from './ViewInvoiceReport/PurchaseSaleInvoice';
 import QuatationInvoiceView from './ViewInvoiceReport/QuatationInvoiceView';
+import AllCustPendingAmt from './Ledgers/AllCustPendingAmt';
 
 
 function App() {
@@ -122,6 +123,9 @@ function App() {
           <Route path="/goodSaleInvoiceView" element={<PrivateRoute element={<GoodSaleInvoice/>}/>} />
           <Route path="/purchaseInvoiceView" element={<PrivateRoute element={<PurchaseSaleInvoice/>}/>} />
           <Route path="/quatationInvoiceView" element={<PrivateRoute element={<QuatationInvoiceView/>}/>} />
+          <Route path="/customerPendingAmount" element={<PrivateRoute element={<AllCustPendingAmt/>}/>} />
+
+          
 
 
 

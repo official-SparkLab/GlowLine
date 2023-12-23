@@ -57,7 +57,7 @@ function CustomerLedger() {
     };
 
 
-    getCustomerDetails();
+    getCustomerDetails(); 
   }, [cust_id]);
 
   const [tableData, setTableData] = useState([]);

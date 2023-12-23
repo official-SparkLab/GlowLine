@@ -261,6 +261,13 @@ function SideBar() {
           <h5 style={{ color: "white", marginLeft: 37 }}>
             <u>REPORTS</u>
           </h5>
+         
+           
+              <li>
+                <a href="customerPendingAmount"> <i className="menu-icon fa fa-book" />Customer Balance</a>
+              </li>
+             
+          
           <li>
             <a href="#">
               <i className="menu-icon fa fa-industry" />
