@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import SideBar from "../SideBar";
-import Header from "../header";
+import Header from "../header"; 
 
 export const CustomerView = () => {
     const { id } = useParams();

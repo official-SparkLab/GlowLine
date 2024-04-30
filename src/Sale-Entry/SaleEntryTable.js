@@ -6,6 +6,7 @@ import { SaleEntryForm } from "./SaleEntryForm";
 import { GlobalService } from "../service/GlobalService";
 import axios from "axios";
 import Pagination from "react-js-pagination";
+import { Link } from "react-router-dom";
 import ExportToExcel from "../ExportToExcel";
 
 export const SaleEntryTable = () => {
@@ -24,7 +25,7 @@ export const SaleEntryTable = () => {
     const getCustomerDetails = async (e) => {
       const res = await axios.get(`${GlobalService.path}/fetchSale`);
       setTableData(res.data.data.reverse());
-     
+
     };
     getCustomerDetails();
   }, []);
@@ -44,11 +45,11 @@ export const SaleEntryTable = () => {
   const endIndex = startIndex + itemsPerPage;
   const filteredItems = allItems
     ? allItems.filter((item) =>
-        Object.values(item)
-          .join(" ")
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      )
+      Object.values(item)
+        .join(" ")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    )
     : [];
 
   const handleSearchChange = (e) => {
@@ -58,6 +59,26 @@ export const SaleEntryTable = () => {
   const itemsToShow = filteredItems.slice(startIndex, endIndex);
 
   const totalPageRange = 2; // Number of pages to display
+
+
+  
+// ........................<Delete All Sale Data>.................................
+
+  const deleteSaleData = async (invoice_no) => {
+    try {
+      const response = await axios.delete(`${GlobalService.path}/deleteSalesData/${invoice_no}`);
+      if (response.status === 200) {
+        alert(response.data.message);
+        window.location.reload(); // Reloading the page after successful deletion
+      } else {
+        alert('Failed to Delete');
+      }
+    } catch (error) {
+      alert('Failed to delete record');
+      console.error('Error deleting item:', error);
+    }
+  };
+  
 
   return (
     <>
@@ -130,24 +151,29 @@ export const SaleEntryTable = () => {
                               href={`/saleHistory?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}`}
                               style={{ cursor: "pointer" }}
                             >
-                            <i
-                            className="fa fa-eye"
-                            style={{ color: "black", fontSize: "18px" }}
-                          ></i>
+                              <i
+                                className="fa fa-eye"
+                                style={{ color: "black", fontSize: "18px" }}
+                              ></i>
                             </a>
                             <a
                               id="btndelete"
-                              
+
                               title="Delete"
                               aria-hidden="true"
                               style={{ marginLeft: "10px", cursor: "pointer" }}
                               href={`/saleInvoice?invoice_no=${row.invoice_no}&cust_id=${row.cust_id}&date=${row.date}&com_id=${row.com_id}`}
                             >
-                            <i
-                            className="fa fa-print"
-                            style={{ color: "red", fontSize: "18px" }}
-                          ></i>
+                              <i
+                                className="fa fa-print"
+                                style={{ color: "red", fontSize: "18px" }}
+                              ></i>
                             </a>
+                            <Link className="confirm-text" onClick={() => deleteSaleData(row.invoice_no)}>
+                              <i
+                                className="fa fa-trash"
+                                style={{ color: "red", fontSize: "18px", margin: "0px 10px" }}
+                              ></i> </Link>
                           </td>
                         </tr>
                       ))
