@@ -166,7 +166,7 @@ function SaleInvoice() {
           type="text/css"
           dangerouslySetInnerHTML={{
             __html:
-              "\n   \n      .invoice-box {\n        max-width: 210mm;\n        margin: auto;\n        height: 260mm;\n       \n        border: 1px solid black;\n          position: relative;\n   \n      \n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\n      .invoice-header {\n        max-width: 210mm;\n        font-size: 16px;\n        line-height: 20px;\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\ntable {\n  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n\n\n      \n\n      @media only screen and (max-width: 600px) {\n        .invoice-box table tr.top table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n          margin: 5px;\n        }\n\n        .invoice-box table tr.information table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n\n        }\n        .tables tfoot\n      {\n         display: table-footer-group;\n      }\n      }\n\n      /** RTL **/\n      .invoice-box.rtl {\n        direction: rtl;\n        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n      }\n\n           .tables {\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        height: 390px;\n\n        width: 100%;\n\n      }\n     \n\n      .tables tfoot\n      {\n        bottom: 0;\n        \n      }\n\n      td, th {\n        border: 1px solid black;\n\n         text-align: left;\n        padding: 2px;\n      }\n\nlabel\n      {\n        font-weight: bold;\n      }\n    ",
+              "\n   \n      .invoice-box {\n        max-width: 210mm;\n        margin: auto;\n  margin-top: 10px;\n        height: 245mm;\n       \n        border: 1px solid black;\n          position: relative;\n   \n      \n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\n      .invoice-header {\n        max-width: 210mm;\n        font-size: 16px;\n        line-height: 20px;\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        color: black;\n      }\n\ntable {\n  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n\n\n      \n\n      @media only screen and (max-width: 600px) {\n        .invoice-box table tr.top table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n          margin: 5px;\n        }\n\n        .invoice-box table tr.information table td {\n          width: 100%;\n          display: block;\n          text-align: center;\n\n        }\n        .tables tfoot\n      {\n         display: table-footer-group;\n      }\n      }\n\n      /** RTL **/\n      .invoice-box.rtl {\n        direction: rtl;\n        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n      }\n\n           .tables {\n        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;\n        height: 390px;\n\n        width: 100%;\n\n      }\n     \n\n      .tables tfoot\n      {\n        bottom: 0;\n        \n      }\n\n      td, th {\n        border: 1px solid black;\n\n         text-align: left;\n        padding: 2px;\n      }\n\nlabel\n      {\n        font-weight: bold;\n      }\n    ",
           }}
         />
         <div className="invoice-box" style={{backgroundColor:"white"}}>
@@ -178,7 +178,7 @@ function SaleInvoice() {
               <tbody>
                 <tr style={{ height: 300 }}>
                   <td style={{ width: "50%", marginTop: 0, marginBottom: 0 }}>
-                    <div style={{ height: 130 }}>
+                    <div style={{ height: 120 }}>
                       <h4 style={{ top: 0, fontSize: 17, marginLeft: 10, fontWeight: 600 }}>
                         Name :Glowline Thermoplastic Paint
                       </h4>
@@ -199,7 +199,7 @@ function SaleInvoice() {
                       </div>
                     </div>
                     <hr />
-                    <div style={{ height: 150,  }}>
+                    <div style={{ height: 140,  }}>
                       <label style={{fontSize:"16px"}}>Party Name: </label>&nbsp;
                       <span style={{fontSize:"14px"}}>{customer_name}</span>
                       <br />
@@ -273,7 +273,7 @@ function SaleInvoice() {
               </tbody>
             </table>
           </div>
-          <table className="tables" style={{marginTop:"10px"}}>
+          <table className="tables" style={{marginTop:"5px"}}>
             <thead>
               <tr>
                 <th style={{ width: "7%" }}><b>No</b></th>
@@ -424,7 +424,7 @@ function SaleInvoice() {
                   <div style={{ float: "right", marginRight: 50 }}>
                     GLOWLINE THERMOPLASTIC PAINT
                   </div>
-                  <br />
+                 
                   <br />
                   <br />
                   <br />
