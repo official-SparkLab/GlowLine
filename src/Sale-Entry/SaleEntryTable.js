@@ -64,20 +64,20 @@ export const SaleEntryTable = () => {
   
 // ........................<Delete All Sale Data>.................................
 
-  const deleteSaleData = async (invoice_no) => {
-    try {
-      const response = await axios.delete(`${GlobalService.path}/deleteSalesData/${invoice_no}`);
-      if (response.status === 200) {
-        alert(response.data.message);
-        window.location.reload(); // Reloading the page after successful deletion
-      } else {
-        alert('Failed to Delete');
-      }
-    } catch (error) {
-      alert('Failed to delete record');
+const deleteSaleData = async (sales_id) => {
+  try {
+      const response = await axios.delete(`${GlobalService.path}/deleteSalesData/${sales_id}`);
+      if (response.status == 200) {
+          alert("deleted successfully")
+          window.location.reload()
+      } else alert('Failed to Delete')
+
+
+  } catch (error) {
+      alert('Failed to delete record')
       console.error('Error deleting item:', error);
-    }
-  };
+  }
+}
   
 
   return (
@@ -169,7 +169,7 @@ export const SaleEntryTable = () => {
                                 style={{ color: "red", fontSize: "18px" }}
                               ></i>
                             </a>
-                            <Link className="confirm-text" onClick={() => deleteSaleData(row.invoice_no)}>
+                            <Link className="confirm-text" onClick={() => deleteSaleData(row.sales_id)}>
                               <i
                                 className="fa fa-trash"
                                 style={{ color: "red", fontSize: "18px", margin: "0px 10px" }}
