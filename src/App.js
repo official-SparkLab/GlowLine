@@ -46,6 +46,9 @@ import GoodSaleInvoice from './ViewInvoiceReport/GoodSaleInvoice';
 import PurchaseSaleInvoice from './ViewInvoiceReport/PurchaseSaleInvoice';
 import QuatationInvoiceView from './ViewInvoiceReport/QuatationInvoiceView';
 import AllCustPendingAmt from './Ledgers/AllCustPendingAmt';
+import NewInvoiceForm from './EInvoice/NewInvoiceForm';
+import InvoiceActivities from './EInvoice/InvoiceActivities';
+import EinvoiceIrnList from './EInvoice/EinvoiceIrnList';
 
 
 function App() {
@@ -124,6 +127,11 @@ function App() {
           <Route path="/purchaseInvoiceView" element={<PrivateRoute element={<PurchaseSaleInvoice/>}/>} />
           <Route path="/quatationInvoiceView" element={<PrivateRoute element={<QuatationInvoiceView/>}/>} />
           <Route path="/customerPendingAmount" element={<PrivateRoute element={<AllCustPendingAmt/>}/>} />
+
+
+          <Route path="/E-Invoice" element={<PrivateRoute element={<NewInvoiceForm/>}/>} />
+          <Route path="/Einvoice-Details" element={<PrivateRoute element={<InvoiceActivities/>}/>} />
+          <Route path="/IrnList" element={<PrivateRoute element={<EinvoiceIrnList/>}/>} />
 
           
 

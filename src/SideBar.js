@@ -9,6 +9,7 @@ function SideBar() {
 
   return (
     <div>
+      
     <div className="page-sidebar">
     <a className="logo-box" href="https://glowline.in/">
       <span style={{ color: "green" , fontSize:"18px" }}>GlowLine</span>
@@ -48,6 +49,24 @@ function SideBar() {
           </li>)}
 
           <hr style={{ width: "80%" }} />
+          <li>
+            <a href="#">
+            <i className="menu-icon fa fa-file" />
+              <span>E-Invoice Master</span>
+              <i className="accordion-icon fa fa-angle-left" />
+            </a>
+            <ul className="sub-menu">
+              <li>
+                <a href="E-Invoice">Create New</a>
+              </li>
+              <li>
+                <a href="IrnList">IRN List</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <hr style={{ width: "80%" }} />
+          </li>
           <li>
             <a href="#">
               <i className="menu-icon fa fa-book" />
@@ -165,7 +184,7 @@ function SideBar() {
             </li>
           </ul>
         </li>
-          <li>
+          {/* <li>
             <a href="#">
               <i className="menu-icon fa fa-file" />
               <span>E-Way Bill</span>
@@ -176,7 +195,7 @@ function SideBar() {
                 <a href="invoice.html">E-way bill</a>
               </li>
             </ul>
-          </li>
+          </li> */}
           <li>
             <a href="#">
               <i className="menu-icon fa fa-book" />
@@ -258,6 +277,9 @@ function SideBar() {
           <li>
             <hr style={{ width: "80%" }} />
           </li>
+
+            
+          
           <h5 style={{ color: "white", marginLeft: 37 }}>
             <u>REPORTS</u>
           </h5>
