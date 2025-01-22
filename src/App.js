@@ -130,7 +130,7 @@ function App() {
 
 
           <Route path="/E-Invoice" element={<PrivateRoute element={<NewInvoiceForm/>}/>} />
-          <Route path="/Einvoice-Details" element={<PrivateRoute element={<InvoiceActivities/>}/>} />
+          <Route path="/InvoiceActivities" element={<PrivateRoute element={<InvoiceActivities/>}/>} />
           <Route path="/IrnList" element={<PrivateRoute element={<EinvoiceIrnList/>}/>} />
 
           
