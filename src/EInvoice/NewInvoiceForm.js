@@ -466,12 +466,13 @@ function NewInvoiceForm() {
             } else {
                 console.log('e-Invoice generation failed:', response.data);
                 // इथे एरर हँडलिंग किंवा user ला message दाखवू शकता
+                alert(response.data.status_desc); 
             }
         } catch (e) {
             console.error('Generate e-Invoice Catch Error:', e.message);
         }
     };
-
+  
 // ...........[Pin Code To Pin Code Distance Calculation ].at.............
     
 
