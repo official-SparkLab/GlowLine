@@ -1,5 +1,5 @@
 
 export const  GlobalService={
-  path:'https://glowline.sparklabitsolutions.co.in/public/api'
+  path:'https://api.glowline.in/public/api'
 
 }
